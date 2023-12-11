@@ -29,10 +29,10 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QLineEdit *lineEdit;
     QHBoxLayout *horizontalLayout;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_3;
+    QPushButton *btnFind;
+    QPushButton *btnAdd;
+    QPushButton *btnDelete;
+    QPushButton *btnModify;
     QTableView *tableView;
 
     void setupUi(QWidget *PatientManagement)
@@ -53,29 +53,29 @@ public:
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        pushButton = new QPushButton(PatientManagement);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setMinimumSize(QSize(100, 0));
+        btnFind = new QPushButton(PatientManagement);
+        btnFind->setObjectName(QString::fromUtf8("btnFind"));
+        btnFind->setMinimumSize(QSize(100, 0));
 
-        horizontalLayout->addWidget(pushButton);
+        horizontalLayout->addWidget(btnFind);
 
-        pushButton_2 = new QPushButton(PatientManagement);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setMinimumSize(QSize(100, 0));
+        btnAdd = new QPushButton(PatientManagement);
+        btnAdd->setObjectName(QString::fromUtf8("btnAdd"));
+        btnAdd->setMinimumSize(QSize(100, 0));
 
-        horizontalLayout->addWidget(pushButton_2);
+        horizontalLayout->addWidget(btnAdd);
 
-        pushButton_4 = new QPushButton(PatientManagement);
-        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
-        pushButton_4->setMinimumSize(QSize(100, 0));
+        btnDelete = new QPushButton(PatientManagement);
+        btnDelete->setObjectName(QString::fromUtf8("btnDelete"));
+        btnDelete->setMinimumSize(QSize(100, 0));
 
-        horizontalLayout->addWidget(pushButton_4);
+        horizontalLayout->addWidget(btnDelete);
 
-        pushButton_3 = new QPushButton(PatientManagement);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setMinimumSize(QSize(100, 0));
+        btnModify = new QPushButton(PatientManagement);
+        btnModify->setObjectName(QString::fromUtf8("btnModify"));
+        btnModify->setMinimumSize(QSize(100, 0));
 
-        horizontalLayout->addWidget(pushButton_3);
+        horizontalLayout->addWidget(btnModify);
 
 
         horizontalLayout_2->addLayout(horizontalLayout);
@@ -100,10 +100,10 @@ public:
     void retranslateUi(QWidget *PatientManagement)
     {
         PatientManagement->setWindowTitle(QCoreApplication::translate("PatientManagement", "\346\202\243\350\200\205\347\256\241\347\220\206", nullptr));
-        pushButton->setText(QCoreApplication::translate("PatientManagement", "\346\237\245\346\211\276", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("PatientManagement", "\346\267\273\345\212\240", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("PatientManagement", "\345\210\240\351\231\244", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("PatientManagement", "\344\277\256\346\224\271", nullptr));
+        btnFind->setText(QCoreApplication::translate("PatientManagement", "\346\237\245\346\211\276", nullptr));
+        btnAdd->setText(QCoreApplication::translate("PatientManagement", "\346\267\273\345\212\240", nullptr));
+        btnDelete->setText(QCoreApplication::translate("PatientManagement", "\345\210\240\351\231\244", nullptr));
+        btnModify->setText(QCoreApplication::translate("PatientManagement", "\344\277\256\346\224\271", nullptr));
     } // retranslateUi
 
 };

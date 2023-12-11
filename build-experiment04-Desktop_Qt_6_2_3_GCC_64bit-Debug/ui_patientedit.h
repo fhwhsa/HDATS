@@ -33,25 +33,25 @@ public:
     QSpacerItem *horizontalSpacer;
     QGridLayout *gridLayout;
     QLabel *label_15;
-    QLineEdit *lineEdit_8;
+    QLineEdit *id;
     QLabel *label_14;
-    QLineEdit *lineEdit_6;
+    QLineEdit *name;
     QLabel *label_13;
-    QLineEdit *lineEdit_5;
+    QLineEdit *idCard;
     QLabel *label_10;
-    QComboBox *comboBox_2;
+    QComboBox *gender;
     QLabel *label_16;
-    QDateEdit *dateEdit_2;
+    QDateEdit *dateOfBirth;
     QLabel *label_9;
-    QDoubleSpinBox *doubleSpinBox_4;
+    QDoubleSpinBox *height;
     QLabel *label_11;
-    QDoubleSpinBox *doubleSpinBox_3;
+    QDoubleSpinBox *weight;
     QLabel *label_12;
-    QLineEdit *lineEdit_7;
+    QLineEdit *phoneNum;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
+    QPushButton *btnSave;
+    QPushButton *btnCancel;
     QSpacerItem *horizontalSpacer_2;
 
     void setupUi(QWidget *PatientEdit)
@@ -78,16 +78,16 @@ public:
 
         gridLayout->addWidget(label_15, 0, 0, 1, 1);
 
-        lineEdit_8 = new QLineEdit(PatientEdit);
-        lineEdit_8->setObjectName(QString::fromUtf8("lineEdit_8"));
+        id = new QLineEdit(PatientEdit);
+        id->setObjectName(QString::fromUtf8("id"));
         QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(lineEdit_8->sizePolicy().hasHeightForWidth());
-        lineEdit_8->setSizePolicy(sizePolicy);
-        lineEdit_8->setMinimumSize(QSize(200, 0));
+        sizePolicy.setHeightForWidth(id->sizePolicy().hasHeightForWidth());
+        id->setSizePolicy(sizePolicy);
+        id->setMinimumSize(QSize(200, 0));
 
-        gridLayout->addWidget(lineEdit_8, 0, 1, 1, 1);
+        gridLayout->addWidget(id, 0, 1, 1, 1);
 
         label_14 = new QLabel(PatientEdit);
         label_14->setObjectName(QString::fromUtf8("label_14"));
@@ -96,13 +96,13 @@ public:
 
         gridLayout->addWidget(label_14, 1, 0, 1, 1);
 
-        lineEdit_6 = new QLineEdit(PatientEdit);
-        lineEdit_6->setObjectName(QString::fromUtf8("lineEdit_6"));
-        sizePolicy.setHeightForWidth(lineEdit_6->sizePolicy().hasHeightForWidth());
-        lineEdit_6->setSizePolicy(sizePolicy);
-        lineEdit_6->setMinimumSize(QSize(200, 0));
+        name = new QLineEdit(PatientEdit);
+        name->setObjectName(QString::fromUtf8("name"));
+        sizePolicy.setHeightForWidth(name->sizePolicy().hasHeightForWidth());
+        name->setSizePolicy(sizePolicy);
+        name->setMinimumSize(QSize(200, 0));
 
-        gridLayout->addWidget(lineEdit_6, 1, 1, 1, 1);
+        gridLayout->addWidget(name, 1, 1, 1, 1);
 
         label_13 = new QLabel(PatientEdit);
         label_13->setObjectName(QString::fromUtf8("label_13"));
@@ -111,13 +111,13 @@ public:
 
         gridLayout->addWidget(label_13, 2, 0, 1, 1);
 
-        lineEdit_5 = new QLineEdit(PatientEdit);
-        lineEdit_5->setObjectName(QString::fromUtf8("lineEdit_5"));
-        sizePolicy.setHeightForWidth(lineEdit_5->sizePolicy().hasHeightForWidth());
-        lineEdit_5->setSizePolicy(sizePolicy);
-        lineEdit_5->setMinimumSize(QSize(200, 0));
+        idCard = new QLineEdit(PatientEdit);
+        idCard->setObjectName(QString::fromUtf8("idCard"));
+        sizePolicy.setHeightForWidth(idCard->sizePolicy().hasHeightForWidth());
+        idCard->setSizePolicy(sizePolicy);
+        idCard->setMinimumSize(QSize(200, 0));
 
-        gridLayout->addWidget(lineEdit_5, 2, 1, 1, 1);
+        gridLayout->addWidget(idCard, 2, 1, 1, 1);
 
         label_10 = new QLabel(PatientEdit);
         label_10->setObjectName(QString::fromUtf8("label_10"));
@@ -126,16 +126,16 @@ public:
 
         gridLayout->addWidget(label_10, 3, 0, 1, 1);
 
-        comboBox_2 = new QComboBox(PatientEdit);
-        comboBox_2->addItem(QString());
-        comboBox_2->addItem(QString());
-        comboBox_2->addItem(QString());
-        comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
-        sizePolicy.setHeightForWidth(comboBox_2->sizePolicy().hasHeightForWidth());
-        comboBox_2->setSizePolicy(sizePolicy);
-        comboBox_2->setMinimumSize(QSize(200, 0));
+        gender = new QComboBox(PatientEdit);
+        gender->addItem(QString());
+        gender->addItem(QString());
+        gender->addItem(QString());
+        gender->setObjectName(QString::fromUtf8("gender"));
+        sizePolicy.setHeightForWidth(gender->sizePolicy().hasHeightForWidth());
+        gender->setSizePolicy(sizePolicy);
+        gender->setMinimumSize(QSize(200, 0));
 
-        gridLayout->addWidget(comboBox_2, 3, 1, 1, 1);
+        gridLayout->addWidget(gender, 3, 1, 1, 1);
 
         label_16 = new QLabel(PatientEdit);
         label_16->setObjectName(QString::fromUtf8("label_16"));
@@ -144,13 +144,13 @@ public:
 
         gridLayout->addWidget(label_16, 4, 0, 1, 1);
 
-        dateEdit_2 = new QDateEdit(PatientEdit);
-        dateEdit_2->setObjectName(QString::fromUtf8("dateEdit_2"));
-        sizePolicy.setHeightForWidth(dateEdit_2->sizePolicy().hasHeightForWidth());
-        dateEdit_2->setSizePolicy(sizePolicy);
-        dateEdit_2->setMinimumSize(QSize(200, 0));
+        dateOfBirth = new QDateEdit(PatientEdit);
+        dateOfBirth->setObjectName(QString::fromUtf8("dateOfBirth"));
+        sizePolicy.setHeightForWidth(dateOfBirth->sizePolicy().hasHeightForWidth());
+        dateOfBirth->setSizePolicy(sizePolicy);
+        dateOfBirth->setMinimumSize(QSize(200, 0));
 
-        gridLayout->addWidget(dateEdit_2, 4, 1, 1, 1);
+        gridLayout->addWidget(dateOfBirth, 4, 1, 1, 1);
 
         label_9 = new QLabel(PatientEdit);
         label_9->setObjectName(QString::fromUtf8("label_9"));
@@ -159,13 +159,13 @@ public:
 
         gridLayout->addWidget(label_9, 5, 0, 1, 1);
 
-        doubleSpinBox_4 = new QDoubleSpinBox(PatientEdit);
-        doubleSpinBox_4->setObjectName(QString::fromUtf8("doubleSpinBox_4"));
-        sizePolicy.setHeightForWidth(doubleSpinBox_4->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_4->setSizePolicy(sizePolicy);
-        doubleSpinBox_4->setMinimumSize(QSize(200, 0));
+        height = new QDoubleSpinBox(PatientEdit);
+        height->setObjectName(QString::fromUtf8("height"));
+        sizePolicy.setHeightForWidth(height->sizePolicy().hasHeightForWidth());
+        height->setSizePolicy(sizePolicy);
+        height->setMinimumSize(QSize(200, 0));
 
-        gridLayout->addWidget(doubleSpinBox_4, 5, 1, 1, 1);
+        gridLayout->addWidget(height, 5, 1, 1, 1);
 
         label_11 = new QLabel(PatientEdit);
         label_11->setObjectName(QString::fromUtf8("label_11"));
@@ -174,13 +174,13 @@ public:
 
         gridLayout->addWidget(label_11, 6, 0, 1, 1);
 
-        doubleSpinBox_3 = new QDoubleSpinBox(PatientEdit);
-        doubleSpinBox_3->setObjectName(QString::fromUtf8("doubleSpinBox_3"));
-        sizePolicy.setHeightForWidth(doubleSpinBox_3->sizePolicy().hasHeightForWidth());
-        doubleSpinBox_3->setSizePolicy(sizePolicy);
-        doubleSpinBox_3->setMinimumSize(QSize(200, 0));
+        weight = new QDoubleSpinBox(PatientEdit);
+        weight->setObjectName(QString::fromUtf8("weight"));
+        sizePolicy.setHeightForWidth(weight->sizePolicy().hasHeightForWidth());
+        weight->setSizePolicy(sizePolicy);
+        weight->setMinimumSize(QSize(200, 0));
 
-        gridLayout->addWidget(doubleSpinBox_3, 6, 1, 1, 1);
+        gridLayout->addWidget(weight, 6, 1, 1, 1);
 
         label_12 = new QLabel(PatientEdit);
         label_12->setObjectName(QString::fromUtf8("label_12"));
@@ -189,13 +189,13 @@ public:
 
         gridLayout->addWidget(label_12, 7, 0, 1, 1);
 
-        lineEdit_7 = new QLineEdit(PatientEdit);
-        lineEdit_7->setObjectName(QString::fromUtf8("lineEdit_7"));
-        sizePolicy.setHeightForWidth(lineEdit_7->sizePolicy().hasHeightForWidth());
-        lineEdit_7->setSizePolicy(sizePolicy);
-        lineEdit_7->setMinimumSize(QSize(200, 0));
+        phoneNum = new QLineEdit(PatientEdit);
+        phoneNum->setObjectName(QString::fromUtf8("phoneNum"));
+        sizePolicy.setHeightForWidth(phoneNum->sizePolicy().hasHeightForWidth());
+        phoneNum->setSizePolicy(sizePolicy);
+        phoneNum->setMinimumSize(QSize(200, 0));
 
-        gridLayout->addWidget(lineEdit_7, 7, 1, 1, 1);
+        gridLayout->addWidget(phoneNum, 7, 1, 1, 1);
 
 
         horizontalLayout->addLayout(gridLayout);
@@ -206,15 +206,15 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
-        pushButton = new QPushButton(PatientEdit);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        btnSave = new QPushButton(PatientEdit);
+        btnSave->setObjectName(QString::fromUtf8("btnSave"));
 
-        verticalLayout->addWidget(pushButton);
+        verticalLayout->addWidget(btnSave);
 
-        pushButton_2 = new QPushButton(PatientEdit);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        btnCancel = new QPushButton(PatientEdit);
+        btnCancel->setObjectName(QString::fromUtf8("btnCancel"));
 
-        verticalLayout->addWidget(pushButton_2);
+        verticalLayout->addWidget(btnCancel);
 
 
         horizontalLayout->addLayout(verticalLayout);
@@ -239,16 +239,16 @@ public:
         label_14->setText(QCoreApplication::translate("PatientEdit", "\345\247\223\345\220\215\357\274\232", nullptr));
         label_13->setText(QCoreApplication::translate("PatientEdit", "\350\272\253\344\273\275\350\257\201\357\274\232", nullptr));
         label_10->setText(QCoreApplication::translate("PatientEdit", "\346\200\247\345\210\253\357\274\232", nullptr));
-        comboBox_2->setItemText(0, QString());
-        comboBox_2->setItemText(1, QCoreApplication::translate("PatientEdit", "\347\224\267", nullptr));
-        comboBox_2->setItemText(2, QCoreApplication::translate("PatientEdit", "\345\245\263", nullptr));
+        gender->setItemText(0, QString());
+        gender->setItemText(1, QCoreApplication::translate("PatientEdit", "\347\224\267", nullptr));
+        gender->setItemText(2, QCoreApplication::translate("PatientEdit", "\345\245\263", nullptr));
 
         label_16->setText(QCoreApplication::translate("PatientEdit", "\345\207\272\347\224\237\346\227\245\346\234\237\357\274\232", nullptr));
         label_9->setText(QCoreApplication::translate("PatientEdit", "\350\272\253\351\253\230\357\274\232", nullptr));
         label_11->setText(QCoreApplication::translate("PatientEdit", "\344\275\223\351\207\215\357\274\232", nullptr));
         label_12->setText(QCoreApplication::translate("PatientEdit", "\346\211\213\346\234\272\345\217\267\357\274\232", nullptr));
-        pushButton->setText(QCoreApplication::translate("PatientEdit", "\344\277\235\345\255\230", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("PatientEdit", "\345\217\226\346\266\210", nullptr));
+        btnSave->setText(QCoreApplication::translate("PatientEdit", "\344\277\235\345\255\230", nullptr));
+        btnCancel->setText(QCoreApplication::translate("PatientEdit", "\345\217\226\346\266\210", nullptr));
     } // retranslateUi
 
 };

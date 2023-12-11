@@ -10,6 +10,7 @@
 #define UI_MASTERVIEW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
@@ -27,30 +28,31 @@ public:
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QPushButton *btnBack;
+    QPushButton *btnReturn;
     QSpacerItem *horizontalSpacer;
     QLabel *currWidgetTitle;
     QSpacerItem *horizontalSpacer_2;
-    QPushButton *btnQuit;
+    QPushButton *btnLoginout;
     QStackedWidget *stackedWidget;
-    QWidget *page;
-    QWidget *page_2;
 
     void setupUi(QWidget *MasterView)
     {
         if (MasterView->objectName().isEmpty())
             MasterView->setObjectName(QString::fromUtf8("MasterView"));
-        MasterView->resize(699, 531);
+        MasterView->resize(637, 409);
         verticalLayout_2 = new QVBoxLayout(MasterView);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        btnBack = new QPushButton(MasterView);
-        btnBack->setObjectName(QString::fromUtf8("btnBack"));
+        btnReturn = new QPushButton(MasterView);
+        btnReturn->setObjectName(QString::fromUtf8("btnReturn"));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/img/return.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnReturn->setIcon(icon);
 
-        horizontalLayout->addWidget(btnBack);
+        horizontalLayout->addWidget(btnReturn);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -65,22 +67,19 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer_2);
 
-        btnQuit = new QPushButton(MasterView);
-        btnQuit->setObjectName(QString::fromUtf8("btnQuit"));
+        btnLoginout = new QPushButton(MasterView);
+        btnLoginout->setObjectName(QString::fromUtf8("btnLoginout"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/img/loginout.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnLoginout->setIcon(icon1);
 
-        horizontalLayout->addWidget(btnQuit);
+        horizontalLayout->addWidget(btnLoginout);
 
 
         verticalLayout->addLayout(horizontalLayout);
 
         stackedWidget = new QStackedWidget(MasterView);
         stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
-        page = new QWidget();
-        page->setObjectName(QString::fromUtf8("page"));
-        stackedWidget->addWidget(page);
-        page_2 = new QWidget();
-        page_2->setObjectName(QString::fromUtf8("page_2"));
-        stackedWidget->addWidget(page_2);
 
         verticalLayout->addWidget(stackedWidget);
 
@@ -90,7 +89,7 @@ public:
 
         retranslateUi(MasterView);
 
-        stackedWidget->setCurrentIndex(1);
+        stackedWidget->setCurrentIndex(-1);
 
 
         QMetaObject::connectSlotsByName(MasterView);
@@ -99,9 +98,9 @@ public:
     void retranslateUi(QWidget *MasterView)
     {
         MasterView->setWindowTitle(QCoreApplication::translate("MasterView", "MasterView", nullptr));
-        btnBack->setText(QCoreApplication::translate("MasterView", "PushButton", nullptr));
+        btnReturn->setText(QString());
         currWidgetTitle->setText(QString());
-        btnQuit->setText(QCoreApplication::translate("MasterView", "PushButton", nullptr));
+        btnLoginout->setText(QString());
     } // retranslateUi
 
 };

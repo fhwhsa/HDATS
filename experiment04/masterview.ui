@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
-    <height>531</height>
+    <width>637</width>
+    <height>409</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,9 +19,13 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="btnBack">
+        <widget class="QPushButton" name="btnReturn">
          <property name="text">
-          <string>PushButton</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/img/return.png</normaloff>:/img/return.png</iconset>
          </property>
         </widget>
        </item>
@@ -59,9 +63,13 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnQuit">
+        <widget class="QPushButton" name="btnLoginout">
          <property name="text">
-          <string>PushButton</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/img/loginout.png</normaloff>:/img/loginout.png</iconset>
          </property>
         </widget>
        </item>
@@ -70,16 +78,16 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>-1</number>
        </property>
-       <widget class="QWidget" name="page"/>
-       <widget class="QWidget" name="page_2"/>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

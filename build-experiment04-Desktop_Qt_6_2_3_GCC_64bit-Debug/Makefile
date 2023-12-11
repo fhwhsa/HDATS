@@ -59,7 +59,8 @@ SOURCES       = ../experiment04/departmentmanagement.cpp \
 		../experiment04/masterview.cpp \
 		../experiment04/patientedit.cpp \
 		../experiment04/patientmanagement.cpp \
-		../experiment04/welcome.cpp moc_departmentmanagement.cpp \
+		../experiment04/welcome.cpp qrc_res.cpp \
+		moc_departmentmanagement.cpp \
 		moc_doctormanagement.cpp \
 		moc_login.cpp \
 		moc_masterview.cpp \
@@ -74,6 +75,7 @@ OBJECTS       = departmentmanagement.o \
 		patientedit.o \
 		patientmanagement.o \
 		welcome.o \
+		qrc_res.o \
 		moc_departmentmanagement.o \
 		moc_doctormanagement.o \
 		moc_login.o \
@@ -563,6 +565,7 @@ Makefile: ../experiment04/experiment04.pro /opt/Qt/6.2.3/gcc_64/mkspecs/linux-g+
 		/opt/Qt/6.2.3/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt/6.2.3/gcc_64/mkspecs/features/lex.prf \
 		../experiment04/experiment04.pro \
+		../experiment04/res.qrc \
 		/opt/Qt/6.2.3/gcc_64/lib/libQt6Widgets.prl \
 		/opt/Qt/6.2.3/gcc_64/lib/libQt6Gui.prl \
 		/opt/Qt/6.2.3/gcc_64/lib/libQt6Core.prl
@@ -796,6 +799,7 @@ Makefile: ../experiment04/experiment04.pro /opt/Qt/6.2.3/gcc_64/mkspecs/linux-g+
 /opt/Qt/6.2.3/gcc_64/mkspecs/features/yacc.prf:
 /opt/Qt/6.2.3/gcc_64/mkspecs/features/lex.prf:
 ../experiment04/experiment04.pro:
+../experiment04/res.qrc:
 /opt/Qt/6.2.3/gcc_64/lib/libQt6Widgets.prl:
 /opt/Qt/6.2.3/gcc_64/lib/libQt6Gui.prl:
 /opt/Qt/6.2.3/gcc_64/lib/libQt6Core.prl:
@@ -813,6 +817,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../experiment04/res.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/6.2.3/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../experiment04/departmentmanagement.h ../experiment04/doctormanagement.h ../experiment04/login.h ../experiment04/masterview.h ../experiment04/patientedit.h ../experiment04/patientmanagement.h ../experiment04/welcome.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../experiment04/departmentmanagement.cpp ../experiment04/doctormanagement.cpp ../experiment04/login.cpp ../experiment04/main.cpp ../experiment04/masterview.cpp ../experiment04/patientedit.cpp ../experiment04/patientmanagement.cpp ../experiment04/welcome.cpp $(DISTDIR)/
@@ -840,8 +845,15 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_res.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_res.cpp
+qrc_res.cpp: ../experiment04/res.qrc \
+		/opt/Qt/6.2.3/gcc_64/libexec/rcc \
+		../img/return.png \
+		../img/loginout.png
+	/opt/Qt/6.2.3/gcc_64/libexec/rcc -name res ../experiment04/res.qrc -o qrc_res.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -1245,6 +1257,7 @@ moc_login.cpp: ../experiment04/login.h \
 	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/login.h -o moc_login.cpp
 
 moc_masterview.cpp: ../experiment04/masterview.h \
+		../experiment04/login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qwidget.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1371,6 +1384,11 @@ moc_masterview.cpp: ../experiment04/masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		../experiment04/welcome.h \
+		../experiment04/departmentmanagement.h \
+		../experiment04/doctormanagement.h \
+		../experiment04/patientmanagement.h \
+		../experiment04/patientedit.h \
 		moc_predefs.h \
 		/opt/Qt/6.2.3/gcc_64/libexec/moc
 	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/masterview.h -o moc_masterview.cpp
@@ -1809,7 +1827,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -2292,6 +2310,7 @@ login.o: ../experiment04/login.cpp ../experiment04/login.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o login.o ../experiment04/login.cpp
 
 main.o: ../experiment04/main.cpp ../experiment04/masterview.h \
+		../experiment04/login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qwidget.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2418,9 +2437,11 @@ main.o: ../experiment04/main.cpp ../experiment04/masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
-		../experiment04/login.h \
 		../experiment04/welcome.h \
+		../experiment04/departmentmanagement.h \
+		../experiment04/doctormanagement.h \
 		../experiment04/patientmanagement.h \
+		../experiment04/patientedit.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreapplication.h \
@@ -2444,6 +2465,7 @@ main.o: ../experiment04/main.cpp ../experiment04/masterview.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../experiment04/main.cpp
 
 masterview.o: ../experiment04/masterview.cpp ../experiment04/masterview.h \
+		../experiment04/login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qwidget.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -2570,6 +2592,11 @@ masterview.o: ../experiment04/masterview.cpp ../experiment04/masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		../experiment04/welcome.h \
+		../experiment04/departmentmanagement.h \
+		../experiment04/doctormanagement.h \
+		../experiment04/patientmanagement.h \
+		../experiment04/patientedit.h \
 		ui_masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QVariant \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QApplication \
@@ -2739,7 +2766,71 @@ patientedit.o: ../experiment04/patientedit.cpp ../experiment04/patientedit.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
-		ui_patientedit.h
+		ui_patientedit.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QVariant \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuture.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfutureinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qresultstore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuture_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthreadpool.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthread.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qelapsedtimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrunnable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qexception.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QComboBox \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qcombobox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QDateEdit \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qdatetimeedit.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcalendar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QDoubleSpinBox \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qspinbox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QGridLayout \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qgridlayout.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qlayout.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qboxlayout.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QHBoxLayout \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QLabel \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpicture.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtextdocument.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtextformat.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpen.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtextoption.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QPushButton \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qpushbutton.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QSpacerItem \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o patientedit.o ../experiment04/patientedit.cpp
 
 patientmanagement.o: ../experiment04/patientmanagement.cpp ../experiment04/patientmanagement.h \
@@ -3090,6 +3181,9 @@ welcome.o: ../experiment04/welcome.cpp ../experiment04/welcome.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QSpacerItem \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o welcome.o ../experiment04/welcome.cpp
+
+qrc_res.o: qrc_res.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_res.o qrc_res.cpp
 
 moc_departmentmanagement.o: moc_departmentmanagement.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_departmentmanagement.o moc_departmentmanagement.cpp

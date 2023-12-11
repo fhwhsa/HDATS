@@ -22,17 +22,21 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Welcome_t {
-    const uint offsetsAndSize[2];
-    char stringdata0[8];
+    const uint offsetsAndSize[10];
+    char stringdata0[38];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_Welcome_t, stringdata0) + ofs), len 
 static const qt_meta_stringdata_Welcome_t qt_meta_stringdata_Welcome = {
     {
-QT_MOC_LITERAL(0, 7) // "Welcome"
+QT_MOC_LITERAL(0, 7), // "Welcome"
+QT_MOC_LITERAL(8, 11), // "departmentM"
+QT_MOC_LITERAL(20, 0), // ""
+QT_MOC_LITERAL(21, 7), // "doctorM"
+QT_MOC_LITERAL(29, 8) // "patientM"
 
     },
-    "Welcome"
+    "Welcome\0departmentM\0\0doctorM\0patientM"
 };
 #undef QT_MOC_LITERAL
 
@@ -42,21 +46,61 @@ static const uint qt_meta_data_Welcome[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-       0,    0, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       3,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    0,   32,    2, 0x06,    1 /* Public */,
+       3,    0,   33,    2, 0x06,    2 /* Public */,
+       4,    0,   34,    2, 0x06,    3 /* Public */,
+
+ // signals: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
 
 void Welcome::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    (void)_o;
-    (void)_id;
-    (void)_c;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        auto *_t = static_cast<Welcome *>(_o);
+        (void)_t;
+        switch (_id) {
+        case 0: _t->departmentM(); break;
+        case 1: _t->doctorM(); break;
+        case 2: _t->patientM(); break;
+        default: ;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (Welcome::*)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Welcome::departmentM)) {
+                *result = 0;
+                return;
+            }
+        }
+        {
+            using _t = void (Welcome::*)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Welcome::doctorM)) {
+                *result = 1;
+                return;
+            }
+        }
+        {
+            using _t = void (Welcome::*)();
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Welcome::patientM)) {
+                *result = 2;
+                return;
+            }
+        }
+    }
     (void)_a;
 }
 
@@ -67,7 +111,7 @@ const QMetaObject Welcome::staticMetaObject = { {
     qt_static_metacall,
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_Welcome_t
-, QtPrivate::TypeAndForceComplete<Welcome, std::true_type>
+, QtPrivate::TypeAndForceComplete<Welcome, std::true_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
 
 
 
@@ -92,7 +136,36 @@ void *Welcome::qt_metacast(const char *_clname)
 int Welcome::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
+    if (_id < 0)
+        return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 3)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 3;
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 3)
+            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
+        _id -= 3;
+    }
     return _id;
+}
+
+// SIGNAL 0
+void Welcome::departmentM()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
+}
+
+// SIGNAL 1
+void Welcome::doctorM()
+{
+    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+}
+
+// SIGNAL 2
+void Welcome::patientM()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

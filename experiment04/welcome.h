@@ -17,6 +17,12 @@ public:
 
 private:
     Ui::Welcome *ui;
+    void iniSignalSlots();
+
+signals:
+    void departmentM();
+    void doctorM();
+    void patientM();
 };
 
 #endif // WELCOME_H

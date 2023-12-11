@@ -2,6 +2,8 @@
 #define LOGIN_H
 
 #include <QWidget>
+#include <QString>
+#include <QMessageBox>
 
 namespace Ui {
 class Login;
@@ -17,6 +19,15 @@ public:
 
 private:
     Ui::Login *ui;
+    void iniSignalSlots();
+
+private slots:
+    void check();
+
+signals:
+    void loginSuccess();
+    void loginFailed();
+
 };
 
 #endif // LOGIN_H

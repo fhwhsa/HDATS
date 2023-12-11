@@ -1,6 +1,8 @@
 #include "departmentmanagement.h"
 #include "ui_departmentmanagement.h"
 
+#include <QDebug>
+
 DepartmentManagement::DepartmentManagement(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DepartmentManagement)
@@ -10,5 +12,6 @@ DepartmentManagement::DepartmentManagement(QWidget *parent) :
 
 DepartmentManagement::~DepartmentManagement()
 {
+    qDebug() << "delete departmentManagement";
     delete ui;
 }

@@ -17,6 +17,11 @@ public:
 
 private:
     Ui::PatientManagement *ui;
+
+    void iniSignalSlots();
+
+signals:
+    void add();
 };
 
 #endif // PATIENTMANAGEMENT_H

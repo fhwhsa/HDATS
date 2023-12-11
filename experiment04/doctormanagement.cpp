@@ -1,6 +1,8 @@
 #include "doctormanagement.h"
 #include "ui_doctormanagement.h"
 
+#include <QDebug>
+
 DoctorManagement::DoctorManagement(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DoctorManagement)
@@ -10,5 +12,6 @@ DoctorManagement::DoctorManagement(QWidget *parent) :
 
 DoctorManagement::~DoctorManagement()
 {
+    qDebug() << "delete DoctorManagement";
     delete ui;
 }
