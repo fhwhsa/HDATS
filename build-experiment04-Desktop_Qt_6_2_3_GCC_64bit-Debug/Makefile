@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++1z -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../experiment04 -I. -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I. -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../experiment04 -I. -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I. -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/Qt/6.2.3/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = experiment041.0.0
 DISTDIR = /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/.tmp/experiment041.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt/6.2.3/gcc_64/lib -Wl,-rpath-link,/opt/Qt/6.2.3/gcc_64/lib
-LIBS          = $(SUBLIBS) /opt/Qt/6.2.3/gcc_64/lib/libQt6Widgets.so /opt/Qt/6.2.3/gcc_64/lib/libQt6Gui.so /opt/Qt/6.2.3/gcc_64/lib/libQt6Core.so -lpthread -lGL   
+LIBS          = $(SUBLIBS) /opt/Qt/6.2.3/gcc_64/lib/libQt6Widgets.so /opt/Qt/6.2.3/gcc_64/lib/libQt6Gui.so /opt/Qt/6.2.3/gcc_64/lib/libQt6Sql.so /opt/Qt/6.2.3/gcc_64/lib/libQt6Core.so -lpthread -lGL   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -54,6 +54,7 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../experiment04/departmentmanagement.cpp \
 		../experiment04/doctormanagement.cpp \
+		../experiment04/idatabase.cpp \
 		../experiment04/login.cpp \
 		../experiment04/main.cpp \
 		../experiment04/masterview.cpp \
@@ -62,6 +63,7 @@ SOURCES       = ../experiment04/departmentmanagement.cpp \
 		../experiment04/welcome.cpp qrc_res.cpp \
 		moc_departmentmanagement.cpp \
 		moc_doctormanagement.cpp \
+		moc_idatabase.cpp \
 		moc_login.cpp \
 		moc_masterview.cpp \
 		moc_patientedit.cpp \
@@ -69,6 +71,7 @@ SOURCES       = ../experiment04/departmentmanagement.cpp \
 		moc_welcome.cpp
 OBJECTS       = departmentmanagement.o \
 		doctormanagement.o \
+		idatabase.o \
 		login.o \
 		main.o \
 		masterview.o \
@@ -78,6 +81,7 @@ OBJECTS       = departmentmanagement.o \
 		qrc_res.o \
 		moc_departmentmanagement.o \
 		moc_doctormanagement.o \
+		moc_idatabase.o \
 		moc_login.o \
 		moc_masterview.o \
 		moc_patientedit.o \
@@ -313,12 +317,14 @@ DIST          = /opt/Qt/6.2.3/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt/6.2.3/gcc_64/mkspecs/features/lex.prf \
 		../experiment04/experiment04.pro ../experiment04/departmentmanagement.h \
 		../experiment04/doctormanagement.h \
+		../experiment04/idatabase.h \
 		../experiment04/login.h \
 		../experiment04/masterview.h \
 		../experiment04/patientedit.h \
 		../experiment04/patientmanagement.h \
 		../experiment04/welcome.h ../experiment04/departmentmanagement.cpp \
 		../experiment04/doctormanagement.cpp \
+		../experiment04/idatabase.cpp \
 		../experiment04/login.cpp \
 		../experiment04/main.cpp \
 		../experiment04/masterview.cpp \
@@ -568,6 +574,7 @@ Makefile: ../experiment04/experiment04.pro /opt/Qt/6.2.3/gcc_64/mkspecs/linux-g+
 		../experiment04/res.qrc \
 		/opt/Qt/6.2.3/gcc_64/lib/libQt6Widgets.prl \
 		/opt/Qt/6.2.3/gcc_64/lib/libQt6Gui.prl \
+		/opt/Qt/6.2.3/gcc_64/lib/libQt6Sql.prl \
 		/opt/Qt/6.2.3/gcc_64/lib/libQt6Core.prl
 	$(QMAKE) -o Makefile ../experiment04/experiment04.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 /opt/Qt/6.2.3/gcc_64/mkspecs/features/spec_pre.prf:
@@ -802,6 +809,7 @@ Makefile: ../experiment04/experiment04.pro /opt/Qt/6.2.3/gcc_64/mkspecs/linux-g+
 ../experiment04/res.qrc:
 /opt/Qt/6.2.3/gcc_64/lib/libQt6Widgets.prl:
 /opt/Qt/6.2.3/gcc_64/lib/libQt6Gui.prl:
+/opt/Qt/6.2.3/gcc_64/lib/libQt6Sql.prl:
 /opt/Qt/6.2.3/gcc_64/lib/libQt6Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../experiment04/experiment04.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -819,8 +827,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../experiment04/res.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt/6.2.3/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../experiment04/departmentmanagement.h ../experiment04/doctormanagement.h ../experiment04/login.h ../experiment04/masterview.h ../experiment04/patientedit.h ../experiment04/patientmanagement.h ../experiment04/welcome.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../experiment04/departmentmanagement.cpp ../experiment04/doctormanagement.cpp ../experiment04/login.cpp ../experiment04/main.cpp ../experiment04/masterview.cpp ../experiment04/patientedit.cpp ../experiment04/patientmanagement.cpp ../experiment04/welcome.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../experiment04/departmentmanagement.h ../experiment04/doctormanagement.h ../experiment04/idatabase.h ../experiment04/login.h ../experiment04/masterview.h ../experiment04/patientedit.h ../experiment04/patientmanagement.h ../experiment04/welcome.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../experiment04/departmentmanagement.cpp ../experiment04/doctormanagement.cpp ../experiment04/idatabase.cpp ../experiment04/login.cpp ../experiment04/main.cpp ../experiment04/masterview.cpp ../experiment04/patientedit.cpp ../experiment04/patientmanagement.cpp ../experiment04/welcome.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../experiment04/departmentmanagement.ui ../experiment04/doctormanagement.ui ../experiment04/login.ui ../experiment04/masterview.ui ../experiment04/patientedit.ui ../experiment04/patientmanagement.ui ../experiment04/welcome.ui $(DISTDIR)/
 
 
@@ -860,9 +868,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /opt/Qt/6.2.3/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /opt/Qt/6.2.3/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_departmentmanagement.cpp moc_doctormanagement.cpp moc_login.cpp moc_masterview.cpp moc_patientedit.cpp moc_patientmanagement.cpp moc_welcome.cpp
+compiler_moc_header_make_all: moc_departmentmanagement.cpp moc_doctormanagement.cpp moc_idatabase.cpp moc_login.cpp moc_masterview.cpp moc_patientedit.cpp moc_patientmanagement.cpp moc_welcome.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_departmentmanagement.cpp moc_doctormanagement.cpp moc_login.cpp moc_masterview.cpp moc_patientedit.cpp moc_patientmanagement.cpp moc_welcome.cpp
+	-$(DEL_FILE) moc_departmentmanagement.cpp moc_doctormanagement.cpp moc_idatabase.cpp moc_login.cpp moc_masterview.cpp moc_patientedit.cpp moc_patientmanagement.cpp moc_welcome.cpp
 moc_departmentmanagement.cpp: ../experiment04/departmentmanagement.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qwidget.h \
@@ -992,7 +1000,7 @@ moc_departmentmanagement.cpp: ../experiment04/departmentmanagement.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
 		moc_predefs.h \
 		/opt/Qt/6.2.3/gcc_64/libexec/moc
-	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/departmentmanagement.h -o moc_departmentmanagement.cpp
+	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/departmentmanagement.h -o moc_departmentmanagement.cpp
 
 moc_doctormanagement.cpp: ../experiment04/doctormanagement.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
@@ -1123,7 +1131,299 @@ moc_doctormanagement.cpp: ../experiment04/doctormanagement.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
 		moc_predefs.h \
 		/opt/Qt/6.2.3/gcc_64/libexec/moc
-	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/doctormanagement.h -o moc_doctormanagement.cpp
+	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/doctormanagement.h -o moc_doctormanagement.cpp
+
+moc_idatabase.cpp: ../experiment04/idatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QObject \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtmetamacros.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qarraydatapointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qarraydataops.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearrayview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qanystringview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qutf8stringview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringtokenizer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcompare.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qscopeguard.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qiodevicebase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qiterable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmetacontainer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcontainerinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtaggedpointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmath.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbindingstorage.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QtSql \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QtSqlDepends \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QtCore \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QtCoreDepends \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qshareddata_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringconverter.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qassociativeiterable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbasictimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbitarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbuffer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcache.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcalendar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborvalue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborcommon.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/quuid.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcbormap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstreamreader.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfloat16.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstreamwriter.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcollator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcommandlineoption.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcommandlineparser.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuture.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfutureinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qresultstore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuture_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthreadpool.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthread.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qelapsedtimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrunnable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qexception.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcryptographichash.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdiriterator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qeasingcurve.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qendian.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfactoryinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfileselector.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QStringList \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuturewatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjnienvironment.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjniobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonvalue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsondocument.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlibrary.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlibraryinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qversionnumber.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qline.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlockfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmetaobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimedata.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimedatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimetype.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpauseanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qplugin.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpluginloader.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qprocess.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpromise.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qproperty.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpropertyprivate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpropertyanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvariantanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qqueue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrandom.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qreadwritelock.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qresource.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsavefile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsemaphore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsequentialiterable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsettings.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsharedmemory.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsignalmapper.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsimd.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsocketnotifier.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstack.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstandardpaths.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstorageinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringlistmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtemporarydir.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtemporaryfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthreadstorage.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimeline.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimezone.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtranslator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtransposeproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qwaitcondition.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDeadlineTimer \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qwineventnotifier.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qxmlstream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtcoreversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsqlglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsql-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldriver.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldriverplugin.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlerror.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlfield.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlindex.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrecord.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlquery.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrelationaldelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyleditemdelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qbitmap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qeventpoint.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qvectornd.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpointingdevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qinputdevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qscreen.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QList \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QRect \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSize \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qlistview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qcombobox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqltablemodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlresult.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsqlversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QSqlDatabase \
+		moc_predefs.h \
+		/opt/Qt/6.2.3/gcc_64/libexec/moc
+	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/idatabase.h -o moc_idatabase.cpp
 
 moc_login.cpp: ../experiment04/login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
@@ -1252,9 +1552,13 @@ moc_login.cpp: ../experiment04/login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QString \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qdialog.h \
 		moc_predefs.h \
 		/opt/Qt/6.2.3/gcc_64/libexec/moc
-	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/login.h -o moc_login.cpp
+	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/login.h -o moc_login.cpp
 
 moc_masterview.cpp: ../experiment04/masterview.h \
 		../experiment04/login.h \
@@ -1384,6 +1688,10 @@ moc_masterview.cpp: ../experiment04/masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QString \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qdialog.h \
 		../experiment04/welcome.h \
 		../experiment04/departmentmanagement.h \
 		../experiment04/doctormanagement.h \
@@ -1391,7 +1699,7 @@ moc_masterview.cpp: ../experiment04/masterview.h \
 		../experiment04/patientedit.h \
 		moc_predefs.h \
 		/opt/Qt/6.2.3/gcc_64/libexec/moc
-	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/masterview.h -o moc_masterview.cpp
+	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/masterview.h -o moc_masterview.cpp
 
 moc_patientedit.cpp: ../experiment04/patientedit.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
@@ -1522,7 +1830,7 @@ moc_patientedit.cpp: ../experiment04/patientedit.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
 		moc_predefs.h \
 		/opt/Qt/6.2.3/gcc_64/libexec/moc
-	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/patientedit.h -o moc_patientedit.cpp
+	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/patientedit.h -o moc_patientedit.cpp
 
 moc_patientmanagement.cpp: ../experiment04/patientmanagement.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
@@ -1653,7 +1961,7 @@ moc_patientmanagement.cpp: ../experiment04/patientmanagement.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
 		moc_predefs.h \
 		/opt/Qt/6.2.3/gcc_64/libexec/moc
-	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/patientmanagement.h -o moc_patientmanagement.cpp
+	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/patientmanagement.h -o moc_patientmanagement.cpp
 
 moc_welcome.cpp: ../experiment04/welcome.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
@@ -1784,7 +2092,7 @@ moc_welcome.cpp: ../experiment04/welcome.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
 		moc_predefs.h \
 		/opt/Qt/6.2.3/gcc_64/libexec/moc
-	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/welcome.h -o moc_welcome.cpp
+	/opt/Qt/6.2.3/gcc_64/libexec/moc $(DEFINES) --include /home/fws/Code/qt-workspace/lab4/build-experiment04-Desktop_Qt_6_2_3_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt/6.2.3/gcc_64/mkspecs/linux-g++ -I/home/fws/Code/qt-workspace/lab4/experiment04 -I/opt/Qt/6.2.3/gcc_64/include -I/opt/Qt/6.2.3/gcc_64/include/QtWidgets -I/opt/Qt/6.2.3/gcc_64/include/QtGui -I/opt/Qt/6.2.3/gcc_64/include/QtSql -I/opt/Qt/6.2.3/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../experiment04/welcome.h -o moc_welcome.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1979,7 +2287,8 @@ departmentmanagement.o: ../experiment04/departmentmanagement.cpp ../experiment04
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/qguiapplication.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/qinputmethod.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt/6.2.3/gcc_64/include/QtGui/qguiapplication_platform.h
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o departmentmanagement.o ../experiment04/departmentmanagement.cpp
 
 doctormanagement.o: ../experiment04/doctormanagement.cpp ../experiment04/doctormanagement.h \
@@ -2130,8 +2439,300 @@ doctormanagement.o: ../experiment04/doctormanagement.cpp ../experiment04/doctorm
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/qguiapplication.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/qinputmethod.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt/6.2.3/gcc_64/include/QtGui/qguiapplication_platform.h
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qguiapplication_platform.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o doctormanagement.o ../experiment04/doctormanagement.cpp
+
+idatabase.o: ../experiment04/idatabase.cpp ../experiment04/idatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QObject \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtmetamacros.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qarraydatapointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qarraydataops.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearrayalgorithms.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearrayview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qanystringview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qutf8stringview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringtokenizer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcompare.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qscopeguard.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qiodevicebase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qiterable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmetacontainer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcontainerinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtaggedpointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmath.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbindingstorage.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QtSql \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QtSqlDepends \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QtCore \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QtCoreDepends \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qshareddata_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringconverter.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qset.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qassociativeiterable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbasictimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbitarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbuffer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcache.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcalendar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborvalue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborcommon.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/quuid.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcbormap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstreamreader.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfloat16.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstreamwriter.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcollator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcommandlineoption.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcommandlineparser.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreapplication_platform.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuture.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfutureinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qresultstore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuture_impl.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthreadpool.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthread.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qelapsedtimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrunnable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qexception.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpointer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcryptographichash.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdiriterator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qeasingcurve.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qendian.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfactoryinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfileselector.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QStringList \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuturewatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjnienvironment.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjniobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonvalue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsondocument.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlibrary.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlibraryinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qversionnumber.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qline.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlockfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmetaobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimedata.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimedatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimetype.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpauseanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qplugin.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpluginloader.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qprocess.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpromise.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qproperty.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpropertyprivate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpropertyanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvariantanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qqueue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrandom.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qreadwritelock.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qresource.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsavefile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsemaphore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsequentialiterable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsettings.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsharedmemory.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsignalmapper.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsimd.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsocketnotifier.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstack.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstandardpaths.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstorageinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringlistmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtemporarydir.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtemporaryfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthreadstorage.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimeline.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimezone.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtranslator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtransposeproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qwaitcondition.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDeadlineTimer \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qwineventnotifier.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qxmlstream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtcoreversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsqlglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsql-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldriver.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldriverplugin.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlerror.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlfield.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlindex.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrecord.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlquery.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrelationaldelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyleditemdelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qbitmap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qeventpoint.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qvectornd.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qpointingdevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qinputdevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qscreen.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QList \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QRect \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSize \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qlistview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qcombobox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqltablemodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlresult.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsqlversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QSqlDatabase \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDebug
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o idatabase.o ../experiment04/idatabase.cpp
 
 login.o: ../experiment04/login.cpp ../experiment04/login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QWidget \
@@ -2260,6 +2861,10 @@ login.o: ../experiment04/login.cpp ../experiment04/login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QString \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qdialog.h \
 		ui_login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QVariant \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QApplication \
@@ -2306,7 +2911,8 @@ login.o: ../experiment04/login.cpp ../experiment04/login.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/qicon.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QSpacerItem \
-		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o login.o ../experiment04/login.cpp
 
 main.o: ../experiment04/main.cpp ../experiment04/masterview.h \
@@ -2437,6 +3043,10 @@ main.o: ../experiment04/main.cpp ../experiment04/masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QString \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qdialog.h \
 		../experiment04/welcome.h \
 		../experiment04/departmentmanagement.h \
 		../experiment04/doctormanagement.h \
@@ -2592,6 +3202,10 @@ masterview.o: ../experiment04/masterview.cpp ../experiment04/masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QSizeF \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/QTransform \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qnativeinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QString \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qdialog.h \
 		../experiment04/welcome.h \
 		../experiment04/departmentmanagement.h \
 		../experiment04/doctormanagement.h \
@@ -2599,6 +3213,8 @@ masterview.o: ../experiment04/masterview.cpp ../experiment04/masterview.h \
 		../experiment04/patientedit.h \
 		ui_masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/QVariant \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/QIcon \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qicon.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QApplication \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcoreapplication.h \
@@ -2632,11 +3248,157 @@ masterview.o: ../experiment04/masterview.cpp ../experiment04/masterview.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QPushButton \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qpushbutton.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt/6.2.3/gcc_64/include/QtGui/qicon.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QSpacerItem \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QStackedWidget \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstackedwidget.h \
-		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout \
+		../experiment04/idatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QtSql \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QtSqlDepends \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QtCore \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QtCoreDepends \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qassociativeiterable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbasictimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbitarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbuffer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcache.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcalendar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborvalue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborcommon.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/quuid.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcbormap.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstreamreader.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfloat16.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcborstreamwriter.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcollator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcommandlineoption.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcommandlineparser.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qcryptographichash.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qdiriterator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qeasingcurve.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qendian.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfactoryinterface.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfileselector.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QStringList \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qfuturewatcher.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjnienvironment.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjniobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonarray.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonvalue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsondocument.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qjsonobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlibrary.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlibraryinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qversionnumber.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qlockfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmetaobject.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimedata.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimedatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qmimetype.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpauseanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qplugin.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpluginloader.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qprocess.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpromise.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qproperty.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpropertyprivate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qpropertyanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvariantanimation.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qqueue.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qrandom.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qreadwritelock.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qresource.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsavefile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsemaphore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsequentialiterable.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsettings.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsharedmemory.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsignalmapper.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsimd.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsocketnotifier.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstack.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstandardpaths.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstorageinfo.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qstringlistmodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtemporarydir.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtemporaryfile.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qthreadstorage.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimeline.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimer.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtimezone.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtranslator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtransposeproxymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qwaitcondition.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDeadlineTimer \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qwineventnotifier.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qxmlstream.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/qtcoreversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsqlglobal.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsql-config.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldatabase.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldriver.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqldriverplugin.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlerror.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlfield.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlindex.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrecord.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlquery.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrelationaldelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyleditemdelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qlistview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qcombobox.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqltablemodel.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qsqlresult.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/qtsqlversion.h \
+		/opt/Qt/6.2.3/gcc_64/include/QtSql/QSqlDatabase \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o masterview.o ../experiment04/masterview.cpp
 
 patientedit.o: ../experiment04/patientedit.cpp ../experiment04/patientedit.h \
@@ -2830,7 +3592,8 @@ patientedit.o: ../experiment04/patientedit.cpp ../experiment04/patientedit.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qpushbutton.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QSpacerItem \
-		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o patientedit.o ../experiment04/patientedit.cpp
 
 patientmanagement.o: ../experiment04/patientmanagement.cpp ../experiment04/patientmanagement.h \
@@ -3017,7 +3780,8 @@ patientmanagement.o: ../experiment04/patientmanagement.cpp ../experiment04/patie
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QTableView \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qtableview.h \
-		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o patientmanagement.o ../experiment04/patientmanagement.cpp
 
 welcome.o: ../experiment04/welcome.cpp ../experiment04/welcome.h \
@@ -3179,7 +3943,8 @@ welcome.o: ../experiment04/welcome.cpp ../experiment04/welcome.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtGui/qicon.h \
 		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QSpacerItem \
-		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout
+		/opt/Qt/6.2.3/gcc_64/include/QtWidgets/QVBoxLayout \
+		/opt/Qt/6.2.3/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o welcome.o ../experiment04/welcome.cpp
 
 qrc_res.o: qrc_res.cpp 
@@ -3190,6 +3955,9 @@ moc_departmentmanagement.o: moc_departmentmanagement.cpp
 
 moc_doctormanagement.o: moc_doctormanagement.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_doctormanagement.o moc_doctormanagement.cpp
+
+moc_idatabase.o: moc_idatabase.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_idatabase.o moc_idatabase.cpp
 
 moc_login.o: moc_login.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_login.o moc_login.cpp

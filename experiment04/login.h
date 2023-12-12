@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QString>
 #include <QMessageBox>
+#include <QSqlDatabase>
 
 namespace Ui {
 class Login;
