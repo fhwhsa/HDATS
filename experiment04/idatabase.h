@@ -6,6 +6,9 @@
 #include <QSqlDatabase>
 #include <QString>
 #include <QSqlQuery>
+#include <QSqlTableModel>
+#include <QMessageBox>
+#include <QWidget>
 
 class IDatabase : public QObject
 {
@@ -15,6 +18,8 @@ public:
     static IDatabase& GetInstance();
 
     bool findUser(QString userName, QString passWord);
+
+    QSqlTableModel* getPatientTableModel(QWidget *parent);
 
 private:
     // 禁止外部构造

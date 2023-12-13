@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PatientManagement_t {
-    const uint offsetsAndSize[6];
-    char stringdata0[23];
+    const uint offsetsAndSize[20];
+    char stringdata0[110];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(offsetof(qt_meta_stringdata_PatientManagement_t, stringdata0) + ofs), len 
@@ -31,10 +31,19 @@ static const qt_meta_stringdata_PatientManagement_t qt_meta_stringdata_PatientMa
     {
 QT_MOC_LITERAL(0, 17), // "PatientManagement"
 QT_MOC_LITERAL(18, 3), // "add"
-QT_MOC_LITERAL(22, 0) // ""
+QT_MOC_LITERAL(22, 0), // ""
+QT_MOC_LITERAL(23, 20), // "do_currentRowChanged"
+QT_MOC_LITERAL(44, 11), // "QModelIndex"
+QT_MOC_LITERAL(56, 7), // "current"
+QT_MOC_LITERAL(64, 8), // "previous"
+QT_MOC_LITERAL(73, 10), // "do_btnFind"
+QT_MOC_LITERAL(84, 12), // "do_btnDelete"
+QT_MOC_LITERAL(97, 12) // "do_btnModify"
 
     },
-    "PatientManagement\0add\0"
+    "PatientManagement\0add\0\0do_currentRowChanged\0"
+    "QModelIndex\0current\0previous\0do_btnFind\0"
+    "do_btnDelete\0do_btnModify"
 };
 #undef QT_MOC_LITERAL
 
@@ -44,7 +53,7 @@ static const uint qt_meta_data_PatientManagement[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -52,9 +61,21 @@ static const uint qt_meta_data_PatientManagement[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   20,    2, 0x06,    1 /* Public */,
+       1,    0,   44,    2, 0x06,    1 /* Public */,
+
+ // slots: name, argc, parameters, tag, flags, initial metatype offsets
+       3,    2,   45,    2, 0x08,    2 /* Private */,
+       7,    0,   50,    2, 0x08,    5 /* Private */,
+       8,    0,   51,    2, 0x08,    6 /* Private */,
+       9,    0,   52,    2, 0x08,    7 /* Private */,
 
  // signals: parameters
+    QMetaType::Void,
+
+ // slots: parameters
+    QMetaType::Void, 0x80000000 | 4, 0x80000000 | 4,    5,    6,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -67,6 +88,10 @@ void PatientManagement::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         (void)_t;
         switch (_id) {
         case 0: _t->add(); break;
+        case 1: _t->do_currentRowChanged((*reinterpret_cast< const QModelIndex(*)>(_a[1])),(*reinterpret_cast< const QModelIndex(*)>(_a[2]))); break;
+        case 2: _t->do_btnFind(); break;
+        case 3: _t->do_btnDelete(); break;
+        case 4: _t->do_btnModify(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -79,7 +104,6 @@ void PatientManagement::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
             }
         }
     }
-    (void)_a;
 }
 
 const QMetaObject PatientManagement::staticMetaObject = { {
@@ -90,7 +114,7 @@ const QMetaObject PatientManagement::staticMetaObject = { {
     nullptr,
 qt_incomplete_metaTypeArray<qt_meta_stringdata_PatientManagement_t
 , QtPrivate::TypeAndForceComplete<PatientManagement, std::true_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
-
+, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<const QModelIndex &, std::false_type>, QtPrivate::TypeAndForceComplete<const QModelIndex &, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>, QtPrivate::TypeAndForceComplete<void, std::false_type>
 
 
 >,
@@ -117,13 +141,13 @@ int PatientManagement::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 5)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 1;
+        _id -= 5;
     }
     return _id;
 }

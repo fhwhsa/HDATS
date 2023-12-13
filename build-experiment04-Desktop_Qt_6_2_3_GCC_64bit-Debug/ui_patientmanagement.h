@@ -100,6 +100,11 @@ public:
     void retranslateUi(QWidget *PatientManagement)
     {
         PatientManagement->setWindowTitle(QCoreApplication::translate("PatientManagement", "\346\202\243\350\200\205\347\256\241\347\220\206", nullptr));
+#if QT_CONFIG(tooltip)
+        lineEdit->setToolTip(QString());
+#endif // QT_CONFIG(tooltip)
+        lineEdit->setInputMask(QString());
+        lineEdit->setPlaceholderText(QCoreApplication::translate("PatientManagement", "\350\276\223\345\205\245\345\247\223\345\220\215\357\274\210\346\250\241\347\263\212\345\214\271\351\205\215\357\274\211", nullptr));
         btnFind->setText(QCoreApplication::translate("PatientManagement", "\346\237\245\346\211\276", nullptr));
         btnAdd->setText(QCoreApplication::translate("PatientManagement", "\346\267\273\345\212\240", nullptr));
         btnDelete->setText(QCoreApplication::translate("PatientManagement", "\345\210\240\351\231\244", nullptr));
