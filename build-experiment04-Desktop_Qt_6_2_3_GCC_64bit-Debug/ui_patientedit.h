@@ -129,7 +129,6 @@ public:
         gender = new QComboBox(PatientEdit);
         gender->addItem(QString());
         gender->addItem(QString());
-        gender->addItem(QString());
         gender->setObjectName(QString::fromUtf8("gender"));
         sizePolicy.setHeightForWidth(gender->sizePolicy().hasHeightForWidth());
         gender->setSizePolicy(sizePolicy);
@@ -164,6 +163,8 @@ public:
         sizePolicy.setHeightForWidth(height->sizePolicy().hasHeightForWidth());
         height->setSizePolicy(sizePolicy);
         height->setMinimumSize(QSize(200, 0));
+        height->setMaximum(999.000000000000000);
+        height->setSingleStep(1.000000000000000);
 
         gridLayout->addWidget(height, 5, 1, 1, 1);
 
@@ -179,6 +180,8 @@ public:
         sizePolicy.setHeightForWidth(weight->sizePolicy().hasHeightForWidth());
         weight->setSizePolicy(sizePolicy);
         weight->setMinimumSize(QSize(200, 0));
+        weight->setMaximum(999.990000000000009);
+        weight->setSingleStep(1.000000000000000);
 
         gridLayout->addWidget(weight, 6, 1, 1, 1);
 
@@ -239,9 +242,8 @@ public:
         label_14->setText(QCoreApplication::translate("PatientEdit", "\345\247\223\345\220\215\357\274\232", nullptr));
         label_13->setText(QCoreApplication::translate("PatientEdit", "\350\272\253\344\273\275\350\257\201\357\274\232", nullptr));
         label_10->setText(QCoreApplication::translate("PatientEdit", "\346\200\247\345\210\253\357\274\232", nullptr));
-        gender->setItemText(0, QString());
-        gender->setItemText(1, QCoreApplication::translate("PatientEdit", "\347\224\267", nullptr));
-        gender->setItemText(2, QCoreApplication::translate("PatientEdit", "\345\245\263", nullptr));
+        gender->setItemText(0, QCoreApplication::translate("PatientEdit", "\347\224\267", nullptr));
+        gender->setItemText(1, QCoreApplication::translate("PatientEdit", "\345\245\263", nullptr));
 
         label_16->setText(QCoreApplication::translate("PatientEdit", "\345\207\272\347\224\237\346\227\245\346\234\237\357\274\232", nullptr));
         label_9->setText(QCoreApplication::translate("PatientEdit", "\350\272\253\351\253\230\357\274\232", nullptr));

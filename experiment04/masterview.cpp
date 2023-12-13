@@ -10,6 +10,8 @@ MasterView::MasterView(QWidget *parent)
 {
     ui->setupUi(this);
     iniSignalSlots();
+    ui->btnReturn->setEnabled(false);
+    ui->btnLoginout->setEnabled(false);
 //    this->setWindowFlags(Qt::FramelessWindowHint);
     goToLoginView();
 
@@ -88,13 +90,26 @@ void MasterView::goToPatientMView()
     patientManagement = new PatientManagement();
     pushToStack(patientManagement);
 
-    connect(patientManagement, &PatientManagement::add, this, &MasterView::goToPatientEditView);
+    connect(patientManagement, &PatientManagement::add, this, &MasterView::goToPatientEditViewForAdd); // 添加
+    connect(patientManagement, &PatientManagement::modify, this, &MasterView::goToPatientEditViewForModify); // 修改
 }
 
-void MasterView::goToPatientEditView()
+void MasterView::goToPatientEditViewForAdd(QSqlTableModel *tm)
 {
-    patientEdit = new PatientEdit();
+    patientEdit = new PatientEdit(tm);
     pushToStack(patientEdit);
+
+    connect(patientEdit, &PatientEdit::clickBtnSave, this, &MasterView::back); // 返回上一页
+    connect(patientEdit, &PatientEdit::clickBtnCancel, this, &MasterView::back);
+}
+
+void MasterView::goToPatientEditViewForModify(QSqlTableModel *tm, int index)
+{
+    patientEdit = new PatientEdit(tm, index);
+    pushToStack(patientEdit);
+
+    connect(patientEdit, &PatientEdit::clickBtnSave, this, &MasterView::back);
+    connect(patientEdit, &PatientEdit::clickBtnCancel, this, &MasterView::back);
 }
 
 void MasterView::pageChange(int index)

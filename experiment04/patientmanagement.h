@@ -34,11 +34,13 @@ private:
 private slots:
     void do_currentRowChanged(const QModelIndex &current, const QModelIndex &previous);
     void do_btnFind();
+    void do_btnAdd();
     void do_btnDelete();
     void do_btnModify();
 
 signals:
-    void add();
+    void add(QSqlTableModel *tm);
+    void modify(QSqlTableModel *tm, int index);
 };
 
 #endif // PATIENTMANAGEMENT_H

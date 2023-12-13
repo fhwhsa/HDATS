@@ -41,7 +41,8 @@ private slots:
     void goToDepartmentMView();
     void goToDoctorMView();
     void goToPatientMView();
-    void goToPatientEditView();
+    void goToPatientEditViewForAdd(QSqlTableModel *tm);
+    void goToPatientEditViewForModify(QSqlTableModel *tm, int index);
 
     void pageChange(int index);
 

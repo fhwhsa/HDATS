@@ -10,6 +10,7 @@ PatientManagement::PatientManagement(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    qDebug() << "hello";
     initView();
     iniSignalSlots();
 }
@@ -23,7 +24,7 @@ PatientManagement::~PatientManagement()
 void PatientManagement::iniSignalSlots()
 {
     connect(ui->btnFind, SIGNAL(clicked()), this, SLOT(do_btnFind()));
-    connect(ui->btnAdd, SIGNAL(clicked()), this, SIGNAL(add()));
+    connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(do_btnAdd()));
     connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(do_btnDelete()));
     connect(ui->btnModify, SIGNAL(clicked()), this, SLOT(do_btnModify()));
     connect(selModel, &QItemSelectionModel::currentRowChanged, this, &PatientManagement::do_currentRowChanged);
@@ -45,13 +46,16 @@ void PatientManagement::initView()
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView->setAlternatingRowColors(true);
 
-    ui->btnDelete->setEnabled(!(tableModel->rowCount() == 0));
+    ui->btnFind->setEnabled(!(tableModel->rowCount() == 0));
+    ui->btnDelete->setEnabled(false);
+    ui->btnModify->setEnabled(false);
 }
 
 void PatientManagement::do_currentRowChanged(const QModelIndex &current, const QModelIndex &previous)
 {
-    QSqlRecord curRec = tableModel->record(current.row());
-    qDebug() << curRec.value("NAME").toString();
+    ui->btnDelete->setEnabled(true);
+    ui->btnModify->setEnabled(true);
+    ui->btnFind->setEnabled(true);
 }
 
 void PatientManagement::do_btnFind()
@@ -67,16 +71,28 @@ void PatientManagement::do_btnFind()
     }
 }
 
+void PatientManagement::do_btnAdd()
+{
+//    qDebug() << tableModel;
+    emit add(tableModel);
+}
+
+
 void PatientManagement::do_btnDelete()
 {
     QModelIndex curIndex = selModel->currentIndex();
     tableModel->removeRow(curIndex.row());
     tableModel->select();
 
-    ui->btnDelete->setEnabled(!(tableModel->rowCount() == 0));
+    if (tableModel->rowCount() == 0)
+    {
+        ui->btnDelete->setEnabled(false);
+        ui->btnFind->setEnabled(false);
+        ui->btnModify->setEnabled(false);
+    }
 }
 
 void PatientManagement::do_btnModify()
 {
-
+    emit modify(tableModel, selModel->currentIndex().row());
 }
