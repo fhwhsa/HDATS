@@ -19,6 +19,8 @@ Welcome::~Welcome()
 
 void Welcome::iniSignalSlots()
 {
+    connect(ui->btnDiagnosticRecords, SIGNAL(clicked()), this, SIGNAL(diagRecords()));
+    connect(ui->btnDrugManagement, SIGNAL(clicked()), this, SIGNAL(drugM()));
     connect(ui->btnDepartmentManagement, SIGNAL(clicked()), this, SIGNAL(departmentM()));
     connect(ui->btnDoctorManagement, SIGNAL(clicked()), this, SIGNAL(doctorM()));
     connect(ui->btnPatientManagement, SIGNAL(clicked()), this, SIGNAL(patientM()));

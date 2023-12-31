@@ -3,10 +3,12 @@
 
 #include "login.h"
 #include "welcome.h"
-#include "departmentmanagement.h"
+#include "drugmanagement.h"
 #include "doctormanagement.h"
 #include "patientmanagement.h"
 #include "patientedit.h"
+#include "diagnosticrecords.h"
+#include "departmentmanagement.h"
 
 #include <QWidget>
 
@@ -27,6 +29,8 @@ private:
 
     Login *login;
     Welcome *welcome;
+    DiagnosticRecords *diagnosticRecords;
+    DrugManagement *drugManagement;
     DepartmentManagement *departmentManagement;
     DoctorManagement *doctorManagement;
     PatientManagement *patientManagement;
@@ -38,7 +42,9 @@ private:
 private slots:
     void goToLoginView();
     void goToWelcomeView();
-    void goToDepartmentMView();
+    void goToDiagnosticRecords();
+    void goToDrugMView();
+    void goToDepartmentM();
     void goToDoctorMView();
     void goToPatientMView();
     void goToPatientEditViewForAdd(QSqlTableModel *tm);

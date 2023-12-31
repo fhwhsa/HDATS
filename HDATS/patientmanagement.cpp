@@ -82,6 +82,7 @@ void PatientManagement::do_btnDelete()
 {
     QModelIndex curIndex = selModel->currentIndex();
     tableModel->removeRow(curIndex.row());
+
     tableModel->select();
 
     ui->btnDelete->setEnabled(false);
@@ -91,6 +92,8 @@ void PatientManagement::do_btnDelete()
 void PatientManagement::do_btnModify()
 {
     emit modify(tableModel, selModel->currentIndex().row());
+
+    tableModel->select();
 
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);

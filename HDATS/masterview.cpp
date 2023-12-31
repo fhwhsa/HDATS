@@ -44,7 +44,7 @@ void MasterView::back()
     int cnt = ui->stackedWidget->count();
     QWidget *w = ui->stackedWidget->currentWidget();
     ui->stackedWidget->setCurrentIndex(cnt - 2);
-
+    ui->currWidgetTitle->setText(ui->stackedWidget->currentWidget()->windowTitle());
     delete w;
 }
 
@@ -68,13 +68,28 @@ void MasterView::goToWelcomeView()
     welcome = new Welcome();
     pushToStack(welcome);
 
-    connect(welcome, &Welcome::departmentM, this, &MasterView::goToDepartmentMView);
+    connect(welcome, &Welcome::diagRecords, this, &MasterView::goToDiagnosticRecords);
+    connect(welcome, &Welcome::drugM, this, &MasterView::goToDrugMView);
+    connect(welcome, &Welcome::departmentM, this, &MasterView::goToDepartmentM);
     connect(welcome, &Welcome::doctorM, this, &MasterView::goToDoctorMView);
     connect(welcome, &Welcome::patientM, this, &MasterView::goToPatientMView);
 }
 
-void MasterView::goToDepartmentMView()
+void MasterView::goToDiagnosticRecords()
 {
+    diagnosticRecords = new DiagnosticRecords;
+    pushToStack(diagnosticRecords);
+}
+
+void MasterView::goToDrugMView()
+{
+    drugManagement = new DrugManagement();
+    pushToStack(drugManagement);
+}
+
+void MasterView::goToDepartmentM()
+{
+
     departmentManagement = new DepartmentManagement();
     pushToStack(departmentManagement);
 }
@@ -97,6 +112,7 @@ void MasterView::goToPatientMView()
 void MasterView::goToPatientEditViewForAdd(QSqlTableModel *tm)
 {
     patientEdit = new PatientEdit(tm);
+    patientEdit->setWindowTitle("添加患者信息");
     pushToStack(patientEdit);
 
     connect(patientEdit, &PatientEdit::clickBtnSave, this, &MasterView::back); // 返回上一页
@@ -106,6 +122,7 @@ void MasterView::goToPatientEditViewForAdd(QSqlTableModel *tm)
 void MasterView::goToPatientEditViewForModify(QSqlTableModel *tm, int index)
 {
     patientEdit = new PatientEdit(tm, index);
+//    patientEdit->setWindowTitle("编辑患者信息"); 默认
     pushToStack(patientEdit);
 
     connect(patientEdit, &PatientEdit::clickBtnSave, this, &MasterView::back);

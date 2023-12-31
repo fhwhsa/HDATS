@@ -12,6 +12,6 @@ DepartmentManagement::DepartmentManagement(QWidget *parent) :
 
 DepartmentManagement::~DepartmentManagement()
 {
-    qDebug() << "delete departmentManagement";
+    qDebug() << "delete DepartmentManagement";
     delete ui;
 }

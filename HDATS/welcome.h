@@ -20,6 +20,8 @@ private:
     void iniSignalSlots();
 
 signals:
+    void diagRecords();
+    void drugM();
     void departmentM();
     void doctorM();
     void patientM();
