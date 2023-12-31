@@ -23,9 +23,9 @@ void Login::iniSignalSlots()
 
 void Login::check()
 {
-    QString userName = ui->userName->text();
+    QString name = ui->name->text();
     QString passWord = ui->passWord->text();
-    if (userName.length() == 0 || passWord.length() == 0)
+    if (name.length() == 0 || passWord.length() == 0)
     {
         QMessageBox::critical(this, "错误", "用户名或密码为空！");
         return;
@@ -33,7 +33,7 @@ void Login::check()
 
     IDatabase& instance = IDatabase::GetInstance();
 
-    if (instance.findUser(userName, passWord))
+    if (instance.findUser(name, passWord))
         emit loginSuccess();
     else
         QMessageBox::critical(this, "错误", "用户名或密码错误！");

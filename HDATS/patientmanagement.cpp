@@ -55,7 +55,7 @@ void PatientManagement::do_currentRowChanged(const QModelIndex &current, const Q
 {
     ui->btnDelete->setEnabled(true);
     ui->btnModify->setEnabled(true);
-    ui->btnFind->setEnabled(true);
+//    ui->btnFind->setEnabled(true);
 }
 
 void PatientManagement::do_btnFind()
@@ -65,7 +65,7 @@ void PatientManagement::do_btnFind()
         tableModel->setFilter("");
     else
     {
-        QString t = " NAME LIKE '%" + str + "%'";
+        QString t = " P_NAME LIKE '%" + str + "%'";
         tableModel->setFilter(t);
 //        qDebug() << t;
     }
@@ -84,15 +84,14 @@ void PatientManagement::do_btnDelete()
     tableModel->removeRow(curIndex.row());
     tableModel->select();
 
-    if (tableModel->rowCount() == 0)
-    {
-        ui->btnDelete->setEnabled(false);
-        ui->btnFind->setEnabled(false);
-        ui->btnModify->setEnabled(false);
-    }
+    ui->btnDelete->setEnabled(false);
+    ui->btnModify->setEnabled(false);
 }
 
 void PatientManagement::do_btnModify()
 {
     emit modify(tableModel, selModel->currentIndex().row());
+
+    ui->btnDelete->setEnabled(false);
+    ui->btnModify->setEnabled(false);
 }

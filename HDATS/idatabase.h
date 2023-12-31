@@ -17,8 +17,10 @@ public:
     // 获取单实例对象
     static IDatabase& GetInstance();
 
-    bool findUser(QString userName, QString passWord);
+    // 查找是否存在对应用户（医生）
+    bool findUser(QString name, QString passWord);
 
+    // 获取患者列表模型
     QSqlTableModel* getPatientTableModel(QWidget *parent);
 
 private:

@@ -24,13 +24,11 @@ PatientEdit::~PatientEdit()
 void PatientEdit::initData()
 {
     QSqlRecord rec = tableModel->record(modifyIndex);
-    ui->id->setText(rec.value("ID").toString());
-    ui->idCard->setText(rec.value("ID_CARD").toString());
-    ui->name->setText(rec.value("NAME").toString());
-    ui->gender->setCurrentIndex((rec.value("SEX").toString() == "男") ? 0 : 1);
+    ui->name->setText(rec.value("P_NAME").toString());
+    ui->gender->setCurrentIndex((rec.value("P_SEX").toString() == "男") ? 0 : 1);
     ui->height->setValue(rec.value("HEIGHT").toDouble());
     ui->weight->setValue(rec.value("WEIGHT").toDouble());
-    ui->phoneNum->setText(rec.value("MOBILEPHOME").toString());
+    ui->phoneNum->setText(rec.value("P_MOBILEPHOME").toString());
 }
 
 void PatientEdit::iniSignalSlots()
@@ -42,25 +40,27 @@ void PatientEdit::iniSignalSlots()
 void PatientEdit::do_btnSave()
 {
     qDebug() << tableModel;
-    QSqlRecord rec = tableModel->record();
+    QSqlRecord rec = modifyIndex != -1 ? tableModel->record(modifyIndex) : tableModel->record();
     QDate date = QDate::currentDate();
 
-    rec.setValue("ID", ui->id->text());
-    rec.setValue("ID_CARD", ui->idCard->text());
-    rec.setValue("NAME", ui->name->text());
-    rec.setValue("SEX", ui->gender->currentText());
-    rec.setValue("DOB", "");
+    rec.setValue("P_NAME", ui->name->text());
+    rec.setValue("P_MOBILEPHOME", ui->phoneNum->text());
+    rec.setValue("P_SEX", ui->gender->currentText());
+    rec.setValue("P_AGE", date.year() - ui->dateOfBirth->date().year());
     rec.setValue("HEIGHT", ui->height->text());
     rec.setValue("WEIGHT", ui->weight->text());
-    rec.setValue("MOBILEPHOME", ui->phoneNum->text());
-    rec.setValue("AGE", date.year() - ui->dateOfBirth->date().year());
-    rec.setValue("CREATEDTIMESTAMP", date);
+
 
     if (modifyIndex == -1) // 添加操作
         tableModel->insertRecord(tableModel->rowCount(), rec);
-    else // 修改操作
-        tableModel->setRecord(modifyIndex, rec);
 
+    else // 修改操作
+    {
+        tableModel->setRecord(modifyIndex, rec);
+//        qDebug() << tableModel->lastError().text();
+    }
+
+    tableModel->setFilter("");
     emit clickBtnSave();
 }
 

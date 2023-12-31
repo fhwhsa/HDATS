@@ -38,6 +38,8 @@ private slots:
     void do_btnDelete();
     void do_btnModify();
 
+
+// 这两个信号是由masterview接收，然后转向patientedit处理
 signals:
     void add(QSqlTableModel *tm);
     void modify(QSqlTableModel *tm, int index);

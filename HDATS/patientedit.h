@@ -5,6 +5,7 @@
 #include <QSqlTableModel>
 #include <QSqlRecord>
 #include <QDate>
+#include <QSqlError>
 
 namespace Ui {
 class PatientEdit;
