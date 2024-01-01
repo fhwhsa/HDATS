@@ -21,8 +21,8 @@ PatientEdit::~PatientEdit()
     delete ui;
 }
 
-QString PatientEdit::insertPrepare = "INSERT INTO patient (P_NAME, P_MOBILEPHOME, P_SEX, P_AGE, HEIGHT, WEIGHT, P_BIRTHDATE) VALUES (?, ?, ?, ?, ?, ?, ?)";
-QString PatientEdit::updatePrepare = "UPDATE patient SET P_NAME = ?, P_MOBILEPHOME = ?, P_SEX = ?, P_AGE = ?, HEIGHT = ?, WEIGHT = ?, P_BIRTHDATE = ? WHERE P_ID = ?";
+QString PatientEdit::insertPrepare = "INSERT INTO patient (P_NAME, P_MOBILEPHOME, P_SEX, HEIGHT, WEIGHT, P_BIRTHDATE) VALUES ( ?, ?, ?, ?, ?, ?)";
+QString PatientEdit::updatePrepare = "UPDATE patient SET P_NAME = ?, P_MOBILEPHOME = ?, P_SEX = ?, HEIGHT = ?, WEIGHT = ?, P_BIRTHDATE = ? WHERE P_ID = ?";
 
 void PatientEdit::initData()
 {
@@ -46,7 +46,6 @@ void PatientEdit::do_btnSave()
     QString P_NAME = ui->name->text();
     QString P_MOBILEPHOME = ui->phoneNum->text();
     QString P_SEX = ui->gender->currentText();
-    int P_AGE = QDate::currentDate().year() - ui->birthDate->date().year();
     double HEIGHT = ui->height->text().toDouble();
     double WEIGHT = ui->weight->text().toDouble();
     QDate P_BIRTHDATE = ui->birthDate->date();
@@ -61,14 +60,13 @@ void PatientEdit::do_btnSave()
     query.bindValue(0, P_NAME);
     query.bindValue(1, P_MOBILEPHOME);
     query.bindValue(2, P_SEX);
-    query.bindValue(3, P_AGE);
-    query.bindValue(4, HEIGHT);
-    query.bindValue(5, WEIGHT);
-    query.bindValue(6, P_BIRTHDATE);
+    query.bindValue(3, HEIGHT);
+    query.bindValue(4, WEIGHT);
+    query.bindValue(5, P_BIRTHDATE);
     if (modifyIndex != -1)
     {
         QSqlRecord rec = queryModel->record(modifyIndex);
-        query.bindValue(7, rec.value("编号").toString());
+        query.bindValue(6, rec.value("编号").toString());
     }
 
     if (!query.exec())
