@@ -21,6 +21,14 @@ PatientManagement::~PatientManagement()
     delete ui;
 }
 
+void PatientManagement::refresh()
+{
+    do_btnFind();
+}
+
+QString PatientManagement::baseSql = "SELECT P_ID 编号, P_NAME 姓名, P_SEX 性别, TIMESTAMPDIFF(YEAR, P_BIRTHDATE, CURDATE()) 年龄, "
+                                     "P_MOBILEPHOME 电话号码, HEIGHT 身高, WEIGHT 体重, P_BIRTHDATE 出生日期 FROM patient";
+
 void PatientManagement::iniSignalSlots()
 {
     connect(ui->btnFind, SIGNAL(clicked()), this, SLOT(do_btnFind()));
@@ -35,18 +43,12 @@ void PatientManagement::initView()
 {
     IDatabase& instance = IDatabase::GetInstance();
 
-    tableModel = instance.getPatientTableModel(this);
-    selModel = new QItemSelectionModel(tableModel, this);
+    queryModel = instance.getPatientQueryModel(this);
+    selModel = new QItemSelectionModel(queryModel, this);
 
-    ui->tableView->setModel(tableModel);
+    ui->tableView->setModel(queryModel);
     ui->tableView->setSelectionModel(selModel);
 
-    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->tableView->setAlternatingRowColors(true);
-
-    ui->btnFind->setEnabled(!(tableModel->rowCount() == 0));
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);
 }
@@ -55,25 +57,25 @@ void PatientManagement::do_currentRowChanged(const QModelIndex &current, const Q
 {
     ui->btnDelete->setEnabled(true);
     ui->btnModify->setEnabled(true);
-//    ui->btnFind->setEnabled(true);
 }
 
 void PatientManagement::do_btnFind()
 {
     QString str = ui->lineEdit->text();
     if (str.length() == 0)
-        tableModel->setFilter("");
+        queryModel->setQuery(baseSql);
     else
     {
         QString t = " P_NAME LIKE '%" + str + "%'";
-        tableModel->setFilter(t);
-//        qDebug() << t;
+        queryModel->setQuery(baseSql + " WHERE " + t);
     }
+
+    ui->btnDelete->setEnabled(false);
+    ui->btnModify->setEnabled(false);
 }
 
 void PatientManagement::do_btnAdd()
 {
-//    qDebug() << tableModel;
     emit add(tableModel);
 }
 
@@ -81,20 +83,13 @@ void PatientManagement::do_btnAdd()
 void PatientManagement::do_btnDelete()
 {
     QModelIndex curIndex = selModel->currentIndex();
-    tableModel->removeRow(curIndex.row());
-
-    tableModel->select();
-
-    ui->btnDelete->setEnabled(false);
-    ui->btnModify->setEnabled(false);
+    QString id = queryModel->record(curIndex.row()).value("编号").toString();
+    QSqlQuery query;
+    query.exec("DELETE FROM patient WHERE P_ID = " + id);
+    refresh();
 }
 
 void PatientManagement::do_btnModify()
 {
-    emit modify(tableModel, selModel->currentIndex().row());
-
-    tableModel->select();
-
-    ui->btnDelete->setEnabled(false);
-    ui->btnModify->setEnabled(false);
+    emit modify(queryModel, selModel->currentIndex().row());
 }

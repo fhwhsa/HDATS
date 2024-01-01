@@ -27,7 +27,7 @@
           <string/>
          </property>
          <property name="placeholderText">
-          <string>输入姓名（模糊匹配）</string>
+          <string>输入姓名（模糊查询）</string>
          </property>
         </widget>
        </item>

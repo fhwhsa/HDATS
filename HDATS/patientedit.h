@@ -2,10 +2,13 @@
 #define PATIENTEDIT_H
 
 #include <QWidget>
-#include <QSqlTableModel>
+#include <QSqlQueryModel>
+#include <QSqlQuery>
 #include <QSqlRecord>
 #include <QDate>
 #include <QSqlError>
+#include <QString>
+#include <QMessageBox>
 
 namespace Ui {
 class PatientEdit;
@@ -16,12 +19,16 @@ class PatientEdit : public QWidget
     Q_OBJECT
 
 public:
-    explicit PatientEdit(QSqlTableModel *tm, int f = -1, QWidget *parent = nullptr);
+    explicit PatientEdit(QSqlQueryModel *tm, int f = -1, QWidget *parent = nullptr);
     ~PatientEdit();
 
 private:
     Ui::PatientEdit *ui;
-    QSqlTableModel *tableModel;
+    QSqlQueryModel *queryModel;
+
+    static QString insertPrepare;
+    static QString updatePrepare;
+
     int modifyIndex; // 标识该窗口是用于修改数据还是添加（-1为添加，其余为修改，并表示修改的行）
 
     void initData();

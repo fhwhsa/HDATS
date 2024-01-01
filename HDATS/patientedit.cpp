@@ -3,9 +3,9 @@
 
 #include <QDebug>
 
-PatientEdit::PatientEdit(QSqlTableModel *tm, int f, QWidget *parent) :
+PatientEdit::PatientEdit(QSqlQueryModel *qm, int f, QWidget *parent) :
     QWidget(parent),
-    tableModel(tm),
+    queryModel(qm),
     modifyIndex(f),
     ui(new Ui::PatientEdit)
 {
@@ -21,14 +21,18 @@ PatientEdit::~PatientEdit()
     delete ui;
 }
 
+QString PatientEdit::insertPrepare = "INSERT INTO patient (P_NAME, P_MOBILEPHOME, P_SEX, P_AGE, HEIGHT, WEIGHT, P_BIRTHDATE) VALUES (?, ?, ?, ?, ?, ?, ?)";
+QString PatientEdit::updatePrepare = "UPDATE patient SET P_NAME = ?, P_MOBILEPHOME = ?, P_SEX = ?, P_AGE = ?, HEIGHT = ?, WEIGHT = ?, P_BIRTHDATE = ? WHERE P_ID = ?";
+
 void PatientEdit::initData()
 {
-    QSqlRecord rec = tableModel->record(modifyIndex);
-    ui->name->setText(rec.value("P_NAME").toString());
-    ui->gender->setCurrentIndex((rec.value("P_SEX").toString() == "男") ? 0 : 1);
-    ui->height->setValue(rec.value("HEIGHT").toDouble());
-    ui->weight->setValue(rec.value("WEIGHT").toDouble());
-    ui->phoneNum->setText(rec.value("P_MOBILEPHOME").toString());
+    QSqlRecord rec = queryModel->record(modifyIndex);
+    ui->name->setText(rec.value("姓名").toString());
+    ui->gender->setCurrentIndex((rec.value("性别").toString() == "男") ? 0 : 1);
+    ui->birthDate->setDate(rec.value("出生日期").toDate());
+    ui->height->setValue(rec.value("身高").toDouble());
+    ui->weight->setValue(rec.value("体重").toDouble());
+    ui->phoneNum->setText(rec.value("电话号码").toString());
 }
 
 void PatientEdit::iniSignalSlots()
@@ -39,28 +43,37 @@ void PatientEdit::iniSignalSlots()
 
 void PatientEdit::do_btnSave()
 {
-    qDebug() << tableModel;
-    QSqlRecord rec = modifyIndex != -1 ? tableModel->record(modifyIndex) : tableModel->record();
-    QDate date = QDate::currentDate();
-
-    rec.setValue("P_NAME", ui->name->text());
-    rec.setValue("P_MOBILEPHOME", ui->phoneNum->text());
-    rec.setValue("P_SEX", ui->gender->currentText());
-    rec.setValue("P_AGE", date.year() - ui->dateOfBirth->date().year());
-    rec.setValue("HEIGHT", ui->height->text());
-    rec.setValue("WEIGHT", ui->weight->text());
+    QString P_NAME = ui->name->text();
+    QString P_MOBILEPHOME = ui->phoneNum->text();
+    QString P_SEX = ui->gender->currentText();
+    int P_AGE = QDate::currentDate().year() - ui->birthDate->date().year();
+    double HEIGHT = ui->height->text().toDouble();
+    double WEIGHT = ui->weight->text().toDouble();
+    QDate P_BIRTHDATE = ui->birthDate->date();
 
 
-    if (modifyIndex == -1) // 添加操作
-        tableModel->insertRecord(tableModel->rowCount(), rec);
-
+    QSqlQuery query;
+    if (modifyIndex == -1)
+        query.prepare(insertPrepare);
     else // 修改操作
+        query.prepare(updatePrepare);
+
+    query.bindValue(0, P_NAME);
+    query.bindValue(1, P_MOBILEPHOME);
+    query.bindValue(2, P_SEX);
+    query.bindValue(3, P_AGE);
+    query.bindValue(4, HEIGHT);
+    query.bindValue(5, WEIGHT);
+    query.bindValue(6, P_BIRTHDATE);
+    if (modifyIndex != -1)
     {
-        tableModel->setRecord(modifyIndex, rec);
-//        qDebug() << tableModel->lastError().text();
+        QSqlRecord rec = queryModel->record(modifyIndex);
+        query.bindValue(7, rec.value("编号").toString());
     }
 
-    tableModel->setFilter("");
+    if (!query.exec())
+        QMessageBox::critical(this, "错误", query.lastError().text());
+
     emit clickBtnSave();
 }
 

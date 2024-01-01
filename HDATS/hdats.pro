@@ -13,6 +13,7 @@ TARGET = hdats
 SOURCES += \
     departmentmanagement.cpp \
     diagnosticrecords.cpp \
+    doctoredit.cpp \
     doctormanagement.cpp \
     drugmanagement.cpp \
     idatabase.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 HEADERS += \
     departmentmanagement.h \
     diagnosticrecords.h \
+    doctoredit.h \
     doctormanagement.h \
     drugmanagement.h \
     idatabase.h \
@@ -38,6 +40,7 @@ HEADERS += \
 FORMS += \
     departmentmanagement.ui \
     diagnosticrecords.ui \
+    doctoredit.ui \
     doctormanagement.ui \
     drugmanagement.ui \
     login.ui \

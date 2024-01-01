@@ -44,7 +44,13 @@ void MasterView::back()
     int cnt = ui->stackedWidget->count();
     QWidget *w = ui->stackedWidget->currentWidget();
     ui->stackedWidget->setCurrentIndex(cnt - 2);
-    ui->currWidgetTitle->setText(ui->stackedWidget->currentWidget()->windowTitle());
+
+    QString currWin = ui->stackedWidget->currentWidget()->windowTitle();
+    ui->currWidgetTitle->setText(currWin);
+
+    if (currWin == "患者管理")
+        patientManagement->refresh();
+
     delete w;
 }
 
@@ -111,7 +117,7 @@ void MasterView::goToPatientMView()
     connect(patientManagement, &PatientManagement::modify, this, &MasterView::goToPatientEditViewForModify); // 修改
 }
 
-void MasterView::goToPatientEditViewForAdd(QSqlTableModel *tm)
+void MasterView::goToPatientEditViewForAdd(QSqlQueryModel *tm)
 {
     patientEdit = new PatientEdit(tm);
     patientEdit->setWindowTitle("添加患者信息");
@@ -121,7 +127,7 @@ void MasterView::goToPatientEditViewForAdd(QSqlTableModel *tm)
     connect(patientEdit, &PatientEdit::clickBtnCancel, this, &MasterView::back);
 }
 
-void MasterView::goToPatientEditViewForModify(QSqlTableModel *tm, int index)
+void MasterView::goToPatientEditViewForModify(QSqlQueryModel *tm, int index)
 {
     patientEdit = new PatientEdit(tm, index);
 //    patientEdit->setWindowTitle("编辑患者信息"); 默认

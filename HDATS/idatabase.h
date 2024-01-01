@@ -10,6 +10,8 @@
 #include <QMessageBox>
 #include <QWidget>
 #include <QPair>
+#include <QSqlQueryModel>
+#include <QSqlRecord>
 
 class IDatabase : public QObject
 {
@@ -23,6 +25,7 @@ public:
 
     // 获取患者列表模型
     QSqlTableModel* getPatientTableModel(QWidget *parent);
+    QSqlQueryModel* getPatientQueryModel(QWidget *parent);
 
 private:
     // 禁止外部构造

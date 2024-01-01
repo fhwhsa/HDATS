@@ -9,6 +9,8 @@
 #include <QAbstractItemView>
 #include <QModelIndex>
 #include <QString>
+#include <QSqlQueryModel>
+#include <QSqlQuery>
 
 namespace Ui {
 class PatientManagement;
@@ -22,10 +24,17 @@ public:
     explicit PatientManagement(QWidget *parent = nullptr);
     ~PatientManagement();
 
+    void refresh();
+
 private:
     Ui::PatientManagement *ui;
 
+    QString lastOper; // 记录上一次操作，用于控制按钮的使能状态
+
+    static QString baseSql;
+
     QSqlTableModel *tableModel;
+    QSqlQueryModel *queryModel;
     QItemSelectionModel *selModel;
 
     void iniSignalSlots();
@@ -41,8 +50,8 @@ private slots:
 
 // 这两个信号是由masterview接收，然后转向patientedit处理
 signals:
-    void add(QSqlTableModel *tm);
-    void modify(QSqlTableModel *tm, int index);
+    void add(QSqlQueryModel *tm);
+    void modify(QSqlQueryModel *tm, int index);
 };
 
 #endif // PATIENTMANAGEMENT_H
