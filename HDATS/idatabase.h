@@ -9,6 +9,7 @@
 #include <QSqlTableModel>
 #include <QMessageBox>
 #include <QWidget>
+#include <QPair>
 
 class IDatabase : public QObject
 {
@@ -18,7 +19,7 @@ public:
     static IDatabase& GetInstance();
 
     // 查找是否存在对应用户（医生）
-    bool findUser(QString name, QString passWord);
+    QPair<bool, int> findUser(QString name, QString passWord);
 
     // 获取患者列表模型
     QSqlTableModel* getPatientTableModel(QWidget *parent);

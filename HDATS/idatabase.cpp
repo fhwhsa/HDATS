@@ -32,13 +32,16 @@ void IDatabase::iniDatabase()
         qDebug() << "Database connect failed";
 }
 
-bool IDatabase::findUser(QString name, QString passWord)
+QPair<bool, int> IDatabase::findUser(QString name, QString passWord)
 {
-    QString sql = "select count(*) cnt from doctor where D_NAME = '" + name + "' and PASSWORD = '" + passWord + "';";
+    QString sql = "select * from doctor where D_NAME = '" + name + "' and PASSWORD = '" + passWord + "';";
 //    qDebug() << sql;
     QSqlQuery res = database.exec(sql);
-    if (!res.first()) return false;
-    return res.value("cnt").toInt() == 1;
+
+    if (!res.first())
+        return QPair(false, 0);
+
+    return QPair(true, res.value("PLevel").toInt());
 }
 
 QSqlTableModel* IDatabase::getPatientTableModel(QWidget *parent)

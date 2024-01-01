@@ -41,7 +41,7 @@ private:
 
 private slots:
     void goToLoginView();
-    void goToWelcomeView();
+    void goToWelcomeView(int pLevel);
     void goToDiagnosticRecords();
     void goToDrugMView();
     void goToDepartmentM();

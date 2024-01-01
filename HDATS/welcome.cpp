@@ -3,11 +3,13 @@
 
 #include <QDebug>
 
-Welcome::Welcome(QWidget *parent) :
+Welcome::Welcome(int qLevel, QWidget *parent) :
+    level(qLevel),
     QWidget(parent),
     ui(new Ui::Welcome)
 {
     ui->setupUi(this);
+    init();
     iniSignalSlots();
 }
 
@@ -15,6 +17,16 @@ Welcome::~Welcome()
 {
     qDebug() << "delete Welcome";
     delete ui;
+}
+
+void Welcome::init()
+{
+    if (level == 1); // 开放所有操作
+    else { // 仅开放患者管理和就诊记录管理
+        ui->btnDrugManagement->setEnabled(false);
+        ui->btnDepartmentManagement->setEnabled(false);
+        ui->btnDoctorManagement->setEnabled(false);
+    }
 }
 
 void Welcome::iniSignalSlots()

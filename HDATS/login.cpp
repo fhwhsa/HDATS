@@ -33,8 +33,10 @@ void Login::check()
 
     IDatabase& instance = IDatabase::GetInstance();
 
-    if (instance.findUser(name, passWord))
-        emit loginSuccess();
+    QPair res = instance.findUser(name, passWord);
+
+    if (res.first)
+        emit loginSuccess(res.second);
     else
         QMessageBox::critical(this, "错误", "用户名或密码错误！");
 }

@@ -63,9 +63,9 @@ void MasterView::goToLoginView()
     connect(login, &Login::loginSuccess, this, &MasterView::goToWelcomeView);
 }
 
-void MasterView::goToWelcomeView()
+void MasterView::goToWelcomeView(int pLevel)
 {
-    welcome = new Welcome();
+    welcome = new Welcome(pLevel);
     pushToStack(welcome);
 
     connect(welcome, &Welcome::diagRecords, this, &MasterView::goToDiagnosticRecords);
@@ -73,6 +73,8 @@ void MasterView::goToWelcomeView()
     connect(welcome, &Welcome::departmentM, this, &MasterView::goToDepartmentM);
     connect(welcome, &Welcome::doctorM, this, &MasterView::goToDoctorMView);
     connect(welcome, &Welcome::patientM, this, &MasterView::goToPatientMView);
+
+
 }
 
 void MasterView::goToDiagnosticRecords()

@@ -12,11 +12,13 @@ class Welcome : public QWidget
     Q_OBJECT
 
 public:
-    explicit Welcome(QWidget *parent = nullptr);
+    explicit Welcome(int qLevel, QWidget *parent = nullptr);
     ~Welcome();
 
 private:
     Ui::Welcome *ui;
+    int level; // 权限等级
+    void init();
     void iniSignalSlots();
 
 signals:
