@@ -10,7 +10,7 @@ DoctorManagement::DoctorManagement(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    initView();
+    init();
     iniSignalSlots();
 }
 
@@ -28,18 +28,31 @@ void DoctorManagement::refresh()
 QString DoctorManagement::baseSql = "SELECT D_ID 编号, D_NAME 姓名, D_SEX 性别, TIMESTAMPDIFF(YEAR, D_BIRTHDATE, CURDATE()) 年龄, "
                                     "D_MOBILEPHOME 电话号码, D_BIRTHDATE 出生日期, PCNO 执业证书号, PLevel 权限等级 FROM doctor";
 
-void DoctorManagement::initView()
+void DoctorManagement::init()
 {
     IDatabase& instance = IDatabase::GetInstance();
 
     queryModel = instance.getDoctorQueryModel(this);
-    selModel = new QItemSelectionModel(queryModel, this);
+    filterModel = new QSortFilterProxyModel(this);
 
-    ui->tableView->setModel(queryModel);
+    filterModel->setSourceModel(queryModel);
+    selModel = new QItemSelectionModel(filterModel, this);
+
+    ui->tableView->setModel(filterModel); // 设置代理
     ui->tableView->setSelectionModel(selModel);
+
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    ui->tableView->horizontalHeader()->setSortIndicatorShown(true);
 
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);
+
+
+    flag.resize(8, true);
 }
 
 void DoctorManagement::iniSignalSlots()
@@ -49,6 +62,8 @@ void DoctorManagement::iniSignalSlots()
     connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(do_btnDelete()));
     connect(ui->btnModify, SIGNAL(clicked()), this, SLOT(do_btnModify()));
     connect(selModel, &QItemSelectionModel::currentRowChanged, this, &DoctorManagement::do_currentRowChanged);
+
+    connect(ui->tableView->horizontalHeader(), &QHeaderView::sectionClicked, this, &DoctorManagement::do_tableView_sort); // 排序点击
 }
 
 void DoctorManagement::do_currentRowChanged(const QModelIndex &current, const QModelIndex &previous)
@@ -79,8 +94,8 @@ void DoctorManagement::do_btnAdd()
 
 void DoctorManagement::do_btnDelete()
 {
-    QModelIndex curIndex = selModel->currentIndex();
-    QString id = queryModel->record(curIndex.row()).value("编号").toString();
+    QModelIndex currIndex = selModel->currentIndex();
+    QString id = filterModel->data(currIndex.siblingAtColumn(0)).toString();
     QSqlQuery query;
     query.exec("DELETE FROM doctor WHERE D_ID = " + id);
     refresh();
@@ -88,5 +103,11 @@ void DoctorManagement::do_btnDelete()
 
 void DoctorManagement::do_btnModify()
 {
-    emit modify(queryModel, selModel->currentIndex().row());
+    emit modify(filterModel, selModel->currentIndex());
+}
+
+void DoctorManagement::do_tableView_sort(int column)
+{
+    flag[column] = !flag[column];
+    ui->tableView->sortByColumn(column, flag[column] ? Qt::AscendingOrder : Qt::DescendingOrder);
 }

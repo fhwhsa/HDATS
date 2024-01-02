@@ -1,17 +1,27 @@
 #include "doctoredit.h"
 #include "ui_doctoredit.h"
 
-DoctorEdit::DoctorEdit(QSqlQueryModel *qm, int f, QWidget *parent) :
+DoctorEdit::DoctorEdit(QString op, QWidget *parent) :
     QWidget(parent),
-    queryModel(qm),
-    modifyIndex(f),
+    operation(op),
     ui(new Ui::DoctorEdit)
 {
     ui->setupUi(this);
 
     iniSignalSlots();
-    if (f != -1)
-        initData();
+}
+
+DoctorEdit::DoctorEdit(QSortFilterProxyModel *sfpm, QModelIndex i, QString op, QWidget *parent) :
+    QWidget(parent),
+    sfpm(sfpm),
+    index(i),
+    operation(op),
+    ui(new Ui::DoctorEdit)
+{
+    ui->setupUi(this);
+
+    initData();
+    iniSignalSlots();
 }
 
 DoctorEdit::~DoctorEdit()
@@ -30,13 +40,13 @@ QString DoctorEdit::initPassWord = "123456";
 
 void DoctorEdit::initData()
 {
-    QSqlRecord rec = queryModel->record(modifyIndex);
-    ui->name->setText(rec.value("姓名").toString());
-    ui->gender->setCurrentIndex((rec.value("性别").toString() == "男") ? 0 : 1);
-    ui->birthDate->setDate(rec.value("出生日期").toDate());
-    ui->phoneNum->setText(rec.value("电话号码").toString());
-    ui->pLevel->setCurrentIndex(rec.value("权限等级").toInt() - 1);
-    ui->PCNO->setText(rec.value("执业证书号").toString());
+    ui->name->setText(sfpm->data(index.siblingAtColumn(1)).toString());
+    ui->gender->setCurrentIndex((sfpm->data(index.siblingAtColumn(2)).toString() == "男") ? 0 : 1);
+    ui->birthDate->setDate(sfpm->data(index.siblingAtColumn(5)).toDate());
+    ui->phoneNum->setText(sfpm->data(index.siblingAtColumn(4)).toString());
+    ui->pLevel->setCurrentIndex(sfpm->data(index.siblingAtColumn(7)).toInt() - 1);
+    ui->PCNO->setText(sfpm->data(index.siblingAtColumn(6)).toString());
+
 }
 
 void DoctorEdit::iniSignalSlots()
@@ -61,7 +71,7 @@ void DoctorEdit::do_btnSave()
     }
 
     QSqlQuery query;
-    if (modifyIndex == -1) // 插入
+    if (operation == "添加") // 插入
         query.prepare(insertPrepare);
     else
         query.prepare(updatePrepare);
@@ -72,7 +82,7 @@ void DoctorEdit::do_btnSave()
     query.bindValue(3, pLevel);
     query.bindValue(4, pcno);
     query.bindValue(5, birthDate);
-    query.bindValue(6, (modifyIndex == -1) ? initPassWord : queryModel->record(modifyIndex).value("编号"));
+    query.bindValue(6, (operation == "添加") ? initPassWord : sfpm->data(index.siblingAtColumn(0)).toString());
 
     if (!query.exec())
         QMessageBox::critical(this, "错误", query.lastError().text());

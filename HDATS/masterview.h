@@ -12,6 +12,8 @@
 #include "doctoredit.h"
 
 #include <QWidget>
+#include <QSortFilterProxyModel>
+#include <QModelIndex>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MasterView; }
@@ -56,7 +58,8 @@ private slots:
 
     void goToDoctorMView();
     void goToDoctorEditViewForAdd();
-    void goToDoctorEditViewForModify(QSqlQueryModel *qm, int index);
+//    void goToDoctorEditViewForModify(QSqlQueryModel *qm, int index);
+    void goToDoctorEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index);
 
     void goToPatientMView();
     void goToPatientEditViewForAdd();

@@ -49,6 +49,11 @@ void PatientManagement::initView()
     ui->tableView->setModel(queryModel);
     ui->tableView->setSelectionModel(selModel);
 
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);
 }

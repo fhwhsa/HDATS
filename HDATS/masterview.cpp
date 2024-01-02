@@ -115,7 +115,7 @@ void MasterView::goToDoctorMView()
 
 void MasterView::goToDoctorEditViewForAdd()
 {
-    doctorEdit = new DoctorEdit(NULL);
+    doctorEdit = new DoctorEdit("添加");
     doctorEdit->setWindowTitle("添加医生信息");
     pushToStack(doctorEdit);
 
@@ -123,15 +123,25 @@ void MasterView::goToDoctorEditViewForAdd()
     connect(doctorEdit, &DoctorEdit::clickBtnCancel, this, &MasterView::back);
 }
 
-void MasterView::goToDoctorEditViewForModify(QSqlQueryModel *qm, int index)
+void MasterView::goToDoctorEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index)
 {
-    doctorEdit = new DoctorEdit(qm, index);
+    doctorEdit = new DoctorEdit(sfpm, index, "修改");
 //    doctorEdit->setWindowTitle("编辑医生信息"); 默认
     pushToStack(doctorEdit);
 
     connect(doctorEdit, &DoctorEdit::clickBtnSave, this, &MasterView::back);
     connect(doctorEdit, &DoctorEdit::clickBtnCancel, this, &MasterView::back);
 }
+
+//void MasterView::goToDoctorEditViewForModify(QSqlQueryModel *qm, int index)
+//{
+//    doctorEdit = new DoctorEdit(qm, index);
+////    doctorEdit->setWindowTitle("编辑医生信息"); 默认
+//    pushToStack(doctorEdit);
+
+//    connect(doctorEdit, &DoctorEdit::clickBtnSave, this, &MasterView::back);
+//    connect(doctorEdit, &DoctorEdit::clickBtnCancel, this, &MasterView::back);
+//}
 
 void MasterView::goToPatientMView()
 {
