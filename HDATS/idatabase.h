@@ -23,9 +23,11 @@ public:
     // 查找是否存在对应用户（医生）
     QPair<bool, int> findUser(QString name, QString passWord);
 
-    // 获取患者列表模型
-    QSqlTableModel* getPatientTableModel(QWidget *parent);
+    // 患者表
     QSqlQueryModel* getPatientQueryModel(QWidget *parent);
+
+    // 医生表
+    QSqlQueryModel* getDoctorQueryModel(QWidget *parent);
 
 private:
     // 禁止外部构造

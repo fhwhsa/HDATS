@@ -29,11 +29,8 @@ public:
 private:
     Ui::PatientManagement *ui;
 
-    QString lastOper; // 记录上一次操作，用于控制按钮的使能状态
-
     static QString baseSql;
 
-    QSqlTableModel *tableModel;
     QSqlQueryModel *queryModel;
     QItemSelectionModel *selModel;
 
@@ -50,8 +47,8 @@ private slots:
 
 // 这两个信号是由masterview接收，然后转向patientedit处理
 signals:
-    void add(QSqlQueryModel *tm);
-    void modify(QSqlQueryModel *tm, int index);
+    void add();
+    void modify(QSqlQueryModel *qm, int index);
 };
 
 #endif // PATIENTMANAGEMENT_H

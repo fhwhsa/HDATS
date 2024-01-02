@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>编辑医生信息</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -58,7 +58,18 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QComboBox" name="pLevel"/>
+        <widget class="QComboBox" name="pLevel">
+         <item>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </item>
+        </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_2">
@@ -84,20 +95,10 @@
          </item>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QSpinBox" name="age">
-         <property name="minimum">
-          <number>18</number>
-         </property>
-         <property name="maximum">
-          <number>80</number>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>年龄：</string>
+          <string>出生日期：</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -126,6 +127,9 @@
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QDateEdit" name="birthDate"/>
        </item>
       </layout>
      </item>

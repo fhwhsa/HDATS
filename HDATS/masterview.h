@@ -9,6 +9,7 @@
 #include "patientedit.h"
 #include "diagnosticrecords.h"
 #include "departmentmanagement.h"
+#include "doctoredit.h"
 
 #include <QWidget>
 
@@ -32,7 +33,10 @@ private:
     DiagnosticRecords *diagnosticRecords;
     DrugManagement *drugManagement;
     DepartmentManagement *departmentManagement;
+
     DoctorManagement *doctorManagement;
+    DoctorEdit *doctorEdit;
+
     PatientManagement *patientManagement;
     PatientEdit *patientEdit;
 
@@ -41,14 +45,22 @@ private:
 
 private slots:
     void goToLoginView();
+
     void goToWelcomeView(int pLevel);
+
     void goToDiagnosticRecords();
+
     void goToDrugMView();
+
     void goToDepartmentM();
+
     void goToDoctorMView();
+    void goToDoctorEditViewForAdd();
+    void goToDoctorEditViewForModify(QSqlQueryModel *qm, int index);
+
     void goToPatientMView();
-    void goToPatientEditViewForAdd(QSqlQueryModel *tm);
-    void goToPatientEditViewForModify(QSqlQueryModel *tm, int index);
+    void goToPatientEditViewForAdd();
+    void goToPatientEditViewForModify(QSqlQueryModel *qm, int index);
 
     void pageChange(int index);
 

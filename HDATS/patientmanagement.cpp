@@ -76,7 +76,7 @@ void PatientManagement::do_btnFind()
 
 void PatientManagement::do_btnAdd()
 {
-    emit add(tableModel);
+    emit add();
 }
 
 

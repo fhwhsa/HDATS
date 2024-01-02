@@ -44,35 +44,27 @@ QPair<bool, int> IDatabase::findUser(QString name, QString passWord)
     return QPair(true, res.value("PLevel").toInt());
 }
 
-QSqlTableModel* IDatabase::getPatientTableModel(QWidget *parent)
-{
-    QSqlTableModel *tableModel = new QSqlTableModel(parent, database);
-    tableModel->setTable("patient");
-
-    tableModel->setEditStrategy(QSqlTableModel::OnFieldChange); // 字段值变化时立即更新到数据库
-    tableModel->setSort(tableModel->fieldIndex("ID"), Qt::AscendingOrder);
-
-    if (!(tableModel->select())) {
-        QMessageBox::critical(parent, "错误", tableModel->lastError().text());
-        return NULL;
-    }
-
-    tableModel->setHeaderData(tableModel->fieldIndex("P_NAME"), Qt::Horizontal, "姓名");
-    tableModel->setHeaderData(tableModel->fieldIndex("P_MOBILEPHOME"), Qt::Horizontal, "电话号码");
-    tableModel->setHeaderData(tableModel->fieldIndex("P_SEX"), Qt::Horizontal, "性别");
-    tableModel->setHeaderData(tableModel->fieldIndex("P_AGE"), Qt::Horizontal, "年龄");
-    tableModel->setHeaderData(tableModel->fieldIndex("HEIGHT"), Qt::Horizontal, "身高");
-    tableModel->setHeaderData(tableModel->fieldIndex("WEIGHT"), Qt::Horizontal, "体重");
-
-
-    return tableModel;
-}
 
 QSqlQueryModel *IDatabase::getPatientQueryModel(QWidget *parent)
 {
     QSqlQueryModel *queryModel = new QSqlQueryModel(this);
     queryModel->setQuery("SELECT P_ID 编号, P_NAME 姓名, P_SEX 性别, TIMESTAMPDIFF(YEAR, P_BIRTHDATE, CURDATE()) 年龄, "
                          "P_MOBILEPHOME 电话号码, HEIGHT 身高, WEIGHT 体重, P_BIRTHDATE 出生日期 FROM patient");
+
+    if (queryModel->lastError().isValid())
+    {
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        return NULL;
+    }
+
+    return queryModel;
+}
+
+QSqlQueryModel *IDatabase::getDoctorQueryModel(QWidget *parent)
+{
+    QSqlQueryModel *queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery("SELECT D_ID 编号, D_NAME 姓名, D_SEX 性别, TIMESTAMPDIFF(YEAR, D_BIRTHDATE, CURDATE()) 年龄,"
+                         " D_MOBILEPHOME 电话号码, D_BIRTHDATE 出生日期, PCNO 执业证书号, PLevel 权限等级 FROM doctor");
 
     if (queryModel->lastError().isValid())
     {

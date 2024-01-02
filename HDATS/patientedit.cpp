@@ -50,6 +50,12 @@ void PatientEdit::do_btnSave()
     double WEIGHT = ui->weight->text().toDouble();
     QDate P_BIRTHDATE = ui->birthDate->date();
 
+    if (P_NAME.length() == 0 || P_MOBILEPHOME.length() == 0)
+    {
+        QMessageBox::critical(this, "错误", "不能有为空的信息！");
+        return;
+    }
+
 
     QSqlQuery query;
     if (modifyIndex == -1)

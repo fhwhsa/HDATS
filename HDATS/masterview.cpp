@@ -50,6 +50,8 @@ void MasterView::back()
 
     if (currWin == "患者管理")
         patientManagement->refresh();
+    else if (currWin == "医生管理")
+        doctorManagement->refresh();
 
     delete w;
 }
@@ -106,6 +108,29 @@ void MasterView::goToDoctorMView()
 {
     doctorManagement = new DoctorManagement();
     pushToStack(doctorManagement);
+
+    connect(doctorManagement, &DoctorManagement::add, this, &MasterView::goToDoctorEditViewForAdd);
+    connect(doctorManagement, &DoctorManagement::modify, this, &MasterView::goToDoctorEditViewForModify);
+}
+
+void MasterView::goToDoctorEditViewForAdd()
+{
+    doctorEdit = new DoctorEdit(NULL);
+    doctorEdit->setWindowTitle("添加医生信息");
+    pushToStack(doctorEdit);
+
+    connect(doctorEdit, &DoctorEdit::clickBtnSave, this, &MasterView::back);
+    connect(doctorEdit, &DoctorEdit::clickBtnCancel, this, &MasterView::back);
+}
+
+void MasterView::goToDoctorEditViewForModify(QSqlQueryModel *qm, int index)
+{
+    doctorEdit = new DoctorEdit(qm, index);
+//    doctorEdit->setWindowTitle("编辑医生信息"); 默认
+    pushToStack(doctorEdit);
+
+    connect(doctorEdit, &DoctorEdit::clickBtnSave, this, &MasterView::back);
+    connect(doctorEdit, &DoctorEdit::clickBtnCancel, this, &MasterView::back);
 }
 
 void MasterView::goToPatientMView()
@@ -117,9 +142,9 @@ void MasterView::goToPatientMView()
     connect(patientManagement, &PatientManagement::modify, this, &MasterView::goToPatientEditViewForModify); // 修改
 }
 
-void MasterView::goToPatientEditViewForAdd(QSqlQueryModel *tm)
+void MasterView::goToPatientEditViewForAdd()
 {
-    patientEdit = new PatientEdit(tm);
+    patientEdit = new PatientEdit(NULL);
     patientEdit->setWindowTitle("添加患者信息");
     pushToStack(patientEdit);
 
@@ -127,9 +152,9 @@ void MasterView::goToPatientEditViewForAdd(QSqlQueryModel *tm)
     connect(patientEdit, &PatientEdit::clickBtnCancel, this, &MasterView::back);
 }
 
-void MasterView::goToPatientEditViewForModify(QSqlQueryModel *tm, int index)
+void MasterView::goToPatientEditViewForModify(QSqlQueryModel *qm, int index)
 {
-    patientEdit = new PatientEdit(tm, index);
+    patientEdit = new PatientEdit(qm, index);
 //    patientEdit->setWindowTitle("编辑患者信息"); 默认
     pushToStack(patientEdit);
 

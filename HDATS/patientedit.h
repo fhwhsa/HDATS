@@ -19,7 +19,7 @@ class PatientEdit : public QWidget
     Q_OBJECT
 
 public:
-    explicit PatientEdit(QSqlQueryModel *tm, int f = -1, QWidget *parent = nullptr);
+    explicit PatientEdit(QSqlQueryModel *qm, int f = -1, QWidget *parent = nullptr);
     ~PatientEdit();
 
 private:
