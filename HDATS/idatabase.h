@@ -33,6 +33,12 @@ public:
     QSqlQueryModel* getDrugQueryModel(QWidget *parent);
     bool findDrug(QString name); // 查找药品是否存在
 
+    // 诊断记录
+    QSqlQueryModel* getDiagnosticRecord(QWidget *parent);
+
+    // 药品开具记录
+    QSqlQueryModel* getMedicationRecords(QWidget *parent);
+
 private:
     // 禁止外部构造
     IDatabase();

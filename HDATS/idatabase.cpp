@@ -78,7 +78,8 @@ QSqlQueryModel *IDatabase::getDoctorQueryModel(QWidget *parent)
 QSqlQueryModel *IDatabase::getDrugQueryModel(QWidget *parent)
 {
     QSqlQueryModel *queryModel = new QSqlQueryModel(this);
-    queryModel->setQuery("SELECT DRUG_ID 编号, DRUG_NAME 药品名字, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 FROM drug");
+    queryModel->setQuery("SELECT DRUG_ID 编号, DRUG_NAME 药品名字, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 "
+                         "FROM drug");
 
     if (queryModel->lastError().isValid())
     {
@@ -96,4 +97,33 @@ bool IDatabase::findDrug(QString name)
     return res.first();
 }
 
+QSqlQueryModel *IDatabase::getDiagnosticRecord(QWidget *parent)
+{
+    QSqlQueryModel *queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery("SELECT DR_ID 编号, D_NAME 医生姓名, P_NAME 患者姓名, CONTEXT 诊断内容,DATEOFVISIT 创建时间 "
+                         "FROM diagnostic_records");
+
+    if (queryModel->lastError().isValid())
+    {
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        return NULL;
+    }
+
+    return queryModel;
+}
+
+QSqlQueryModel *IDatabase::getMedicationRecords(QWidget *parent)
+{
+    QSqlQueryModel *queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery("SELECT MRDR_ID, MRDRUG_ID, d.DRUG_NAME 药品名字, dose 剂量 "
+                         "FROM medication_record mr INNER JOIN drug d ON mr.MRDRUG_ID = d.DRUG_ID");
+
+    if (queryModel->lastError().isValid())
+    {
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        return NULL;
+    }
+
+    return queryModel;
+}
 

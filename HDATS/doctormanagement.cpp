@@ -45,12 +45,14 @@ void DoctorManagement::init()
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->tableView->horizontalHeader()->setSortIndicatorShown(true);
 
+    ui->tableView->setColumnHidden(0, true); // 隐藏编号
+
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);
-
 
     flag.resize(8, true);
 }
@@ -62,7 +64,6 @@ void DoctorManagement::iniSignalSlots()
     connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(do_btnDelete()));
     connect(ui->btnModify, SIGNAL(clicked()), this, SLOT(do_btnModify()));
     connect(selModel, &QItemSelectionModel::currentRowChanged, this, &DoctorManagement::do_currentRowChanged);
-
     connect(ui->tableView->horizontalHeader(), &QHeaderView::sectionClicked, this, &DoctorManagement::do_tableView_sort); // 排序点击
 }
 
@@ -83,6 +84,9 @@ void DoctorManagement::do_btnFind()
         queryModel->setQuery(baseSql + " WHERE " + t);
     }
 
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(this, "错误", queryModel->lastError().text());
+
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);
 }
@@ -98,6 +102,10 @@ void DoctorManagement::do_btnDelete()
     QString id = filterModel->data(currIndex.siblingAtColumn(0)).toString();
     QSqlQuery query;
     query.exec("DELETE FROM doctor WHERE D_ID = " + id);
+
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(this, "错误", queryModel->lastError().text());
+
     refresh();
 }
 

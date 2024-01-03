@@ -58,8 +58,11 @@ void PatientManagement::initView()
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->tableView->setSortingEnabled(true);
+
+    ui->tableView->setColumnHidden(0, true); // 隐藏编号
 
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);
@@ -84,6 +87,9 @@ void PatientManagement::do_btnFind()
         queryModel->setQuery(baseSql + " WHERE " + t);
     }
 
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(this, "错误", queryModel->lastError().text());
+
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);
 }
@@ -100,6 +106,10 @@ void PatientManagement::do_btnDelete()
     QString id = filterModel->data(currIndex.siblingAtColumn(0)).toString();
     QSqlQuery query;
     query.exec("DELETE FROM patient WHERE P_ID = " + id);
+
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(this, "错误", queryModel->lastError().text());
+
     refresh();
 }
 

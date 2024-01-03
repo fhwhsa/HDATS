@@ -12,7 +12,7 @@ TARGET = hdats
 
 SOURCES += \
     departmentmanagement.cpp \
-    diagnosticrecords.cpp \
+    diagnosticrecord.cpp \
     doctoredit.cpp \
     doctormanagement.cpp \
     drugedit.cpp \
@@ -27,7 +27,7 @@ SOURCES += \
 
 HEADERS += \
     departmentmanagement.h \
-    diagnosticrecords.h \
+    diagnosticrecord.h \
     doctoredit.h \
     doctormanagement.h \
     drugedit.h \
@@ -41,7 +41,7 @@ HEADERS += \
 
 FORMS += \
     departmentmanagement.ui \
-    diagnosticrecords.ui \
+    diagnosticrecord.ui \
     doctoredit.ui \
     doctormanagement.ui \
     drugedit.ui \

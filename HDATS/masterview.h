@@ -7,7 +7,7 @@
 #include "doctormanagement.h"
 #include "patientmanagement.h"
 #include "patientedit.h"
-#include "diagnosticrecords.h"
+#include "diagnosticrecord.h"
 #include "departmentmanagement.h"
 #include "doctoredit.h"
 #include "drugedit.h"
@@ -33,7 +33,7 @@ private:
 
     Login *login;
     Welcome *welcome;
-    DiagnosticRecords *diagnosticRecords;
+    DiagnosticRecord *diagnosticRecord;
     DepartmentManagement *departmentManagement;
 
     DoctorManagement *doctorManagement;

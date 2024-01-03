@@ -89,8 +89,8 @@ void MasterView::goToWelcomeView(int pLevel)
 
 void MasterView::goToDiagnosticRecords()
 {
-    diagnosticRecords = new DiagnosticRecords;
-    pushToStack(diagnosticRecords);
+    diagnosticRecord = new DiagnosticRecord;
+    pushToStack(diagnosticRecord);
 }
 
 void MasterView::goToDepartmentM()
