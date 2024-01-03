@@ -1,32 +1,29 @@
-#ifndef DOCTOREDIT_H
-#define DOCTOREDIT_H
+#ifndef DRUGEDIT_H
+#define DRUGEDIT_H
 
 #include <QWidget>
-#include <QSqlQueryModel>
-#include <QSqlQuery>
-#include <QMessageBox>
 #include <QString>
-#include <QDate>
-#include <QSqlRecord>
-#include <QSqlError>
 #include <QSortFilterProxyModel>
 #include <QModelIndex>
+#include <QSqlQuery>
+#include <QMessageBox>
+#include <QDate>
 
 namespace Ui {
-class DoctorEdit;
+class DrugEdit;
 }
 
-class DoctorEdit : public QWidget
+class DrugEdit : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit DoctorEdit(QString op, QWidget *parent = nullptr);
-    explicit DoctorEdit(QSortFilterProxyModel *sfpm, QModelIndex i, QString op, QWidget *parent = nullptr);
-    ~DoctorEdit();
+    explicit DrugEdit(QString op, QWidget *parent = nullptr);
+    explicit DrugEdit(QSortFilterProxyModel *sfpm, QModelIndex i, QString op, QWidget *parent = nullptr);
+    ~DrugEdit();
 
 private:
-    Ui::DoctorEdit *ui;
+    Ui::DrugEdit *ui;
     QSortFilterProxyModel *sfpm;
 
     static QString insertPrepare;
@@ -48,4 +45,4 @@ signals:
     void clickBtnSave();
 };
 
-#endif // DOCTOREDIT_H
+#endif // DRUGEDIT_H

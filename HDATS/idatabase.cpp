@@ -74,3 +74,26 @@ QSqlQueryModel *IDatabase::getDoctorQueryModel(QWidget *parent)
 
     return queryModel;
 }
+
+QSqlQueryModel *IDatabase::getDrugQueryModel(QWidget *parent)
+{
+    QSqlQueryModel *queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery("SELECT DRUG_ID 编号, DRUG_NAME 药品名字, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 FROM drug");
+
+    if (queryModel->lastError().isValid())
+    {
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        return NULL;
+    }
+
+    return queryModel;
+}
+
+bool IDatabase::findDrug(QString name)
+{
+    QString sql = "SELECT * FROM drug WHERE DRUG_NAME = '" + name + "';";
+    QSqlQuery res = database.exec(sql);
+    return res.first();
+}
+
+

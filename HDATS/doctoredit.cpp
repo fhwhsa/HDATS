@@ -66,7 +66,7 @@ void DoctorEdit::do_btnSave()
 
     if (name.length() == 0 || mobilePHome.length() == 0 || pcno.length() == 0)
     {
-        QMessageBox::critical(this, "错误", "不能有为空的信息！");
+        QMessageBox::critical(this, "错误", "信息填写不完整");
         return;
     }
 

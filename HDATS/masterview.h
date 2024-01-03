@@ -10,6 +10,7 @@
 #include "diagnosticrecords.h"
 #include "departmentmanagement.h"
 #include "doctoredit.h"
+#include "drugedit.h"
 
 #include <QWidget>
 #include <QSortFilterProxyModel>
@@ -33,7 +34,6 @@ private:
     Login *login;
     Welcome *welcome;
     DiagnosticRecords *diagnosticRecords;
-    DrugManagement *drugManagement;
     DepartmentManagement *departmentManagement;
 
     DoctorManagement *doctorManagement;
@@ -41,6 +41,9 @@ private:
 
     PatientManagement *patientManagement;
     PatientEdit *patientEdit;
+
+    DrugManagement *drugManagement;
+    DrugEdit *drugEdit;
 
     void iniSignalSlots();
     void pushToStack(QWidget *w);
@@ -52,19 +55,19 @@ private slots:
 
     void goToDiagnosticRecords();
 
-    void goToDrugMView();
-
     void goToDepartmentM();
 
     void goToDoctorMView();
     void goToDoctorEditViewForAdd();
-//    void goToDoctorEditViewForModify(QSqlQueryModel *qm, int index);
     void goToDoctorEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index);
 
     void goToPatientMView();
     void goToPatientEditViewForAdd();
-//    void goToPatientEditViewForModify(QSqlQueryModel *qm, int index);
     void goToPatientEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index);
+
+    void goToDrugMView();
+    void goToDrugEditViewForAdd();
+    void goToDrugEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index);
 
     void pageChange(int index);
 

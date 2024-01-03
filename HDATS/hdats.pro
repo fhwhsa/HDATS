@@ -15,6 +15,7 @@ SOURCES += \
     diagnosticrecords.cpp \
     doctoredit.cpp \
     doctormanagement.cpp \
+    drugedit.cpp \
     drugmanagement.cpp \
     idatabase.cpp \
     login.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     diagnosticrecords.h \
     doctoredit.h \
     doctormanagement.h \
+    drugedit.h \
     drugmanagement.h \
     idatabase.h \
     login.h \
@@ -42,6 +44,7 @@ FORMS += \
     diagnosticrecords.ui \
     doctoredit.ui \
     doctormanagement.ui \
+    drugedit.ui \
     drugmanagement.ui \
     login.ui \
     masterview.ui \

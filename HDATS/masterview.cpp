@@ -52,6 +52,8 @@ void MasterView::back()
         patientManagement->refresh();
     else if (currWin == "医生管理")
         doctorManagement->refresh();
+    else if (currWin == "药品管理")
+        drugManagement->refresh();
 
     delete w;
 }
@@ -89,12 +91,6 @@ void MasterView::goToDiagnosticRecords()
 {
     diagnosticRecords = new DiagnosticRecords;
     pushToStack(diagnosticRecords);
-}
-
-void MasterView::goToDrugMView()
-{
-    drugManagement = new DrugManagement();
-    pushToStack(drugManagement);
 }
 
 void MasterView::goToDepartmentM()
@@ -162,6 +158,34 @@ void MasterView::goToPatientEditViewForModify(QSortFilterProxyModel *sfpm, QMode
     connect(patientEdit, &PatientEdit::clickBtnCancel, this, &MasterView::back);
 }
 
+void MasterView::goToDrugMView()
+{
+    drugManagement = new DrugManagement();
+    pushToStack(drugManagement);
+
+    connect(drugManagement, &DrugManagement::add, this, &MasterView::goToDrugEditViewForAdd);
+    connect(drugManagement, &DrugManagement::modify, this, &MasterView::goToDrugEditViewForModify);
+}
+
+void MasterView::goToDrugEditViewForAdd()
+{
+    drugEdit = new DrugEdit("添加");
+    drugEdit->setWindowTitle("添加药品信息");
+    pushToStack(drugEdit);
+
+    connect(drugEdit, &DrugEdit::clickBtnSave, this, &MasterView::back); // 返回上一页
+    connect(drugEdit, &DrugEdit::clickBtnCancel, this, &MasterView::back);
+}
+
+void MasterView::goToDrugEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index)
+{
+    drugEdit = new DrugEdit(sfpm, index, "修改");
+//    drugEdit->setWindowTitle("编辑患者信息"); // 默认
+    pushToStack(drugEdit);
+
+    connect(drugEdit, &DrugEdit::clickBtnSave, this, &MasterView::back); // 返回上一页
+    connect(drugEdit, &DrugEdit::clickBtnCancel, this, &MasterView::back);
+}
 
 void MasterView::pageChange(int index)
 {

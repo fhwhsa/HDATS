@@ -20,13 +20,13 @@ DoctorManagement::~DoctorManagement()
     delete ui;
 }
 
+QString DoctorManagement::baseSql = "SELECT D_ID 编号, D_NAME 姓名, D_SEX 性别, TIMESTAMPDIFF(YEAR, D_BIRTHDATE, CURDATE()) 年龄, "
+                                    "D_MOBILEPHOME 电话号码, D_BIRTHDATE 出生日期, PCNO 执业证书号, PLevel 权限等级 FROM doctor";
+
 void DoctorManagement::refresh()
 {
     do_btnFind();
 }
-
-QString DoctorManagement::baseSql = "SELECT D_ID 编号, D_NAME 姓名, D_SEX 性别, TIMESTAMPDIFF(YEAR, D_BIRTHDATE, CURDATE()) 年龄, "
-                                    "D_MOBILEPHOME 电话号码, D_BIRTHDATE 出生日期, PCNO 执业证书号, PLevel 权限等级 FROM doctor";
 
 void DoctorManagement::init()
 {
