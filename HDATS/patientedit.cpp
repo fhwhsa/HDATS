@@ -3,16 +3,25 @@
 
 #include <QDebug>
 
-PatientEdit::PatientEdit(QSqlQueryModel *qm, int f, QWidget *parent) :
+PatientEdit::PatientEdit(QString op, QWidget *parent) :
     QWidget(parent),
-    queryModel(qm),
-    modifyIndex(f),
+    operation(op),
     ui(new Ui::PatientEdit)
 {
     ui->setupUi(this);
     iniSignalSlots();
-    if (f != -1)
-        initData();
+}
+
+PatientEdit::PatientEdit(QSortFilterProxyModel *sfpm, QModelIndex i, QString op, QWidget *parent) :
+    QWidget(parent),
+    sfpm(sfpm),
+    index(i),
+    operation(op),
+    ui(new Ui::PatientEdit)
+{
+    ui->setupUi(this);
+    initData();
+    iniSignalSlots();
 }
 
 PatientEdit::~PatientEdit()
@@ -26,13 +35,12 @@ QString PatientEdit::updatePrepare = "UPDATE patient SET P_NAME = ?, P_MOBILEPHO
 
 void PatientEdit::initData()
 {
-    QSqlRecord rec = queryModel->record(modifyIndex);
-    ui->name->setText(rec.value("姓名").toString());
-    ui->gender->setCurrentIndex((rec.value("性别").toString() == "男") ? 0 : 1);
-    ui->birthDate->setDate(rec.value("出生日期").toDate());
-    ui->height->setValue(rec.value("身高").toDouble());
-    ui->weight->setValue(rec.value("体重").toDouble());
-    ui->phoneNum->setText(rec.value("电话号码").toString());
+    ui->name->setText(sfpm->data(index.siblingAtColumn(1)).toString());
+    ui->gender->setCurrentIndex((sfpm->data(index.siblingAtColumn(2)).toString() == "男") ? 0 : 1);
+    ui->birthDate->setDate(sfpm->data(index.siblingAtColumn(7)).toDate());
+    ui->height->setValue(sfpm->data(index.siblingAtColumn(5)).toDouble());
+    ui->weight->setValue(sfpm->data(index.siblingAtColumn(6)).toDouble());
+    ui->phoneNum->setText(sfpm->data(index.siblingAtColumn(4)).toString());
 }
 
 void PatientEdit::iniSignalSlots()
@@ -58,7 +66,7 @@ void PatientEdit::do_btnSave()
 
 
     QSqlQuery query;
-    if (modifyIndex == -1)
+    if (operation == "添加")
         query.prepare(insertPrepare);
     else // 修改操作
         query.prepare(updatePrepare);
@@ -69,11 +77,9 @@ void PatientEdit::do_btnSave()
     query.bindValue(3, HEIGHT);
     query.bindValue(4, WEIGHT);
     query.bindValue(5, P_BIRTHDATE);
-    if (modifyIndex != -1)
-    {
-        QSqlRecord rec = queryModel->record(modifyIndex);
-        query.bindValue(6, rec.value("编号").toString());
-    }
+
+    if (operation == "修改")
+        query.bindValue(6, sfpm->data(index.siblingAtColumn(0)).toInt());
 
     if (!query.exec())
         QMessageBox::critical(this, "错误", query.lastError().text());

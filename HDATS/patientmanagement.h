@@ -11,6 +11,8 @@
 #include <QString>
 #include <QSqlQueryModel>
 #include <QSqlQuery>
+#include <QSortFilterProxyModel>
+#include <QVector>
 
 namespace Ui {
 class PatientManagement;
@@ -33,6 +35,9 @@ private:
 
     QSqlQueryModel *queryModel;
     QItemSelectionModel *selModel;
+    QSortFilterProxyModel *filterModel;
+
+    QVector<bool> flag;
 
     void iniSignalSlots();
     void initView();
@@ -43,12 +48,13 @@ private slots:
     void do_btnAdd();
     void do_btnDelete();
     void do_btnModify();
+    void do_tableView_sort(int column);
 
 
 // 这两个信号是由masterview接收，然后转向patientedit处理
 signals:
     void add();
-    void modify(QSqlQueryModel *qm, int index);
+    void modify(QSortFilterProxyModel *sfpm, QModelIndex index);
 };
 
 #endif // PATIENTMANAGEMENT_H

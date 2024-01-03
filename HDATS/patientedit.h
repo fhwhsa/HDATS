@@ -9,6 +9,8 @@
 #include <QSqlError>
 #include <QString>
 #include <QMessageBox>
+#include <QModelIndex>
+#include <QSortFilterProxyModel>
 
 namespace Ui {
 class PatientEdit;
@@ -19,17 +21,20 @@ class PatientEdit : public QWidget
     Q_OBJECT
 
 public:
-    explicit PatientEdit(QSqlQueryModel *qm, int f = -1, QWidget *parent = nullptr);
+    explicit PatientEdit(QString op, QWidget *parent = nullptr);
+    explicit PatientEdit(QSortFilterProxyModel *sfpm, QModelIndex i, QString op, QWidget *parent = nullptr);
     ~PatientEdit();
 
 private:
     Ui::PatientEdit *ui;
-    QSqlQueryModel *queryModel;
+    QSortFilterProxyModel *sfpm;
 
     static QString insertPrepare;
     static QString updatePrepare;
 
-    int modifyIndex; // 标识该窗口是用于修改数据还是添加（-1为添加，其余为修改，并表示修改的行）
+    QString operation; // 记录当前页面是用于添加还是修改
+
+    QModelIndex index;
 
     void initData();
     void iniSignalSlots();

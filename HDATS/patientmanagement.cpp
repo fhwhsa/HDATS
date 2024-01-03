@@ -36,6 +36,8 @@ void PatientManagement::iniSignalSlots()
     connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(do_btnDelete()));
     connect(ui->btnModify, SIGNAL(clicked()), this, SLOT(do_btnModify()));
     connect(selModel, &QItemSelectionModel::currentRowChanged, this, &PatientManagement::do_currentRowChanged);
+
+    connect(ui->tableView->horizontalHeader(), &QHeaderView::sectionClicked, this, &PatientManagement::do_tableView_sort); // 排序点击
 }
 
 // 页面显示
@@ -44,9 +46,12 @@ void PatientManagement::initView()
     IDatabase& instance = IDatabase::GetInstance();
 
     queryModel = instance.getPatientQueryModel(this);
-    selModel = new QItemSelectionModel(queryModel, this);
+    filterModel = new QSortFilterProxyModel(this);
 
-    ui->tableView->setModel(queryModel);
+    filterModel->setSourceModel(queryModel);
+    selModel = new QItemSelectionModel(filterModel, this);
+
+    ui->tableView->setModel(filterModel);
     ui->tableView->setSelectionModel(selModel);
 
     ui->tableView->verticalHeader()->hide();
@@ -54,8 +59,12 @@ void PatientManagement::initView()
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    ui->tableView->setSortingEnabled(true);
+
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);
+
+    flag.resize(8, true);
 }
 
 void PatientManagement::do_currentRowChanged(const QModelIndex &current, const QModelIndex &previous)
@@ -87,8 +96,8 @@ void PatientManagement::do_btnAdd()
 
 void PatientManagement::do_btnDelete()
 {
-    QModelIndex curIndex = selModel->currentIndex();
-    QString id = queryModel->record(curIndex.row()).value("编号").toString();
+    QModelIndex currIndex = selModel->currentIndex();
+    QString id = filterModel->data(currIndex.siblingAtColumn(0)).toString();
     QSqlQuery query;
     query.exec("DELETE FROM patient WHERE P_ID = " + id);
     refresh();
@@ -96,5 +105,11 @@ void PatientManagement::do_btnDelete()
 
 void PatientManagement::do_btnModify()
 {
-    emit modify(queryModel, selModel->currentIndex().row());
+    emit modify(filterModel, selModel->currentIndex());
+}
+
+void PatientManagement::do_tableView_sort(int column)
+{
+    flag[column] = !flag[column];
+    ui->tableView->sortByColumn(column, flag[column] ? Qt::AscendingOrder : Qt::DescendingOrder);
 }

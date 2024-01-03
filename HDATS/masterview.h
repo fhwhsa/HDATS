@@ -63,7 +63,8 @@ private slots:
 
     void goToPatientMView();
     void goToPatientEditViewForAdd();
-    void goToPatientEditViewForModify(QSqlQueryModel *qm, int index);
+//    void goToPatientEditViewForModify(QSqlQueryModel *qm, int index);
+    void goToPatientEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index);
 
     void pageChange(int index);
 
