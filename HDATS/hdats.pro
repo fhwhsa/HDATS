@@ -11,7 +11,6 @@ CONFIG += c++17
 TARGET = hdats
 
 SOURCES += \
-    departmentmanagement.cpp \
     diagnosticrecord.cpp \
     doctoredit.cpp \
     doctormanagement.cpp \
@@ -26,7 +25,6 @@ SOURCES += \
     welcome.cpp
 
 HEADERS += \
-    departmentmanagement.h \
     diagnosticrecord.h \
     doctoredit.h \
     doctormanagement.h \
@@ -40,7 +38,6 @@ HEADERS += \
     welcome.h
 
 FORMS += \
-    departmentmanagement.ui \
     diagnosticrecord.ui \
     doctoredit.ui \
     doctormanagement.ui \

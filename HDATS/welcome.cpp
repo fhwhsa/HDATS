@@ -3,12 +3,16 @@
 
 #include <QDebug>
 
-Welcome::Welcome(int qLevel, QWidget *parent) :
-    level(qLevel),
+Welcome::Welcome(QVector<QVariant> info, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Welcome)
 {
     ui->setupUi(this);
+
+    currLoginUserID = info[1].toInt();
+    currLoginUserName = info[2].toString();
+    currLoginUserLevel = info[3].toInt();
+
     init();
     iniSignalSlots();
 }
@@ -19,13 +23,27 @@ Welcome::~Welcome()
     delete ui;
 }
 
+int Welcome::getCurrLoginUserID()
+{
+    return currLoginUserID;
+}
+
+QString Welcome::getCurrLoginUserName()
+{
+    return currLoginUserName;
+}
+
+int Welcome::getCurrLoginUserLevel()
+{
+    return currLoginUserLevel;
+}
+
 void Welcome::init()
 {
-    if (level == 1); // 开放所有操作
-    else { // 仅开放患者管理和就诊记录管理
+    if (currLoginUserLevel == 1); // 开放所有操作
+    else { // 不开放药品管理和用户管理
         ui->btnDrugManagement->setEnabled(false);
         ui->btnDepartmentManagement->setEnabled(false);
-        ui->btnDoctorManagement->setEnabled(false);
     }
 }
 
@@ -33,7 +51,7 @@ void Welcome::iniSignalSlots()
 {
     connect(ui->btnDiagnosticRecords, SIGNAL(clicked()), this, SIGNAL(diagRecords()));
     connect(ui->btnDrugManagement, SIGNAL(clicked()), this, SIGNAL(drugM()));
-    connect(ui->btnDepartmentManagement, SIGNAL(clicked()), this, SIGNAL(departmentM()));
+
     connect(ui->btnDoctorManagement, SIGNAL(clicked()), this, SIGNAL(doctorM()));
     connect(ui->btnPatientManagement, SIGNAL(clicked()), this, SIGNAL(patientM()));
 }

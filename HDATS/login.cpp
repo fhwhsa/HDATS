@@ -13,6 +13,7 @@ Login::Login(QWidget *parent) :
 
 Login::~Login()
 {
+    qDebug() << "delete login";
     delete ui;
 }
 
@@ -33,10 +34,10 @@ void Login::check()
 
     IDatabase& instance = IDatabase::GetInstance();
 
-    QPair res = instance.findUser(name, passWord);
+    QVector<QVariant> res = instance.findUser(name, passWord);
 
-    if (res.first)
-        emit loginSuccess(res.second);
+    if (res[0].toBool())
+        emit loginSuccess(res);
     else
         QMessageBox::critical(this, "错误", "用户名或密码错误！");
 }

@@ -54,6 +54,8 @@ void MasterView::back()
         doctorManagement->refresh();
     else if (currWin == "药品管理")
         drugManagement->refresh();
+    else if (currWin == "登陆")
+        ui->btnLoginout->setEnabled(false);
 
     delete w;
 }
@@ -73,31 +75,21 @@ void MasterView::goToLoginView()
     connect(login, &Login::loginSuccess, this, &MasterView::goToWelcomeView);
 }
 
-void MasterView::goToWelcomeView(int pLevel)
+void MasterView::goToWelcomeView(QVector<QVariant> info)
 {
-    welcome = new Welcome(pLevel);
+    welcome = new Welcome(info);
     pushToStack(welcome);
 
     connect(welcome, &Welcome::diagRecords, this, &MasterView::goToDiagnosticRecords);
     connect(welcome, &Welcome::drugM, this, &MasterView::goToDrugMView);
-    connect(welcome, &Welcome::departmentM, this, &MasterView::goToDepartmentM);
     connect(welcome, &Welcome::doctorM, this, &MasterView::goToDoctorMView);
     connect(welcome, &Welcome::patientM, this, &MasterView::goToPatientMView);
-
-
 }
 
 void MasterView::goToDiagnosticRecords()
 {
     diagnosticRecord = new DiagnosticRecord;
     pushToStack(diagnosticRecord);
-}
-
-void MasterView::goToDepartmentM()
-{
-
-    departmentManagement = new DepartmentManagement();
-    pushToStack(departmentManagement);
 }
 
 void MasterView::goToDoctorMView()

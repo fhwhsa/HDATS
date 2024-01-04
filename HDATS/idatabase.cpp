@@ -32,16 +32,24 @@ void IDatabase::iniDatabase()
         qDebug() << "Database connect failed";
 }
 
-QPair<bool, int> IDatabase::findUser(QString name, QString passWord)
+QVector<QVariant> IDatabase::findUser(QString name, QString passWord)
 {
     QString sql = "select * from doctor where D_NAME = '" + name + "' and PASSWORD = '" + passWord + "';";
 //    qDebug() << sql;
-    QSqlQuery res = database.exec(sql);
+    QSqlQuery query = database.exec(sql);
 
-    if (!res.first())
-        return QPair(false, 0);
+    QVector<QVariant> res;
+    if (!query.first())
+        res.push_back(false);
+    else
+    {
+        res.push_back(true);
+        res.push_back(query.value("D_ID").toInt());
+        res.push_back(query.value("D_NAME").toString());
+        res.push_back(query.value("PLevel").toInt());
+    }
 
-    return QPair(true, res.value("PLevel").toInt());
+    return res;
 }
 
 

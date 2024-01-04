@@ -8,7 +8,6 @@
 #include "patientmanagement.h"
 #include "patientedit.h"
 #include "diagnosticrecord.h"
-#include "departmentmanagement.h"
 #include "doctoredit.h"
 #include "drugedit.h"
 
@@ -34,7 +33,6 @@ private:
     Login *login;
     Welcome *welcome;
     DiagnosticRecord *diagnosticRecord;
-    DepartmentManagement *departmentManagement;
 
     DoctorManagement *doctorManagement;
     DoctorEdit *doctorEdit;
@@ -51,11 +49,9 @@ private:
 private slots:
     void goToLoginView();
 
-    void goToWelcomeView(int pLevel);
+    void goToWelcomeView(QVector<QVariant> info);
 
     void goToDiagnosticRecords();
-
-    void goToDepartmentM();
 
     void goToDoctorMView();
     void goToDoctorEditViewForAdd();

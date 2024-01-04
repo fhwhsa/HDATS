@@ -28,7 +28,7 @@ QString DiagnosticRecord::mrBaseSql = "SELECT MRDR_ID, MRDRUG_ID, d.DRUG_NAME �
 
 void DiagnosticRecord::refresh()
 {
-
+    do_btnFind();
 }
 
 void DiagnosticRecord::init()
@@ -82,7 +82,6 @@ void DiagnosticRecord::iniSignalSlots()
     connect(ui->btnAdd, SIGNAL(clicked()), this, SLOT(do_btnAdd()));
     connect(ui->btnDelete, SIGNAL(clicked()), this, SLOT(do_btnDelete()));
     connect(ui->btnModify, SIGNAL(clicked()), this, SLOT(do_btnModify()));
-    connect(ui->btnMedicationRecord, SIGNAL(clicked()), this, SLOT(do_btnMedicationRecord()));
     connect(selModel, &QItemSelectionModel::currentRowChanged, this, &DiagnosticRecord::do_currentRowChanged);
     connect(ui->drTableView->horizontalHeader(), &QHeaderView::sectionClicked, this, &DiagnosticRecord::do_tableView_sort);
 }
@@ -91,7 +90,6 @@ void DiagnosticRecord::do_currentRowChanged(const QModelIndex &current, const QM
 {
     ui->btnDelete->setEnabled(true);
     ui->btnModify->setEnabled(true);
-    ui->btnMedicationRecord->setEnabled(true);
 
     // 显示药品信息
     QString t = " MRDR_ID LIKE '%" + filterModel->data(selModel->currentIndex().siblingAtColumn(0)).toString() + "%'";
@@ -103,7 +101,25 @@ void DiagnosticRecord::do_currentRowChanged(const QModelIndex &current, const QM
 
 void DiagnosticRecord::do_btnFind()
 {
+    QString str = ui->lineEdit->text();
+    QString type = ui->findType->currentText();
 
+    if (str.length() == 0)
+        drQueryModel->setQuery(drBaseSql);
+    else
+    {
+        QString t = (type == "医生" ? tr(" D_NAME ") : tr(" P_NAME ")) + " LIKE '%" + str + "%'";
+        drQueryModel->setQuery(drBaseSql + " WHERE " + t);
+    }
+
+    mrQueryModel->setQuery(mrBaseSql + " WHERE MRDR_ID = 0");
+
+    if (drQueryModel->lastError().isValid() || mrQueryModel->lastError().isValid())
+        QMessageBox::critical(this, "错误", "就诊记录表错误：" + drQueryModel->lastError().text() +
+                                            "\n开具药品表错误：" + mrQueryModel->lastError().text());
+
+    ui->btnDelete->setEnabled(false);
+    ui->btnModify->setEnabled(false);
 }
 
 void DiagnosticRecord::do_btnAdd()
@@ -113,15 +129,18 @@ void DiagnosticRecord::do_btnAdd()
 
 void DiagnosticRecord::do_btnDelete()
 {
+    QModelIndex currIndex = selModel->currentIndex();
+    QString id = filterModel->data(currIndex.siblingAtColumn(0)).toString();
+    QSqlQuery query;
+    query.exec("DELETE FROM diagnostic_records WHERE DR_ID = " + id);
 
+    if (query.lastError().isValid())
+        QMessageBox::critical(this, "错误", query.lastError().text());
+
+    refresh();
 }
 
 void DiagnosticRecord::do_btnModify()
-{
-
-}
-
-void DiagnosticRecord::do_btnMedicationRecord()
 {
 
 }

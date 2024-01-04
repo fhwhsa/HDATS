@@ -12,6 +12,8 @@
 #include <QPair>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QVector>
+#include <QVariant>
 
 class IDatabase : public QObject
 {
@@ -21,7 +23,7 @@ public:
     static IDatabase& GetInstance();
 
     // 查找是否存在对应用户（医生）
-    QPair<bool, int> findUser(QString name, QString passWord);
+    QVector<QVariant> findUser(QString name, QString passWord);
 
     // 患者
     QSqlQueryModel* getPatientQueryModel(QWidget *parent);

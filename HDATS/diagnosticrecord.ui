@@ -84,13 +84,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="btnMedicationRecord">
-         <property name="text">
-          <string>开药记录</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
      <item>

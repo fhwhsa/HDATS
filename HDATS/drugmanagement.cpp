@@ -105,8 +105,8 @@ void DrugManagement::do_btnDelete()
     QSqlQuery query;
     query.exec("DELETE FROM drug WHERE DRUG_ID = " + id);
 
-    if (queryModel->lastError().isValid())
-        QMessageBox::critical(this, "错误", queryModel->lastError().text());
+    if (query.lastError().isValid())
+        QMessageBox::critical(this, "错误", query.lastError().text());
 
     refresh();
 }

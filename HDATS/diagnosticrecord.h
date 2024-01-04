@@ -48,7 +48,6 @@ private slots:
     void do_btnAdd();
     void do_btnDelete();
     void do_btnModify();
-    void do_btnMedicationRecord();
     void do_tableView_sort(int column);
 
 // 这两个信号是由masterview接收

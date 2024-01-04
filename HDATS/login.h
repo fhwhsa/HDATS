@@ -5,7 +5,8 @@
 #include <QString>
 #include <QMessageBox>
 #include <QSqlDatabase>
-#include <QPair>
+#include <QVector>
+#include <QVariant>
 
 namespace Ui {
 class Login;
@@ -27,7 +28,7 @@ private slots:
     void check();
 
 signals:
-    void loginSuccess(int pLevel);
+    void loginSuccess(QVector<QVariant> info);
     void loginFailed();
 
 };
