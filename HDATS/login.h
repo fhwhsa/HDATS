@@ -8,6 +8,8 @@
 #include <QVector>
 #include <QVariant>
 
+#include "currloginuserinfo.h"
+
 namespace Ui {
 class Login;
 }
@@ -28,7 +30,7 @@ private slots:
     void check();
 
 signals:
-    void loginSuccess(QVector<QVariant> info);
+    void loginSuccess(CurrLoginUserInfo* info);
     void loginFailed();
 
 };

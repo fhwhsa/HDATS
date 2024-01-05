@@ -8,6 +8,8 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 #include <QDate>
+#include <QVector>
+#include <QVariant>
 
 namespace Ui {
 class DrugEdit;
@@ -26,8 +28,6 @@ private:
     Ui::DrugEdit *ui;
     QSortFilterProxyModel *sfpm;
 
-    static QString insertPrepare;
-    static QString updatePrepare;
     static QString initPassWord; // 添加医生的初始密码
     QString operation; // 记录当前页面是用于添加还是修改
 

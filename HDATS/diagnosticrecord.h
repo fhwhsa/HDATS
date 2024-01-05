@@ -1,6 +1,8 @@
 #ifndef DIAGNOSTICRECORD_H
 #define DIAGNOSTICRECORD_H
 
+#include "currloginuserinfo.h"
+
 #include <QWidget>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
@@ -21,7 +23,7 @@ class DiagnosticRecord : public QWidget
     Q_OBJECT
 
 public:
-    explicit DiagnosticRecord(QWidget *parent = nullptr);
+    explicit DiagnosticRecord(CurrLoginUserInfo *info, QWidget *parent = nullptr);
     ~DiagnosticRecord();
 
     void refresh();
@@ -31,6 +33,8 @@ private:
 
     static QString drBaseSql;
     static QString mrBaseSql;
+
+    CurrLoginUserInfo *info;
 
     QSqlQueryModel *drQueryModel; // 就诊记录
     QSqlQueryModel *mrQueryModel; // 药品开具记录

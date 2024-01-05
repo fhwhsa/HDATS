@@ -11,6 +11,8 @@
 #include <QMessageBox>
 #include <QModelIndex>
 #include <QSortFilterProxyModel>
+#include <QVector>
+#include <QVariant>
 
 namespace Ui {
 class PatientEdit;
@@ -28,9 +30,6 @@ public:
 private:
     Ui::PatientEdit *ui;
     QSortFilterProxyModel *sfpm;
-
-    static QString insertPrepare;
-    static QString updatePrepare;
 
     QString operation; // 记录当前页面是用于添加还是修改
 

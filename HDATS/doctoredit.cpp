@@ -1,6 +1,8 @@
 #include "doctoredit.h"
 #include "ui_doctoredit.h"
 
+#include "idatabase.h"
+
 DoctorEdit::DoctorEdit(QString op, QWidget *parent) :
     QWidget(parent),
     operation(op),
@@ -30,12 +32,6 @@ DoctorEdit::~DoctorEdit()
     delete ui;
 }
 
-QString DoctorEdit::insertPrepare = "INSERT INTO doctor (D_NAME, D_MOBILEPHOME, D_SEX, PLevel, PCNO, D_BIRTHDATE, PASSWORD)"
-                                    " VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-QString DoctorEdit::updatePrepare = "UPDATE doctor SET D_NAME = ?, D_MOBILEPHOME = ?, D_SEX = ?, PLevel = ?,"
-                                    " PCNO = ?, D_BIRTHDATE = ? WHERE D_ID = ?;";
-
 QString DoctorEdit::initPassWord = "123456";
 
 void DoctorEdit::initData()
@@ -55,6 +51,8 @@ void DoctorEdit::iniSignalSlots()
     connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(do_btnCancel()));
 }
 
+//"INSERT INTO doctor (D_NAME, D_MOBILEPHOME, D_SEX, PLevel, PCNO, D_BIRTHDATE, PASSWORD) VALUES (?, ?, ?, ?, ?, ?, ?)";
+//"UPDATE doctor SET D_NAME = ?, D_MOBILEPHOME = ?, D_SEX = ?, PLevel = ?, PCNO = ?, D_BIRTHDATE = ? WHERE D_ID = ?;";
 void DoctorEdit::do_btnSave()
 {
     QString name = ui->name->text();
@@ -70,22 +68,26 @@ void DoctorEdit::do_btnSave()
         return;
     }
 
-    QSqlQuery query;
-    if (operation == "添加") // 插入
-        query.prepare(insertPrepare);
+    QVector<QVariant> params;
+
+    params.push_back(name);
+    params.push_back(mobilePHome);
+    params.push_back(sex);
+    params.push_back(pLevel);
+    params.push_back(pcno);
+    params.push_back(birthDate);
+
+    IDatabase& instance = IDatabase::GetInstance();
+    if (operation == "添加")
+    {
+        params.push_back(initPassWord);
+        instance.addDoctor(params, this);
+    }
     else
-        query.prepare(updatePrepare);
-
-    query.bindValue(0, name);
-    query.bindValue(1, mobilePHome);
-    query.bindValue(2, sex);
-    query.bindValue(3, pLevel);
-    query.bindValue(4, pcno);
-    query.bindValue(5, birthDate);
-    query.bindValue(6, (operation == "添加") ? initPassWord : sfpm->data(index.siblingAtColumn(0)).toString());
-
-    if (!query.exec())
-        QMessageBox::critical(this, "错误", query.lastError().text());
+    {
+        params.push_back(sfpm->data(index.siblingAtColumn(0)).toString());
+        instance.modifyDoctor(params, this);
+    }
 
     emit clickBtnSave();
 }

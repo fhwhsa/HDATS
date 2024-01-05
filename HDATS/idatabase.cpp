@@ -68,6 +68,54 @@ QSqlQueryModel *IDatabase::getPatientQueryModel(QWidget *parent)
     return queryModel;
 }
 
+void IDatabase::deletePatient(QString id, QWidget *parent)
+{
+    QSqlQuery query;
+    query.exec("DELETE FROM patient WHERE P_ID = " + id);
+
+    if (query.lastError().isValid())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
+void IDatabase::addPatient(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "INSERT INTO patient (P_NAME, P_MOBILEPHOME, P_SEX, HEIGHT, WEIGHT, P_BIRTHDATE) "
+                  "VALUES ( ?, ?, ?, ?, ?, ?)";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toString());
+    query.bindValue(1, params[1].toString());
+    query.bindValue(2, params[2].toString());
+    query.bindValue(3, params[3].toDouble());
+    query.bindValue(4, params[4].toDouble());
+    query.bindValue(5, params[5].toDate());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
+void IDatabase::modifyPatient(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "UPDATE patient SET P_NAME = ?, P_MOBILEPHOME = ?, P_SEX = ?, "
+                  "HEIGHT = ?, WEIGHT = ?, P_BIRTHDATE = ? WHERE P_ID = ?";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toString());
+    query.bindValue(1, params[1].toString());
+    query.bindValue(2, params[2].toString());
+    query.bindValue(3, params[3].toDouble());
+    query.bindValue(4, params[4].toDouble());
+    query.bindValue(5, params[5].toDate());
+    query.bindValue(6, params[6].toInt());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
 QSqlQueryModel *IDatabase::getDoctorQueryModel(QWidget *parent)
 {
     QSqlQueryModel *queryModel = new QSqlQueryModel(this);
@@ -83,6 +131,57 @@ QSqlQueryModel *IDatabase::getDoctorQueryModel(QWidget *parent)
     return queryModel;
 }
 
+void IDatabase::deleteDoctor(QString id, QWidget *parent)
+{
+    QSqlQuery query;
+    query.exec("DELETE FROM doctor WHERE D_ID = " + id);
+
+    if (query.lastError().isValid())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
+void IDatabase::addDoctor(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "INSERT INTO doctor (D_NAME, D_MOBILEPHOME, D_SEX, PLevel, PCNO, D_BIRTHDATE, PASSWORD)"
+                                        " VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toString());
+    query.bindValue(1, params[1].toString());
+    query.bindValue(2, params[2].toString());
+    query.bindValue(3, params[3].toInt());
+    query.bindValue(4, params[4].toString());
+    query.bindValue(5, params[5].toDate());
+
+    query.bindValue(6, params[6].toString());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
+void IDatabase::modifyDoctor(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "UPDATE doctor SET D_NAME = ?, D_MOBILEPHOME = ?, D_SEX = ?, PLevel = ?,"
+                                        " PCNO = ?, D_BIRTHDATE = ? WHERE D_ID = ?;";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toString());
+    query.bindValue(1, params[1].toString());
+    query.bindValue(2, params[2].toString());
+    query.bindValue(3, params[3].toInt());
+    query.bindValue(4, params[4].toString());
+    query.bindValue(5, params[5].toDate());
+
+    query.bindValue(6, params[6].toInt());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
 QSqlQueryModel *IDatabase::getDrugQueryModel(QWidget *parent)
 {
     QSqlQueryModel *queryModel = new QSqlQueryModel(this);
@@ -96,6 +195,47 @@ QSqlQueryModel *IDatabase::getDrugQueryModel(QWidget *parent)
     }
 
     return queryModel;
+}
+
+void IDatabase::deleteDrug(QString id, QWidget *parent)
+{
+    QSqlQuery query;
+    query.exec("DELETE FROM drug WHERE DRUG_ID = " + id);
+
+    if (query.lastError().isValid())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
+void IDatabase::addDrug(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "INSERT INTO drug (DRUG_NAME, INVENTORY, DRUG_INTRODUCTION_TIME) VALUES (?, ?, ?)";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toString());
+    query.bindValue(1, params[1].toInt());
+
+    query.bindValue(2, params[2].toDate());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
+void IDatabase::modifyDrug(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "UPDATE drug SET DRUG_NAME = ?, INVENTORY = ? WHERE DRUG_ID = ?";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toString());
+    query.bindValue(1, params[1].toInt());
+
+    query.bindValue(2, params[2].toInt());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
 }
 
 bool IDatabase::findDrug(QString name)

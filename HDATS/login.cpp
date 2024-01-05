@@ -1,6 +1,8 @@
 #include "login.h"
 #include "idatabase.h"
 #include "ui_login.h"
+#include "currloginuserinfo.h"
+
 #include <QDebug>
 
 Login::Login(QWidget *parent) :
@@ -37,7 +39,10 @@ void Login::check()
     QVector<QVariant> res = instance.findUser(name, passWord);
 
     if (res[0].toBool())
-        emit loginSuccess(res);
+    {
+        CurrLoginUserInfo *info = new CurrLoginUserInfo(res[1].toInt(), res[2].toString(), res[3].toInt());
+        emit loginSuccess(info);
+    }
     else
         QMessageBox::critical(this, "错误", "用户名或密码错误！");
 }

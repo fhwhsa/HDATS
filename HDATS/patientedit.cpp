@@ -1,6 +1,8 @@
 #include "patientedit.h"
 #include "ui_patientedit.h"
 
+#include "idatabase.h"
+
 #include <QDebug>
 
 PatientEdit::PatientEdit(QString op, QWidget *parent) :
@@ -30,9 +32,6 @@ PatientEdit::~PatientEdit()
     delete ui;
 }
 
-QString PatientEdit::insertPrepare = "INSERT INTO patient (P_NAME, P_MOBILEPHOME, P_SEX, HEIGHT, WEIGHT, P_BIRTHDATE) VALUES ( ?, ?, ?, ?, ?, ?)";
-QString PatientEdit::updatePrepare = "UPDATE patient SET P_NAME = ?, P_MOBILEPHOME = ?, P_SEX = ?, HEIGHT = ?, WEIGHT = ?, P_BIRTHDATE = ? WHERE P_ID = ?";
-
 void PatientEdit::initData()
 {
     ui->name->setText(sfpm->data(index.siblingAtColumn(1)).toString());
@@ -49,6 +48,9 @@ void PatientEdit::iniSignalSlots()
     connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(do_btnCancel()));
 }
 
+
+//"INSERT INTO patient (P_NAME, P_MOBILEPHOME, P_SEX, HEIGHT, WEIGHT, P_BIRTHDATE) VALUES ( ?, ?, ?, ?, ?, ?)";
+//"UPDATE patient SET P_NAME = ?, P_MOBILEPHOME = ?, P_SEX = ?, HEIGHT = ?, WEIGHT = ?, P_BIRTHDATE = ? WHERE P_ID = ?";
 void PatientEdit::do_btnSave()
 {
     QString P_NAME = ui->name->text();
@@ -64,25 +66,22 @@ void PatientEdit::do_btnSave()
         return;
     }
 
+    QVector<QVariant> params;
+    params.push_back(P_NAME);
+    params.push_back(P_MOBILEPHOME);
+    params.push_back(P_SEX);
+    params.push_back(HEIGHT);
+    params.push_back(WEIGHT);
+    params.push_back(P_BIRTHDATE);
 
-    QSqlQuery query;
+    IDatabase& instance = IDatabase::GetInstance();
     if (operation == "添加")
-        query.prepare(insertPrepare);
-    else // 修改操作
-        query.prepare(updatePrepare);
-
-    query.bindValue(0, P_NAME);
-    query.bindValue(1, P_MOBILEPHOME);
-    query.bindValue(2, P_SEX);
-    query.bindValue(3, HEIGHT);
-    query.bindValue(4, WEIGHT);
-    query.bindValue(5, P_BIRTHDATE);
-
-    if (operation == "修改")
-        query.bindValue(6, sfpm->data(index.siblingAtColumn(0)).toInt());
-
-    if (!query.exec())
-        QMessageBox::critical(this, "错误", query.lastError().text());
+        instance.addPatient(params, this);
+    else
+    {
+        params.push_back(sfpm->data(index.siblingAtColumn(0)).toInt());
+        instance.modifyPatient(params, this);
+    }
 
     emit clickBtnSave();
 }

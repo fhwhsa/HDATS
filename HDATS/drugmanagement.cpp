@@ -102,11 +102,9 @@ void DrugManagement::do_btnDelete()
 {
     QModelIndex currIndex = selModel->currentIndex();
     QString id = filterModel->data(currIndex.siblingAtColumn(0)).toString();
-    QSqlQuery query;
-    query.exec("DELETE FROM drug WHERE DRUG_ID = " + id);
 
-    if (query.lastError().isValid())
-        QMessageBox::critical(this, "错误", query.lastError().text());
+    IDatabase& instance = IDatabase::GetInstance();
+    instance.deleteDrug(id, this);
 
     refresh();
 }

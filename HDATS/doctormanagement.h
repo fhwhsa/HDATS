@@ -1,6 +1,8 @@
 #ifndef DOCTORMANAGEMENT_H
 #define DOCTORMANAGEMENT_H
 
+#include "idatabase.h"
+
 #include <QWidget>
 #include <QSqlQueryModel>
 #include <QSqlQuery>

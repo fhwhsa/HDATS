@@ -75,7 +75,7 @@ void MasterView::goToLoginView()
     connect(login, &Login::loginSuccess, this, &MasterView::goToWelcomeView);
 }
 
-void MasterView::goToWelcomeView(QVector<QVariant> info)
+void MasterView::goToWelcomeView(CurrLoginUserInfo *info)
 {
     welcome = new Welcome(info);
     pushToStack(welcome);
@@ -86,9 +86,9 @@ void MasterView::goToWelcomeView(QVector<QVariant> info)
     connect(welcome, &Welcome::patientM, this, &MasterView::goToPatientMView);
 }
 
-void MasterView::goToDiagnosticRecords()
+void MasterView::goToDiagnosticRecords(CurrLoginUserInfo *info)
 {
-    diagnosticRecord = new DiagnosticRecord;
+    diagnosticRecord = new DiagnosticRecord(info);
     pushToStack(diagnosticRecord);
 }
 

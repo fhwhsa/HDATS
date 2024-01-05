@@ -27,12 +27,21 @@ public:
 
     // 患者
     QSqlQueryModel* getPatientQueryModel(QWidget *parent);
+    void deletePatient(QString id, QWidget *parent);
+    void addPatient(QVector<QVariant> params, QWidget *parent);
+    void modifyPatient(QVector<QVariant> params, QWidget *parent);
 
     // 医生
     QSqlQueryModel* getDoctorQueryModel(QWidget *parent);
+    void deleteDoctor(QString id, QWidget *parent);
+    void addDoctor(QVector<QVariant> params, QWidget *parent);
+    void modifyDoctor(QVector<QVariant> params, QWidget *parent);
 
     // 药品
     QSqlQueryModel* getDrugQueryModel(QWidget *parent);
+    void deleteDrug(QString id, QWidget *parent);
+    void addDrug(QVector<QVariant> params, QWidget *parent);
+    void modifyDrug(QVector<QVariant> params, QWidget *parent);
     bool findDrug(QString name); // 查找药品是否存在
 
     // 诊断记录

@@ -4,8 +4,9 @@
 
 #include <QDebug>
 
-DiagnosticRecord::DiagnosticRecord(QWidget *parent) :
+DiagnosticRecord::DiagnosticRecord(CurrLoginUserInfo *info, QWidget *parent) :
     QWidget(parent),
+    info(info),
     ui(new Ui::DiagnosticRecord)
 {
     ui->setupUi(this);
@@ -124,11 +125,16 @@ void DiagnosticRecord::do_btnFind()
 
 void DiagnosticRecord::do_btnAdd()
 {
-
+    emit add();
 }
 
 void DiagnosticRecord::do_btnDelete()
 {
+    if (info->getUserLevel() != 1)
+    {
+        QMessageBox::warning(this, "警告", "权限不足");
+        return;
+    }
     QModelIndex currIndex = selModel->currentIndex();
     QString id = filterModel->data(currIndex.siblingAtColumn(0)).toString();
     QSqlQuery query;
@@ -142,7 +148,11 @@ void DiagnosticRecord::do_btnDelete()
 
 void DiagnosticRecord::do_btnModify()
 {
-
+    if (info->getUserLevel() != 1)
+    {
+        QMessageBox::warning(this, "警告", "权限不足");
+        return;
+    }
 }
 
 void DiagnosticRecord::do_tableView_sort(int column)

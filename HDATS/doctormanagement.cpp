@@ -100,11 +100,9 @@ void DoctorManagement::do_btnDelete()
 {
     QModelIndex currIndex = selModel->currentIndex();
     QString id = filterModel->data(currIndex.siblingAtColumn(0)).toString();
-    QSqlQuery query;
-    query.exec("DELETE FROM doctor WHERE D_ID = " + id);
 
-    if (query.lastError().isValid())
-        QMessageBox::critical(this, "错误", query.lastError().text());
+    IDatabase& instance = IDatabase::GetInstance();
+    instance.deleteDoctor(id, this);
 
     refresh();
 }

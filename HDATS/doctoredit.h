@@ -11,6 +11,8 @@
 #include <QSqlError>
 #include <QSortFilterProxyModel>
 #include <QModelIndex>
+#include <QVector>
+#include <QVariant>
 
 namespace Ui {
 class DoctorEdit;
@@ -29,8 +31,6 @@ private:
     Ui::DoctorEdit *ui;
     QSortFilterProxyModel *sfpm;
 
-    static QString insertPrepare;
-    static QString updatePrepare;
     static QString initPassWord; // 添加医生的初始密码
     QString operation; // 记录当前页面是用于添加还是修改
 

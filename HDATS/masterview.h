@@ -10,10 +10,12 @@
 #include "diagnosticrecord.h"
 #include "doctoredit.h"
 #include "drugedit.h"
+#include "currloginuserinfo.h"
 
 #include <QWidget>
 #include <QSortFilterProxyModel>
 #include <QModelIndex>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MasterView; }
@@ -49,9 +51,9 @@ private:
 private slots:
     void goToLoginView();
 
-    void goToWelcomeView(QVector<QVariant> info);
+    void goToWelcomeView(CurrLoginUserInfo *info);
 
-    void goToDiagnosticRecords();
+    void goToDiagnosticRecords(CurrLoginUserInfo *info);
 
     void goToDoctorMView();
     void goToDoctorEditViewForAdd();

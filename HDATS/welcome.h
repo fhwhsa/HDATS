@@ -1,6 +1,8 @@
 #ifndef WELCOME_H
 #define WELCOME_H
 
+#include "currloginuserinfo.h"
+
 #include <QWidget>
 #include <QVariant>
 #include <QVector>
@@ -14,27 +16,20 @@ class Welcome : public QWidget
     Q_OBJECT
 
 public:
-    explicit Welcome(QVector<QVariant> info, QWidget *parent = nullptr);
+    explicit Welcome(CurrLoginUserInfo *info, QWidget *parent = nullptr);
     ~Welcome();
-
-    int getCurrLoginUserID();
-    QString getCurrLoginUserName();
-    int getCurrLoginUserLevel();
 
 private:
     Ui::Welcome *ui;
 
-    int currLoginUserID; // 当前登陆的用户的ID
-    QString currLoginUserName;
-    int currLoginUserLevel; // 权限等级
+    CurrLoginUserInfo *info;
 
     void init();
     void iniSignalSlots();
 
 signals:
-    void diagRecords();
+    void diagRecords(CurrLoginUserInfo *info);
     void drugM();
-    void departmentM();
     void doctorM();
     void patientM();
 };

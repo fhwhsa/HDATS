@@ -11,7 +11,9 @@ CONFIG += c++17
 TARGET = hdats
 
 SOURCES += \
+    currloginuserinfo.cpp \
     diagnosticrecord.cpp \
+    diagnosticrecordedit.cpp \
     doctoredit.cpp \
     doctormanagement.cpp \
     drugedit.cpp \
@@ -25,7 +27,9 @@ SOURCES += \
     welcome.cpp
 
 HEADERS += \
+    currloginuserinfo.h \
     diagnosticrecord.h \
+    diagnosticrecordedit.h \
     doctoredit.h \
     doctormanagement.h \
     drugedit.h \
@@ -39,6 +43,7 @@ HEADERS += \
 
 FORMS += \
     diagnosticrecord.ui \
+    diagnosticrecordedit.ui \
     doctoredit.ui \
     doctormanagement.ui \
     drugedit.ui \
