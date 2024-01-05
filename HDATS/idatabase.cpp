@@ -68,6 +68,18 @@ QSqlQueryModel *IDatabase::getPatientQueryModel(QWidget *parent)
     return queryModel;
 }
 
+void IDatabase::filterForPatient(QSqlQueryModel* queryModel, QString filter, QWidget *parent)
+{
+    QString sql = "SELECT P_ID 编号, P_NAME 姓名, P_SEX 性别, TIMESTAMPDIFF(YEAR, P_BIRTHDATE, CURDATE()) 年龄, "
+                  "P_MOBILEPHOME 电话号码, HEIGHT 身高, WEIGHT 体重, P_BIRTHDATE 出生日期 FROM patient"
+                  " WHERE P_NAME LIKE '%" + filter + "%'";
+
+    queryModel->setQuery(sql);
+
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+}
+
 void IDatabase::deletePatient(QString id, QWidget *parent)
 {
     QSqlQuery query;
@@ -129,6 +141,19 @@ QSqlQueryModel *IDatabase::getDoctorQueryModel(QWidget *parent)
     }
 
     return queryModel;
+}
+
+void IDatabase::filterForDoctor(QSqlQueryModel *queryModel, QString filter, QWidget *parent)
+{
+    QString sql = "SELECT D_ID 编号, D_NAME 姓名, D_SEX 性别, TIMESTAMPDIFF(YEAR, D_BIRTHDATE, CURDATE()) 年龄, "
+                  "D_MOBILEPHOME 电话号码, D_BIRTHDATE 出生日期, PCNO 执业证书号, PLevel 权限等级 FROM doctor"
+                  " WHERE D_NAME LIKE '%" + filter + "%'";
+
+    queryModel->setQuery(sql);
+
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+
 }
 
 void IDatabase::deleteDoctor(QString id, QWidget *parent)
@@ -197,6 +222,18 @@ QSqlQueryModel *IDatabase::getDrugQueryModel(QWidget *parent)
     return queryModel;
 }
 
+void IDatabase::filterForDrug(QSqlQueryModel *queryModel, QString filter, QWidget *parent)
+{
+    QString sql = "SELECT DRUG_ID 编号, DRUG_NAME 药品名字, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 FROM drug"
+                  " WHERE DRUG_NAME LIKE '%" + filter + "%'";
+
+    queryModel->setQuery(sql);
+
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+
+}
+
 void IDatabase::deleteDrug(QString id, QWidget *parent)
 {
     QSqlQuery query;
@@ -260,11 +297,32 @@ QSqlQueryModel *IDatabase::getDiagnosticRecord(QWidget *parent)
     return queryModel;
 }
 
+void IDatabase::filterForDiagnosticRecord(QSqlQueryModel *queryModel, QString filter, QString type, QWidget *parent)
+{
+    QString sql = "SELECT DR_ID 编号, D_NAME 医生姓名, P_NAME 患者姓名, CONTEXT 诊断内容,DATEOFVISIT 创建时间 "
+                  "FROM diagnostic_records"
+                  " WHERE " + (type == "医生" ? tr(" D_NAME ") : tr(" P_NAME ")) + " LIKE '%" + filter + "%'";
+
+    queryModel->setQuery(sql);
+
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+}
+
+void IDatabase::deleteDiagnosticRecord(QString id, QWidget *parent)
+{
+    QSqlQuery query;
+    query.exec("DELETE FROM diagnostic_records WHERE DR_ID = " + id);
+
+    if (query.lastError().isValid())
+        QMessageBox::critical(parent, "错误", query.lastError().text());
+}
+
 QSqlQueryModel *IDatabase::getMedicationRecords(QWidget *parent)
 {
     QSqlQueryModel *queryModel = new QSqlQueryModel(this);
-    queryModel->setQuery("SELECT MRDR_ID, MRDRUG_ID, d.DRUG_NAME 药品名字, dose 剂量 "
-                         "FROM medication_record mr INNER JOIN drug d ON mr.MRDRUG_ID = d.DRUG_ID");
+    queryModel->setQuery("SELECT MRDR_ID, DrugName 药品名字, dose 剂量 "
+                         "FROM medication_record");
 
     if (queryModel->lastError().isValid())
     {
@@ -273,5 +331,17 @@ QSqlQueryModel *IDatabase::getMedicationRecords(QWidget *parent)
     }
 
     return queryModel;
+}
+
+void IDatabase::filterForMedicationRecords(QSqlQueryModel *queryModel, QString filter, QWidget *parent)
+{
+    QString sql = "SELECT MRDR_ID, DrugName 药品名字, dose 剂量 "
+                  "FROM medication_record"
+                  " WHERE MRDR_ID = " + filter;
+
+    queryModel->setQuery(sql);
+
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
 }
 

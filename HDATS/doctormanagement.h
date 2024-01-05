@@ -30,8 +30,6 @@ public:
 private:
     Ui::DoctorManagement *ui;
 
-    static QString baseSql;
-
     QSqlQueryModel *queryModel;
     QItemSelectionModel *selModel;
     QSortFilterProxyModel* filterModel;

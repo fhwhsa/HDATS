@@ -31,9 +31,6 @@ public:
 private:
     Ui::DiagnosticRecord *ui;
 
-    static QString drBaseSql;
-    static QString mrBaseSql;
-
     CurrLoginUserInfo *info;
 
     QSqlQueryModel *drQueryModel; // 就诊记录

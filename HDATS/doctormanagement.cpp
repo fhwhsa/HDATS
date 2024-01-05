@@ -20,9 +20,6 @@ DoctorManagement::~DoctorManagement()
     delete ui;
 }
 
-QString DoctorManagement::baseSql = "SELECT D_ID 编号, D_NAME 姓名, D_SEX 性别, TIMESTAMPDIFF(YEAR, D_BIRTHDATE, CURDATE()) 年龄, "
-                                    "D_MOBILEPHOME 电话号码, D_BIRTHDATE 出生日期, PCNO 执业证书号, PLevel 权限等级 FROM doctor";
-
 void DoctorManagement::refresh()
 {
     do_btnFind();
@@ -76,16 +73,8 @@ void DoctorManagement::do_currentRowChanged(const QModelIndex &current, const QM
 void DoctorManagement::do_btnFind()
 {
     QString str = ui->lineEdit->text();
-    if (str.length() == 0)
-        queryModel->setQuery(baseSql);
-    else
-    {
-        QString t = " D_NAME LIKE '%" + str + "%'";
-        queryModel->setQuery(baseSql + " WHERE " + t);
-    }
 
-    if (queryModel->lastError().isValid())
-        QMessageBox::critical(this, "错误", queryModel->lastError().text());
+    IDatabase::GetInstance().filterForDoctor(queryModel, str, this);
 
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);

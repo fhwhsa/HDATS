@@ -24,8 +24,6 @@ void DrugManagement::refresh()
     do_btnFind();
 }
 
-QString DrugManagement::baseSql = "SELECT DRUG_ID 编号, DRUG_NAME 药品名字, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 FROM drug";
-
 void DrugManagement::init()
 {
     IDatabase& instance = IDatabase::GetInstance();
@@ -78,16 +76,8 @@ void DrugManagement::do_currentRowChanged(const QModelIndex &current, const QMod
 void DrugManagement::do_btnFind()
 {
     QString str = ui->lineEdit->text();
-    if (str.length() == 0)
-        queryModel->setQuery(baseSql);
-    else
-    {
-        QString t = " DRUG_NAME LIKE '%" + str + "%'";
-        queryModel->setQuery(baseSql + " WHERE " + t);
-    }
 
-    if (queryModel->lastError().isValid())
-        QMessageBox::critical(this, "错误", queryModel->lastError().text());
+    IDatabase::GetInstance().filterForDrug(queryModel, str, this);
 
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);

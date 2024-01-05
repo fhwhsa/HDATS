@@ -126,7 +126,7 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPlainTextEdit" name="dose"/>
+         <widget class="QPlainTextEdit" name="context"/>
         </item>
        </layout>
       </widget>

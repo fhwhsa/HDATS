@@ -53,8 +53,6 @@ private slots:
 
     void goToWelcomeView(CurrLoginUserInfo *info);
 
-    void goToDiagnosticRecords(CurrLoginUserInfo *info);
-
     void goToDoctorMView();
     void goToDoctorEditViewForAdd();
     void goToDoctorEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index);
@@ -66,6 +64,10 @@ private slots:
     void goToDrugMView();
     void goToDrugEditViewForAdd();
     void goToDrugEditViewForModify(QSortFilterProxyModel *sfpm, QModelIndex index);
+
+    void goToDiagnosticRecord(CurrLoginUserInfo *info);
+    void goToDiagnosticRecordForAdd();
+    void goToDiagnosticRecordForModify(QSortFilterProxyModel *sfpm, QModelIndex index);
 
     void pageChange(int index);
 

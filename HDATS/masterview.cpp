@@ -80,16 +80,10 @@ void MasterView::goToWelcomeView(CurrLoginUserInfo *info)
     welcome = new Welcome(info);
     pushToStack(welcome);
 
-    connect(welcome, &Welcome::diagRecords, this, &MasterView::goToDiagnosticRecords);
+    connect(welcome, &Welcome::diagRecords, this, &MasterView::goToDiagnosticRecord);
     connect(welcome, &Welcome::drugM, this, &MasterView::goToDrugMView);
     connect(welcome, &Welcome::doctorM, this, &MasterView::goToDoctorMView);
     connect(welcome, &Welcome::patientM, this, &MasterView::goToPatientMView);
-}
-
-void MasterView::goToDiagnosticRecords(CurrLoginUserInfo *info)
-{
-    diagnosticRecord = new DiagnosticRecord(info);
-    pushToStack(diagnosticRecord);
 }
 
 void MasterView::goToDoctorMView()
@@ -177,6 +171,25 @@ void MasterView::goToDrugEditViewForModify(QSortFilterProxyModel *sfpm, QModelIn
 
     connect(drugEdit, &DrugEdit::clickBtnSave, this, &MasterView::back); // 返回上一页
     connect(drugEdit, &DrugEdit::clickBtnCancel, this, &MasterView::back);
+}
+
+void MasterView::goToDiagnosticRecord(CurrLoginUserInfo *info)
+{
+    diagnosticRecord = new DiagnosticRecord(info);
+    pushToStack(diagnosticRecord);
+
+    connect(diagnosticRecord, &DiagnosticRecord::add, this, &MasterView::goToDiagnosticRecordForAdd);
+    connect(diagnosticRecord, &DiagnosticRecord::modify, this, &MasterView::goToDiagnosticRecordForModify);
+}
+
+void MasterView::goToDiagnosticRecordForAdd()
+{
+
+}
+
+void MasterView::goToDiagnosticRecordForModify(QSortFilterProxyModel *sfpm, QModelIndex index)
+{
+
 }
 
 void MasterView::pageChange(int index)

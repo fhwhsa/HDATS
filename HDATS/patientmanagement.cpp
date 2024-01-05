@@ -26,9 +26,6 @@ void PatientManagement::refresh()
     do_btnFind();
 }
 
-QString PatientManagement::baseSql = "SELECT P_ID 编号, P_NAME 姓名, P_SEX 性别, TIMESTAMPDIFF(YEAR, P_BIRTHDATE, CURDATE()) 年龄, "
-                                     "P_MOBILEPHOME 电话号码, HEIGHT 身高, WEIGHT 体重, P_BIRTHDATE 出生日期 FROM patient";
-
 void PatientManagement::iniSignalSlots()
 {
     connect(ui->btnFind, SIGNAL(clicked()), this, SLOT(do_btnFind()));
@@ -79,16 +76,8 @@ void PatientManagement::do_currentRowChanged(const QModelIndex &current, const Q
 void PatientManagement::do_btnFind()
 {
     QString str = ui->lineEdit->text();
-    if (str.length() == 0)
-        queryModel->setQuery(baseSql);
-    else
-    {
-        QString t = " P_NAME LIKE '%" + str + "%'";
-        queryModel->setQuery(baseSql + " WHERE " + t);
-    }
 
-    if (queryModel->lastError().isValid())
-        QMessageBox::critical(this, "错误", queryModel->lastError().text());
+    IDatabase::GetInstance().filterForPatient(queryModel, str, this);
 
     ui->btnDelete->setEnabled(false);
     ui->btnModify->setEnabled(false);

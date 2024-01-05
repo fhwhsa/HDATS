@@ -27,18 +27,21 @@ public:
 
     // 患者
     QSqlQueryModel* getPatientQueryModel(QWidget *parent);
+    void filterForPatient(QSqlQueryModel* queryModel, QString filter, QWidget *parent);
     void deletePatient(QString id, QWidget *parent);
     void addPatient(QVector<QVariant> params, QWidget *parent);
     void modifyPatient(QVector<QVariant> params, QWidget *parent);
 
     // 医生
     QSqlQueryModel* getDoctorQueryModel(QWidget *parent);
+    void filterForDoctor(QSqlQueryModel *queryModel, QString filter, QWidget *parent);
     void deleteDoctor(QString id, QWidget *parent);
     void addDoctor(QVector<QVariant> params, QWidget *parent);
     void modifyDoctor(QVector<QVariant> params, QWidget *parent);
 
     // 药品
     QSqlQueryModel* getDrugQueryModel(QWidget *parent);
+    void filterForDrug(QSqlQueryModel *queryModel, QString filter, QWidget *parent);
     void deleteDrug(QString id, QWidget *parent);
     void addDrug(QVector<QVariant> params, QWidget *parent);
     void modifyDrug(QVector<QVariant> params, QWidget *parent);
@@ -46,9 +49,12 @@ public:
 
     // 诊断记录
     QSqlQueryModel* getDiagnosticRecord(QWidget *parent);
+    void filterForDiagnosticRecord(QSqlQueryModel *queryModel, QString filter, QString type, QWidget *parent);
+    void deleteDiagnosticRecord(QString id, QWidget *parent);
 
     // 药品开具记录
     QSqlQueryModel* getMedicationRecords(QWidget *parent);
+    void filterForMedicationRecords(QSqlQueryModel *queryModel, QString filter, QWidget *parent);
 
 private:
     // 禁止外部构造

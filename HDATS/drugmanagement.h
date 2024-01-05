@@ -28,8 +28,6 @@ public:
 private:
     Ui::DrugManagement *ui;
 
-    static QString baseSql;
-
     QSqlQueryModel *queryModel;
     QItemSelectionModel *selModel;
     QSortFilterProxyModel* filterModel;
