@@ -12,6 +12,8 @@
 #include "drugedit.h"
 #include "currloginuserinfo.h"
 #include "diagnosticrecordedit.h"
+#include "workreportmanagement.h"
+#include "workreportedit.h"
 
 #include <QWidget>
 #include <QSortFilterProxyModel>
@@ -48,6 +50,10 @@ private:
     DiagnosticRecord *diagnosticRecord;
     DiagnosticRecordEdit *diagnosticRecordEdit;
 
+    WorkReportManagement *workReportManagement;
+    WorkReportEdit *workReportEdit;
+
+
     void iniSignalSlots();
     void pushToStack(QWidget *w);
 
@@ -71,6 +77,10 @@ private slots:
     void goToDiagnosticRecord(CurrLoginUserInfo *info);
     void goToDiagnosticRecordForAdd(CurrLoginUserInfo *info);
     void goToDiagnosticRecordForModify(QSortFilterProxyModel *sfpm, CurrLoginUserInfo *info, QModelIndex index);
+
+    void goToWorkReportMView(CurrLoginUserInfo *info);
+    void goToWorkReportEditViewForAdd(CurrLoginUserInfo *info);
+    void goToWorkReportEditViewForModify(CurrLoginUserInfo *info, QSortFilterProxyModel *sfpm, QModelIndex index);
 
     void pageChange(int index);
 

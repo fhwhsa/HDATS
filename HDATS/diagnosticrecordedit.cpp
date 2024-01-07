@@ -79,6 +79,7 @@ void DiagnosticRecordEdit::do_btnPatientSelect()
     PatientSelectDialog* patientSelectDialog = new PatientSelectDialog;
     connect(patientSelectDialog, &PatientSelectDialog::selected, this, &DiagnosticRecordEdit::do_PatientSelectFinsh);
     patientSelectDialog->exec();
+    delete patientSelectDialog;
 }
 
 void DiagnosticRecordEdit::do_PatientSelectFinsh(QString name)
@@ -98,6 +99,7 @@ void DiagnosticRecordEdit::do_btnDrugAdd()
     DrugSelectDialog* drugSelectDialog = new DrugSelectDialog;
     connect(drugSelectDialog, &DrugSelectDialog::selected, this, &DiagnosticRecordEdit::do_DrugSelectFinsh);
     drugSelectDialog->exec();
+    delete drugSelectDialog;
 }
 
 void DiagnosticRecordEdit::do_btnDrugDelete()

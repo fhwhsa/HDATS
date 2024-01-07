@@ -26,7 +26,9 @@ SOURCES += \
     patientedit.cpp \
     patientmanagement.cpp \
     patientselectdialog.cpp \
-    welcome.cpp
+    welcome.cpp \
+    workreportedit.cpp \
+    workreportmanagement.cpp
 
 HEADERS += \
     currloginuserinfo.h \
@@ -43,7 +45,9 @@ HEADERS += \
     patientedit.h \
     patientmanagement.h \
     patientselectdialog.h \
-    welcome.h
+    welcome.h \
+    workreportedit.h \
+    workreportmanagement.h
 
 FORMS += \
     diagnosticrecord.ui \
@@ -58,7 +62,9 @@ FORMS += \
     patientedit.ui \
     patientmanagement.ui \
     patientselectdialog.ui \
-    welcome.ui
+    welcome.ui \
+    workreportedit.ui \
+    workreportmanagement.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

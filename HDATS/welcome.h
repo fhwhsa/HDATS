@@ -32,6 +32,7 @@ signals:
     void drugM();
     void doctorM();
     void patientM();
+    void workReportM(CurrLoginUserInfo *info);
 };
 
 #endif // WELCOME_H

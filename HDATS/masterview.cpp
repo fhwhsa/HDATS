@@ -58,6 +58,8 @@ void MasterView::back()
         diagnosticRecord->refresh();
     else if (currWin == "登陆")
         ui->btnLoginout->setEnabled(false);
+    else if (currWin == "工作报告管理")
+        workReportManagement->refresh();
 
     delete w;
 }
@@ -86,6 +88,7 @@ void MasterView::goToWelcomeView(CurrLoginUserInfo *info)
     connect(welcome, &Welcome::drugM, this, &MasterView::goToDrugMView);
     connect(welcome, &Welcome::doctorM, this, &MasterView::goToDoctorMView);
     connect(welcome, &Welcome::patientM, this, &MasterView::goToPatientMView);
+    connect(welcome, &Welcome::workReportM, this, &MasterView::goToWorkReportMView);
 }
 
 void MasterView::goToDoctorMView()
@@ -201,6 +204,34 @@ void MasterView::goToDiagnosticRecordForModify(QSortFilterProxyModel *sfpm, Curr
 
     connect(diagnosticRecordEdit, &DiagnosticRecordEdit::clickBtnSave, this, &MasterView::back);
     connect(diagnosticRecordEdit, &DiagnosticRecordEdit::clickBtnCancel, this, &MasterView::back);
+}
+
+void MasterView::goToWorkReportMView(CurrLoginUserInfo *info)
+{
+    workReportManagement = new WorkReportManagement(info);
+    pushToStack(workReportManagement);
+
+    connect(workReportManagement, &WorkReportManagement::add, this, &MasterView::goToWorkReportEditViewForAdd);
+    connect(workReportManagement, &WorkReportManagement::modify, this, &MasterView::goToWorkReportEditViewForModify);
+}
+
+void MasterView::goToWorkReportEditViewForAdd(CurrLoginUserInfo *info)
+{
+    workReportEdit = new WorkReportEdit(info);
+    workReportEdit->setWindowTitle("添加工作报告");
+    pushToStack(workReportEdit);
+
+    connect(workReportEdit, &WorkReportEdit::clickBtnSave, this, &MasterView::back);
+    connect(workReportEdit, &WorkReportEdit::clickBtnCancel, this, &MasterView::back);
+}
+
+void MasterView::goToWorkReportEditViewForModify(CurrLoginUserInfo *info, QSortFilterProxyModel *sfpm, QModelIndex index)
+{
+    workReportEdit = new WorkReportEdit(info, sfpm, index);
+    pushToStack(workReportEdit);
+
+    connect(workReportEdit, &WorkReportEdit::clickBtnSave, this, &MasterView::back);
+    connect(workReportEdit, &WorkReportEdit::clickBtnCancel, this, &MasterView::back);
 }
 
 void MasterView::pageChange(int index)
