@@ -51,10 +51,14 @@ public:
     QSqlQueryModel* getDiagnosticRecord(QWidget *parent);
     void filterForDiagnosticRecord(QSqlQueryModel *queryModel, QString filter, QString type, QWidget *parent);
     void deleteDiagnosticRecord(QString id, QWidget *parent);
+    QString addDiagnosticRecord(QVector<QVariant> params, QWidget *parent);
+    void modifyDiagnosticRecord(QVector<QVariant> params, QWidget *parent);
 
     // 药品开具记录
     QSqlQueryModel* getMedicationRecords(QWidget *parent);
     void filterForMedicationRecords(QSqlQueryModel *queryModel, QString filter, QWidget *parent);
+    void deleteMedicationRecords(QString mrdr_id, QWidget *parent);
+    void addMedicationRecords(QVector<QString> nameList, QWidget *parent, QString mrdr_id);
 
 private:
     // 禁止外部构造

@@ -61,7 +61,7 @@ QSqlQueryModel *IDatabase::getPatientQueryModel(QWidget *parent)
 
     if (queryModel->lastError().isValid())
     {
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "患者所有信息查询错误", queryModel->lastError().text());
         return NULL;
     }
 
@@ -77,7 +77,7 @@ void IDatabase::filterForPatient(QSqlQueryModel* queryModel, QString filter, QWi
     queryModel->setQuery(sql);
 
     if (queryModel->lastError().isValid())
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "患者信息筛选错误", queryModel->lastError().text());
 }
 
 void IDatabase::deletePatient(QString id, QWidget *parent)
@@ -86,7 +86,7 @@ void IDatabase::deletePatient(QString id, QWidget *parent)
     query.exec("DELETE FROM patient WHERE P_ID = " + id);
 
     if (query.lastError().isValid())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "删除患者信息错误", query.lastError().text());
 }
 
 void IDatabase::addPatient(QVector<QVariant> params, QWidget *parent)
@@ -105,7 +105,7 @@ void IDatabase::addPatient(QVector<QVariant> params, QWidget *parent)
     query.bindValue(5, params[5].toDate());
 
     if (!query.exec())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "添加患者信息错误", query.lastError().text());
 }
 
 void IDatabase::modifyPatient(QVector<QVariant> params, QWidget *parent)
@@ -125,7 +125,7 @@ void IDatabase::modifyPatient(QVector<QVariant> params, QWidget *parent)
     query.bindValue(6, params[6].toInt());
 
     if (!query.exec())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "修改患者信息错误", query.lastError().text());
 }
 
 QSqlQueryModel *IDatabase::getDoctorQueryModel(QWidget *parent)
@@ -136,7 +136,7 @@ QSqlQueryModel *IDatabase::getDoctorQueryModel(QWidget *parent)
 
     if (queryModel->lastError().isValid())
     {
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "获取所有医生信息错误", queryModel->lastError().text());
         return NULL;
     }
 
@@ -152,7 +152,7 @@ void IDatabase::filterForDoctor(QSqlQueryModel *queryModel, QString filter, QWid
     queryModel->setQuery(sql);
 
     if (queryModel->lastError().isValid())
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "筛选医生信息错误", queryModel->lastError().text());
 
 }
 
@@ -162,7 +162,7 @@ void IDatabase::deleteDoctor(QString id, QWidget *parent)
     query.exec("DELETE FROM doctor WHERE D_ID = " + id);
 
     if (query.lastError().isValid())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "删除医生信息错误", query.lastError().text());
 }
 
 void IDatabase::addDoctor(QVector<QVariant> params, QWidget *parent)
@@ -183,7 +183,7 @@ void IDatabase::addDoctor(QVector<QVariant> params, QWidget *parent)
     query.bindValue(6, params[6].toString());
 
     if (!query.exec())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "添加医生信息错误", query.lastError().text());
 }
 
 void IDatabase::modifyDoctor(QVector<QVariant> params, QWidget *parent)
@@ -204,18 +204,18 @@ void IDatabase::modifyDoctor(QVector<QVariant> params, QWidget *parent)
     query.bindValue(6, params[6].toInt());
 
     if (!query.exec())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "修改医生信息错误", query.lastError().text());
 }
 
 QSqlQueryModel *IDatabase::getDrugQueryModel(QWidget *parent)
 {
     QSqlQueryModel *queryModel = new QSqlQueryModel(this);
-    queryModel->setQuery("SELECT DRUG_ID 编号, DRUG_NAME 药品名字, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 "
+    queryModel->setQuery("SELECT DRUG_ID 编号, DRUG_NAME 药品名字, DOSE 剂量, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 "
                          "FROM drug");
 
     if (queryModel->lastError().isValid())
     {
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "获取所有药品信息错误", queryModel->lastError().text());
         return NULL;
     }
 
@@ -224,13 +224,13 @@ QSqlQueryModel *IDatabase::getDrugQueryModel(QWidget *parent)
 
 void IDatabase::filterForDrug(QSqlQueryModel *queryModel, QString filter, QWidget *parent)
 {
-    QString sql = "SELECT DRUG_ID 编号, DRUG_NAME 药品名字, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 FROM drug"
+    QString sql = "SELECT DRUG_ID 编号, DRUG_NAME 药品名字, DOSE 剂量, INVENTORY 库存, DRUG_INTRODUCTION_TIME 首次引入时间 FROM drug"
                   " WHERE DRUG_NAME LIKE '%" + filter + "%'";
 
     queryModel->setQuery(sql);
 
     if (queryModel->lastError().isValid())
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "筛选药品信息错误", queryModel->lastError().text());
 
 }
 
@@ -240,12 +240,12 @@ void IDatabase::deleteDrug(QString id, QWidget *parent)
     query.exec("DELETE FROM drug WHERE DRUG_ID = " + id);
 
     if (query.lastError().isValid())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "删除药品信息错误", query.lastError().text());
 }
 
 void IDatabase::addDrug(QVector<QVariant> params, QWidget *parent)
 {
-    QString sql = "INSERT INTO drug (DRUG_NAME, INVENTORY, DRUG_INTRODUCTION_TIME) VALUES (?, ?, ?)";
+    QString sql = "INSERT INTO drug (DRUG_NAME, INVENTORY, DOSE = ?, DRUG_INTRODUCTION_TIME) VALUES (?, ?, ?, ?)";
 
     QSqlQuery query;
     query.prepare(sql);
@@ -256,12 +256,12 @@ void IDatabase::addDrug(QVector<QVariant> params, QWidget *parent)
     query.bindValue(2, params[2].toDate());
 
     if (!query.exec())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "添加药品信息错误", query.lastError().text());
 }
 
 void IDatabase::modifyDrug(QVector<QVariant> params, QWidget *parent)
 {
-    QString sql = "UPDATE drug SET DRUG_NAME = ?, INVENTORY = ? WHERE DRUG_ID = ?";
+    QString sql = "UPDATE drug SET DRUG_NAME = ?, DOSE = ?, INVENTORY = ? WHERE DRUG_ID = ?";
 
     QSqlQuery query;
     query.prepare(sql);
@@ -272,7 +272,7 @@ void IDatabase::modifyDrug(QVector<QVariant> params, QWidget *parent)
     query.bindValue(2, params[2].toInt());
 
     if (!query.exec())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "修改药品信息错误", query.lastError().text());
 }
 
 bool IDatabase::findDrug(QString name)
@@ -290,7 +290,7 @@ QSqlQueryModel *IDatabase::getDiagnosticRecord(QWidget *parent)
 
     if (queryModel->lastError().isValid())
     {
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "获取所有诊断记录错误", queryModel->lastError().text());
         return NULL;
     }
 
@@ -306,7 +306,7 @@ void IDatabase::filterForDiagnosticRecord(QSqlQueryModel *queryModel, QString fi
     queryModel->setQuery(sql);
 
     if (queryModel->lastError().isValid())
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "筛选诊断记录错误", queryModel->lastError().text());
 }
 
 void IDatabase::deleteDiagnosticRecord(QString id, QWidget *parent)
@@ -315,18 +315,58 @@ void IDatabase::deleteDiagnosticRecord(QString id, QWidget *parent)
     query.exec("DELETE FROM diagnostic_records WHERE DR_ID = " + id);
 
     if (query.lastError().isValid())
-        QMessageBox::critical(parent, "错误", query.lastError().text());
+        QMessageBox::critical(parent, "删除诊断记录错误", query.lastError().text());
+}
+
+QString IDatabase::addDiagnosticRecord(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "SELECT addDiagnosticRecord(?, ?, ?, ?)";
+
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toString());
+    query.bindValue(1, params[1].toString());
+    query.bindValue(2, params[2].toDate());
+    query.bindValue(3, params[3].toString());
+
+    if (!query.exec())
+    {
+        QMessageBox::critical(parent, "添加诊断记录错误", query.lastError().text());
+        return "-1";
+    }
+
+    if (query.next())
+        return query.value(0).toString();
+    return "-1";
+}
+
+void IDatabase::modifyDiagnosticRecord(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "UPDATE diagnostic_records SET P_NAME = ?, DATEOFVISIT = ?, CONTEXT = ? WHERE DR_ID = ?";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toString());
+    query.bindValue(1, params[1].toDate());
+    query.bindValue(2, params[2].toString());
+    query.bindValue(3, params[3].toString());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "修改诊断记录错误", query.lastError().text());
 }
 
 QSqlQueryModel *IDatabase::getMedicationRecords(QWidget *parent)
 {
     QSqlQueryModel *queryModel = new QSqlQueryModel(this);
-    queryModel->setQuery("SELECT MRDR_ID, DrugName 药品名字, dose 剂量 "
+    queryModel->setQuery("SELECT MRDR_ID, DrugName 药品名字 "
                          "FROM medication_record");
 
     if (queryModel->lastError().isValid())
     {
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "获取所有诊断记录的开药记录错误", queryModel->lastError().text());
         return NULL;
     }
 
@@ -335,13 +375,40 @@ QSqlQueryModel *IDatabase::getMedicationRecords(QWidget *parent)
 
 void IDatabase::filterForMedicationRecords(QSqlQueryModel *queryModel, QString filter, QWidget *parent)
 {
-    QString sql = "SELECT MRDR_ID, DrugName 药品名字, dose 剂量 "
+    QString sql = "SELECT MRDR_ID, DrugName 药品名字 "
                   "FROM medication_record"
                   " WHERE MRDR_ID = " + filter;
 
     queryModel->setQuery(sql);
 
     if (queryModel->lastError().isValid())
-        QMessageBox::critical(parent, "错误", queryModel->lastError().text());
+        QMessageBox::critical(parent, "筛选诊断记录的开药记录错误", queryModel->lastError().text());
+}
+
+void IDatabase::deleteMedicationRecords(QString mrdr_id, QWidget *parent)
+{
+    QSqlQuery query;
+    query.exec("DELETE FROM medication_record WHERE MRDR_ID = " + mrdr_id);
+
+    if (query.lastError().isValid())
+        QMessageBox::critical(parent, "删除多条开药记录错误", query.lastError().text());
+}
+
+void IDatabase::addMedicationRecords(QVector<QString> nameList, QWidget *parent, QString mrdr_id)
+{
+    if (nameList.size() == 0)
+        return;
+
+    QSqlQuery query;
+    QString sql = "INSERT INTO medication_record (MRDR_ID, DrugName) VALUES ";
+
+    sql += "('" + mrdr_id + "','" + nameList[0] + "')";
+    for (int i = 1; i < nameList.size(); i++)
+        sql += ", ('" + mrdr_id + "','" + nameList[i] + "')";
+
+    query.exec(sql);
+
+    if (query.lastError().isValid())
+        QMessageBox::critical(parent, "添加多条开药错误", query.lastError().text());
 }
 

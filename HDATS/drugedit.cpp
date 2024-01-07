@@ -51,6 +51,7 @@ void DrugEdit::iniSignalSlots()
 void DrugEdit::do_btnSave()
 {
     QString name = ui->drugName->text();
+    QString dose = ui->dose->text();
     int inventory = ui->inventory->value();
     IDatabase& instance = IDatabase::GetInstance();
 
@@ -68,6 +69,7 @@ void DrugEdit::do_btnSave()
 
     QVector<QVariant> params;
     params.push_back(name);
+    params.push_back(dose);
     params.push_back(inventory);
 
     if (operation == "添加")

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MasterView</string>
+   <string>诊疗测试系统</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

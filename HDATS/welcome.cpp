@@ -18,6 +18,8 @@ Welcome::Welcome(CurrLoginUserInfo *info, QWidget *parent) :
 Welcome::~Welcome()
 {
     qDebug() << "delete Welcome";
+    if (info != NULL)
+        delete info;
     delete ui;
 }
 

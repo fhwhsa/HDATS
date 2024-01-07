@@ -17,6 +17,12 @@ DoctorManagement::DoctorManagement(QWidget *parent) :
 DoctorManagement::~DoctorManagement()
 {
     qDebug() << "delete DoctorManagement";
+    if (queryModel != NULL)
+        delete queryModel;
+    if (selModel != NULL)
+        delete selModel;
+    if (filterModel != NULL)
+        delete filterModel;
     delete ui;
 }
 

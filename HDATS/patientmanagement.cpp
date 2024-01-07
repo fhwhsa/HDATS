@@ -10,7 +10,6 @@ PatientManagement::PatientManagement(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    qDebug() << "hello";
     initView();
     iniSignalSlots();
 }
@@ -18,6 +17,12 @@ PatientManagement::PatientManagement(QWidget *parent) :
 PatientManagement::~PatientManagement()
 {
     qDebug() << "delete PatientManagement";
+    if (queryModel != NULL)
+        delete queryModel;
+    if (selModel != NULL)
+        delete selModel;
+    if (filterModel != NULL)
+        delete filterModel;
     delete ui;
 }
 

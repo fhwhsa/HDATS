@@ -53,8 +53,8 @@ private slots:
 
 // 这两个信号是由masterview接收
 signals:
-    void add();
-    void modify(QSortFilterProxyModel *sfpm, QModelIndex index);
+    void add(CurrLoginUserInfo *info);
+    void modify(QSortFilterProxyModel *sfpm, CurrLoginUserInfo *info, QModelIndex index);
 };
 
 #endif // DIAGNOSTICRECORD_H

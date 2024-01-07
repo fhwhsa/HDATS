@@ -18,12 +18,14 @@ SOURCES += \
     doctormanagement.cpp \
     drugedit.cpp \
     drugmanagement.cpp \
+    drugselectdialog.cpp \
     idatabase.cpp \
     login.cpp \
     main.cpp \
     masterview.cpp \
     patientedit.cpp \
     patientmanagement.cpp \
+    patientselectdialog.cpp \
     welcome.cpp
 
 HEADERS += \
@@ -34,11 +36,13 @@ HEADERS += \
     doctormanagement.h \
     drugedit.h \
     drugmanagement.h \
+    drugselectdialog.h \
     idatabase.h \
     login.h \
     masterview.h \
     patientedit.h \
     patientmanagement.h \
+    patientselectdialog.h \
     welcome.h
 
 FORMS += \
@@ -48,10 +52,12 @@ FORMS += \
     doctormanagement.ui \
     drugedit.ui \
     drugmanagement.ui \
+    drugselectdialog.ui \
     login.ui \
     masterview.ui \
     patientedit.ui \
     patientmanagement.ui \
+    patientselectdialog.ui \
     welcome.ui
 
 # Default rules for deployment.

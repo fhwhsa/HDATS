@@ -54,6 +54,8 @@ void MasterView::back()
         doctorManagement->refresh();
     else if (currWin == "药品管理")
         drugManagement->refresh();
+    else if (currWin == "就诊记录")
+        diagnosticRecord->refresh();
     else if (currWin == "登陆")
         ui->btnLoginout->setEnabled(false);
 
@@ -182,14 +184,23 @@ void MasterView::goToDiagnosticRecord(CurrLoginUserInfo *info)
     connect(diagnosticRecord, &DiagnosticRecord::modify, this, &MasterView::goToDiagnosticRecordForModify);
 }
 
-void MasterView::goToDiagnosticRecordForAdd()
+void MasterView::goToDiagnosticRecordForAdd(CurrLoginUserInfo *info)
 {
+    diagnosticRecordEdit = new DiagnosticRecordEdit(info);
+    diagnosticRecordEdit->setWindowTitle("添加就诊记录");
+    pushToStack(diagnosticRecordEdit);
 
+    connect(diagnosticRecordEdit, &DiagnosticRecordEdit::clickBtnSave, this, &MasterView::back);
+    connect(diagnosticRecordEdit, &DiagnosticRecordEdit::clickBtnCancel, this, &MasterView::back);
 }
 
-void MasterView::goToDiagnosticRecordForModify(QSortFilterProxyModel *sfpm, QModelIndex index)
+void MasterView::goToDiagnosticRecordForModify(QSortFilterProxyModel *sfpm, CurrLoginUserInfo *info, QModelIndex index)
 {
+    diagnosticRecordEdit = new DiagnosticRecordEdit(sfpm, info, index);
+    pushToStack(diagnosticRecordEdit);
 
+    connect(diagnosticRecordEdit, &DiagnosticRecordEdit::clickBtnSave, this, &MasterView::back);
+    connect(diagnosticRecordEdit, &DiagnosticRecordEdit::clickBtnCancel, this, &MasterView::back);
 }
 
 void MasterView::pageChange(int index)

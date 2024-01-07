@@ -18,6 +18,14 @@ DiagnosticRecord::DiagnosticRecord(CurrLoginUserInfo *info, QWidget *parent) :
 DiagnosticRecord::~DiagnosticRecord()
 {
     qDebug() << "delete diagnosticRecord";
+    if (drQueryModel != NULL)
+        delete drQueryModel;
+    if (mrQueryModel != NULL)
+        delete mrQueryModel;
+    if (selModel != NULL)
+        delete selModel;
+    if (filterModel != NULL)
+        delete filterModel;
     delete ui;
 }
 
@@ -63,10 +71,11 @@ void DiagnosticRecord::init()
 
     ui->mrTableView->verticalHeader()->hide();
     ui->mrTableView->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->mrTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     ui->mrTableView->setColumnHidden(0, true);
 
-    mrQueryModel->setQuery(mrBaseSql + " WHERE MRDR_ID = 0"); // 让数据为空
+    IDatabase::GetInstance().filterForMedicationRecords(mrQueryModel, "0", this);
 }
 
 void DiagnosticRecord::iniSignalSlots()
@@ -104,7 +113,7 @@ void DiagnosticRecord::do_btnFind()
 
 void DiagnosticRecord::do_btnAdd()
 {
-    emit add();
+    emit add(info);
 }
 
 void DiagnosticRecord::do_btnDelete()
@@ -129,6 +138,7 @@ void DiagnosticRecord::do_btnModify()
         QMessageBox::warning(this, "警告", "权限不足");
         return;
     }
+    emit modify(filterModel, info, selModel->currentIndex());
 }
 
 void DiagnosticRecord::do_tableView_sort(int column)

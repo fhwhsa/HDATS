@@ -16,6 +16,12 @@ DrugManagement::DrugManagement(QWidget *parent) :
 
 DrugManagement::~DrugManagement()
 {
+    if (queryModel != NULL)
+        delete queryModel;
+    if (selModel != NULL)
+        delete selModel;
+    if (filterModel != NULL)
+        delete filterModel;
     delete ui;
 }
 
