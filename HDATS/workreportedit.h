@@ -2,12 +2,16 @@
 #define WORKREPORTEDIT_H
 
 #include "currloginuserinfo.h"
+#include "idatabase.h"
 
 #include <QWidget>
 #include <QSortFilterProxyModel>
 #include <QModelIndex>
 #include <QDebug>
 #include <QString>
+#include <QDate>
+#include <QVector>
+#include <QVariant>
 
 namespace Ui {
 class WorkReportEdit;
@@ -18,8 +22,8 @@ class WorkReportEdit : public QWidget
     Q_OBJECT
 
 public:
-    explicit WorkReportEdit(CurrLoginUserInfo *info, QWidget *parent = nullptr);
-    explicit WorkReportEdit(CurrLoginUserInfo *info, QSortFilterProxyModel *sfpm, QModelIndex index, QWidget *parent = nullptr);
+    explicit WorkReportEdit(CurrLoginUserInfo *info, QString op, QWidget *parent = nullptr);
+    explicit WorkReportEdit(CurrLoginUserInfo *info, QSortFilterProxyModel *sfpm, QModelIndex index, QString op, QWidget *parent = nullptr);
     ~WorkReportEdit();
 
 private:
@@ -29,6 +33,8 @@ private:
 
     QSortFilterProxyModel *sfpm;
     QModelIndex index;
+
+    QString operation;
 
     void init();
     void iniSignalSlots();

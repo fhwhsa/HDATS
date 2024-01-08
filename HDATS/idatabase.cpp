@@ -412,3 +412,72 @@ void IDatabase::addMedicationRecords(QVector<QString> nameList, QWidget *parent,
         QMessageBox::critical(parent, "添加多条开药错误", query.lastError().text());
 }
 
+QSqlQueryModel *IDatabase::getWorkReportQueryModel(QWidget *parent)
+{
+    QSqlQueryModel *queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery("SELECT WRID, WRD_ID, D_NAME 所属人, CREATETIMESTAMP 创建时间, "
+                         "DiagnosisSituation 诊疗情况, TreatmentEffect 治疗效果评估 FROM work_report;");
+
+    if (queryModel->lastError().isValid())
+    {
+        QMessageBox::critical(parent, "获取所有工作报告错误", queryModel->lastError().text());
+        return NULL;
+    }
+
+    return queryModel;
+}
+
+void IDatabase::filterForWorkReports(QSqlQueryModel *queryModel, QString filter, QWidget *parent)
+{
+    QString sql = "SELECT WRID, WRD_ID, D_NAME 所属人, CREATETIMESTAMP 创建时间, "
+                  "DiagnosisSituation 诊疗情况, TreatmentEffect 治疗效果评估 FROM work_report "
+                  "WHERE D_NAME LIKE '%" + filter + "%';";
+
+    queryModel->setQuery(sql);
+
+    if (queryModel->lastError().isValid())
+        QMessageBox::critical(parent, "筛选工作报告错误", queryModel->lastError().text());
+}
+
+void IDatabase::addWorkReport(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "INSERT INTO work_report (WRD_ID, D_NAME, CREATETIMESTAMP, DiagnosisSituation, TreatmentEffect) VALUES (?, ?, ?, ?, ?)";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toInt());
+    query.bindValue(1, params[1].toString());
+    query.bindValue(2, params[2].toDate());
+    query.bindValue(3, params[3].toString());
+    query.bindValue(4, params[4].toString());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "添加工作报告错误", query.lastError().text());
+}
+
+void IDatabase::deleteWorkReport(QString wrid, QWidget *parent)
+{
+    QSqlQuery query;
+    query.exec("DELETE FROM work_report WHERE WRID = " + wrid);
+
+    if (query.lastError().isValid())
+        QMessageBox::critical(parent, "删除工作报告错误", query.lastError().text());
+}
+
+void IDatabase::modifyWorkReport(QVector<QVariant> params, QWidget *parent)
+{
+    QString sql = "UPDATE work_report SET CREATETIMESTAMP = ?, DiagnosisSituation = ?, TreatmentEffect = ? WHERE WRID = ?";
+
+    QSqlQuery query;
+    query.prepare(sql);
+
+    query.bindValue(0, params[0].toDate());
+    query.bindValue(1, params[1].toString());
+    query.bindValue(2, params[2].toString());
+    query.bindValue(3, params[3].toInt());
+
+    if (!query.exec())
+        QMessageBox::critical(parent, "修改工作报告错误", query.lastError().text());
+}
+

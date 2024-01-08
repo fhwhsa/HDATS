@@ -104,9 +104,15 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="maximumSize">
+            <property name="minimumSize">
              <size>
               <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
               <height>16777215</height>
              </size>
             </property>
@@ -144,7 +150,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QPlainTextEdit" name="plainTextEdit"/>
+           <widget class="QPlainTextEdit" name="diagnosisSituation"/>
           </item>
          </layout>
         </widget>
@@ -178,7 +184,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QPlainTextEdit" name="plainTextEdit_2"/>
+           <widget class="QPlainTextEdit" name="treatmentEffect"/>
           </item>
          </layout>
         </widget>

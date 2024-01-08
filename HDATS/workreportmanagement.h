@@ -2,6 +2,7 @@
 #define WORKREPORTMANAGEMENT_H
 
 #include "currloginuserinfo.h"
+#include "idatabase.h"
 
 #include <QWidget>
 #include <QVector>

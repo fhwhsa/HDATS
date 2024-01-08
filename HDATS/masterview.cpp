@@ -217,7 +217,7 @@ void MasterView::goToWorkReportMView(CurrLoginUserInfo *info)
 
 void MasterView::goToWorkReportEditViewForAdd(CurrLoginUserInfo *info)
 {
-    workReportEdit = new WorkReportEdit(info);
+    workReportEdit = new WorkReportEdit(info, "添加");
     workReportEdit->setWindowTitle("添加工作报告");
     pushToStack(workReportEdit);
 
@@ -227,7 +227,7 @@ void MasterView::goToWorkReportEditViewForAdd(CurrLoginUserInfo *info)
 
 void MasterView::goToWorkReportEditViewForModify(CurrLoginUserInfo *info, QSortFilterProxyModel *sfpm, QModelIndex index)
 {
-    workReportEdit = new WorkReportEdit(info, sfpm, index);
+    workReportEdit = new WorkReportEdit(info, sfpm, index, "修改");
     pushToStack(workReportEdit);
 
     connect(workReportEdit, &WorkReportEdit::clickBtnSave, this, &MasterView::back);

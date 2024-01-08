@@ -60,6 +60,13 @@ public:
     void deleteMedicationRecords(QString mrdr_id, QWidget *parent);
     void addMedicationRecords(QVector<QString> nameList, QWidget *parent, QString mrdr_id);
 
+    // 工作报告
+    QSqlQueryModel* getWorkReportQueryModel(QWidget *parent);
+    void filterForWorkReports(QSqlQueryModel *queryModel, QString filter, QWidget *parent);
+    void addWorkReport(QVector<QVariant> params, QWidget *parent);
+    void deleteWorkReport(QString wrd_id, QWidget *parent);
+    void modifyWorkReport(QVector<QVariant> params, QWidget *parent);
+
 private:
     // 禁止外部构造
     IDatabase();
