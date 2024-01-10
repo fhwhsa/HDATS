@@ -245,31 +245,33 @@ void IDatabase::deleteDrug(QString id, QWidget *parent)
 
 void IDatabase::addDrug(QVector<QVariant> params, QWidget *parent)
 {
-    QString sql = "INSERT INTO drug (DRUG_NAME, INVENTORY, DOSE = ?, DRUG_INTRODUCTION_TIME) VALUES (?, ?, ?, ?)";
+    QString sql = "INSERT INTO drug (DRUG_NAME, INVENTORY, DOSE, DRUG_INTRODUCTION_TIME) VALUES (?, ?, ?, ?)";
 
     QSqlQuery query;
     query.prepare(sql);
 
     query.bindValue(0, params[0].toString());
     query.bindValue(1, params[1].toInt());
+    query.bindValue(2, params[2].toString());
+    query.bindValue(3, params[3].toDate());
 
-    query.bindValue(2, params[2].toDate());
-
-    if (!query.exec())
+    if (!query.exec()) {
         QMessageBox::critical(parent, "添加药品信息错误", query.lastError().text());
+        qDebug() << query.lastQuery();
+    }
 }
 
 void IDatabase::modifyDrug(QVector<QVariant> params, QWidget *parent)
 {
-    QString sql = "UPDATE drug SET DRUG_NAME = ?, DOSE = ?, INVENTORY = ? WHERE DRUG_ID = ?";
+    QString sql = "UPDATE drug SET DRUG_NAME = ?, INVENTORY = ?, DOSE = ? WHERE DRUG_ID = ?";
 
     QSqlQuery query;
     query.prepare(sql);
 
     query.bindValue(0, params[0].toString());
     query.bindValue(1, params[1].toInt());
-
-    query.bindValue(2, params[2].toInt());
+    query.bindValue(2, params[2].toString());
+    query.bindValue(3, params[3].toInt());
 
     if (!query.exec())
         QMessageBox::critical(parent, "修改药品信息错误", query.lastError().text());

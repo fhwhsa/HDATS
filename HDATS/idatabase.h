@@ -26,11 +26,11 @@ public:
     QVector<QVariant> findUser(QString name, QString passWord);
 
     // 患者
-    QSqlQueryModel* getPatientQueryModel(QWidget *parent);
-    void filterForPatient(QSqlQueryModel* queryModel, QString filter, QWidget *parent);
-    void deletePatient(QString id, QWidget *parent);
-    void addPatient(QVector<QVariant> params, QWidget *parent);
-    void modifyPatient(QVector<QVariant> params, QWidget *parent);
+    QSqlQueryModel* getPatientQueryModel(QWidget *parent); // 获取所有信息
+    void filterForPatient(QSqlQueryModel* queryModel, QString filter, QWidget *parent); // 筛选
+    void deletePatient(QString id, QWidget *parent); // 删除
+    void addPatient(QVector<QVariant> params, QWidget *parent); // 添加
+    void modifyPatient(QVector<QVariant> params, QWidget *parent); // 修改
 
     // 医生
     QSqlQueryModel* getDoctorQueryModel(QWidget *parent);
@@ -80,7 +80,7 @@ private:
     // 禁止外部赋值操作
     const IDatabase &operator=(const IDatabase &single) = delete;
 
-    void iniDatabase();
+    void iniDatabase(); // 初始数据库信息
 
     QSqlDatabase database;
 };

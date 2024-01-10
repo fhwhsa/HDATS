@@ -37,7 +37,8 @@ DrugEdit::~DrugEdit()
 void DrugEdit::initData()
 {
     ui->drugName->setText(sfpm->data(index.siblingAtColumn(1)).toString());
-    ui->inventory->setValue(sfpm->data(index.siblingAtColumn(2)).toInt());
+    ui->dose->setText(sfpm->data(index.siblingAtColumn(2)).toString());
+    ui->inventory->setValue(sfpm->data(index.siblingAtColumn(3)).toInt());
 }
 
 void DrugEdit::iniSignalSlots()
@@ -46,8 +47,8 @@ void DrugEdit::iniSignalSlots()
     connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(do_btnCancel()));
 }
 
-//"INSERT INTO drug (DRUG_NAME, INVENTORY, DRUG_INTRODUCTION_TIME) VALUES (?, ?, ?)";
-//"UPDATE drug SET DRUG_NAME = ?, INVENTORY = ? WHERE DRUG_ID = ?";
+//"INSERT INTO drug (DRUG_NAME, INVENTORY, DOSE, DRUG_INTRODUCTION_TIME) VALUES (?, ?, ?, ?)";
+//"UPDATE drug SET DRUG_NAME = ?, INVENTORY = ?, DOSE = ? WHERE DRUG_ID = ?";
 void DrugEdit::do_btnSave()
 {
     QString name = ui->drugName->text();
@@ -69,8 +70,8 @@ void DrugEdit::do_btnSave()
 
     QVector<QVariant> params;
     params.push_back(name);
-    params.push_back(dose);
     params.push_back(inventory);
+    params.push_back(dose);
 
     if (operation == "添加")
     {

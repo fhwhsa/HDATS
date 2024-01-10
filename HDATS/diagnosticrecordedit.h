@@ -19,6 +19,7 @@
 #include <QMessageBox>
 #include <QVariant>
 #include <QDate>
+#include <QHash>
 
 namespace Ui {
 class DiagnosticRecordEdit;

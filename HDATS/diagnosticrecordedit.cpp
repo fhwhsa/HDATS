@@ -89,6 +89,11 @@ void DiagnosticRecordEdit::do_PatientSelectFinsh(QString name)
 
 void DiagnosticRecordEdit::do_DrugSelectFinsh(QString name)
 {
+    if (ui->tableWidget->findItems(name, Qt::MatchExactly).size() != 0)
+    {
+        QMessageBox::critical(this, "错误", "药品选择重复");
+        return;
+    }
     int pos = ui->tableWidget->rowCount();
     ui->tableWidget->insertRow(pos);
     ui->tableWidget->setItem(pos, 0, new QTableWidgetItem(name));
@@ -129,6 +134,11 @@ void DiagnosticRecordEdit::do_btnSave()
 
     QVector<QVariant> params;
     QVector<QString> drugNameList;
+    for (int i = 0; i < ui->tableWidget->rowCount(); i++)
+    {
+        qDebug() << ui->tableWidget->item(i, 0)->text();
+        drugNameList.push_back(ui->tableWidget->item(i, 0)->text());
+    }
 
     IDatabase& instance = IDatabase::GetInstance();
 
@@ -138,12 +148,6 @@ void DiagnosticRecordEdit::do_btnSave()
         params.push_back(pname);
         params.push_back(dateOfVisit);
         params.push_back(context);
-
-        for (int i = 0; i < ui->tableWidget->rowCount(); i++)
-        {
-            qDebug() << ui->tableWidget->item(i, 0)->text();
-            drugNameList.push_back(ui->tableWidget->item(i, 0)->text());
-        }
 
         QString t = instance.addDiagnosticRecord(params, this);
         instance.addMedicationRecords(drugNameList, this, t);
@@ -157,12 +161,6 @@ void DiagnosticRecordEdit::do_btnSave()
         params.push_back(dateOfVisit);
         params.push_back(context);
         params.push_back(mrdr_id);
-
-        for (int i = 0; i < ui->tableWidget->rowCount(); i++)
-        {
-            qDebug() << ui->tableWidget->item(i, 0)->text();
-            drugNameList.push_back(ui->tableWidget->item(i, 0)->text());
-        }
 
         instance.modifyDiagnosticRecord(params, this);
         instance.deleteMedicationRecords(mrdr_id, this);
