@@ -96,6 +96,11 @@ void WorkReportManagement::do_btnAdd()
 
 void WorkReportManagement::do_btnDelete()
 {
+    if (filterModel->data(selModel->currentIndex().siblingAtColumn(1)).toInt() != info->getUserID())
+    {
+        QMessageBox::warning(this, "警告", "不可以删除别人的工作报告");
+        return;
+    }
     QString id = filterModel->data(selModel->currentIndex().siblingAtColumn(0)).toString();
     IDatabase::GetInstance().deleteWorkReport(id, this);
 
@@ -104,6 +109,11 @@ void WorkReportManagement::do_btnDelete()
 
 void WorkReportManagement::do_btnModify()
 {
+    if (filterModel->data(selModel->currentIndex().siblingAtColumn(1)).toInt() != info->getUserID())
+    {
+        QMessageBox::warning(this, "警告", "不可以修改别人的工作报告");
+        return;
+    }
     emit modify(info, filterModel, selModel->currentIndex());
 }
 
